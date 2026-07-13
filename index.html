@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FitPlan — конструктор питания</title>
   <style>
     :root {
@@ -18,7 +18,6 @@
       --radius: 28px;
       --transition: 0.3s ease;
     }
-
     [data-theme="dark"] {
       --bg: #121a22;
       --card: #1e2a34;
@@ -30,343 +29,102 @@
       --primary-light: #1a2f2a;
       --shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      padding: 16px;
-      transition: background var(--transition), color var(--transition);
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 16px; transition: background var(--transition), color var(--transition); }
     .container { max-width: 1000px; margin: 0 auto; }
     .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 24px 26px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
+      background: var(--card); border-radius: var(--radius); padding: 24px 26px; margin-bottom: 24px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
       transition: background var(--transition), border var(--transition);
     }
-
-    .flex-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px 20px;
-    }
-    .flex-between {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+    .flex-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
     .gap-2 { gap: 12px; }
-
-    h1 {
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    h1 span {
-      background: var(--primary);
-      color: white;
-      font-size: 0.75rem;
-      padding: 2px 14px;
-      border-radius: 40px;
-    }
-    h2 {
-      font-size: 1.4rem;
-      margin-bottom: 14px;
-    }
-    .text-muted {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* Кнопка темы */
+    h1 { font-size: 2rem; display: flex; align-items: center; gap: 10px; }
+    h1 span { background: var(--primary); color: white; font-size: 0.75rem; padding: 2px 14px; border-radius: 40px; }
+    h2 { font-size: 1.4rem; margin-bottom: 14px; }
+    .text-muted { color: var(--text-muted); font-size: 0.95rem; }
     .theme-toggle {
-      background: var(--primary-light);
-      border: none;
-      border-radius: 60px;
-      padding: 8px 18px;
-      font-size: 1rem;
-      cursor: pointer;
-      color: var(--text);
-      border: 1px solid var(--border);
+      background: var(--primary-light); border: none; border-radius: 60px; padding: 8px 18px;
+      font-size: 1rem; cursor: pointer; color: var(--text); border: 1px solid var(--border);
       transition: all var(--transition);
     }
     .theme-toggle:hover { opacity: 0.8; }
-
-    /* Слайдеры */
     .slider-item {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px 16px;
-      padding: 6px 0;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 6px 0;
     }
-    .slider-item label {
-      font-weight: 500;
-      min-width: 120px;
-      font-size: 0.95rem;
-    }
+    .slider-item label { font-weight: 500; min-width: 120px; font-size: 0.95rem; }
     .slider-item input[type="range"] {
-      flex: 1;
-      min-width: 140px;
-      height: 6px;
-      border-radius: 10px;
-      background: var(--border);
-      -webkit-appearance: none;
-      appearance: none;
-      outline: none;
+      flex: 1; min-width: 140px; height: 6px; border-radius: 10px; background: var(--border);
+      -webkit-appearance: none; appearance: none; outline: none;
     }
     .slider-item input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--primary);
-      cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
+      background: var(--primary); cursor: pointer; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
     .slider-item input[type="range"]::-moz-range-thumb {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--primary);
-      cursor: pointer;
-      border: 2px solid white;
+      width: 22px; height: 22px; border-radius: 50%; background: var(--primary); cursor: pointer; border: 2px solid white;
     }
-    .slider-value {
-      font-weight: 700;
-      font-size: 1.1rem;
-      min-width: 44px;
-      text-align: center;
-    }
+    .slider-value { font-weight: 700; font-size: 1.1rem; min-width: 44px; text-align: center; }
     .calc-group select {
-      padding: 10px 14px;
-      border-radius: 60px;
-      border: 1px solid var(--border);
-      font-size: 1rem;
-      background: var(--card);
-      color: var(--text);
-      min-width: 160px;
+      padding: 10px 14px; border-radius: 60px; border: 1px solid var(--border); font-size: 1rem;
+      background: var(--card); color: var(--text); min-width: 160px;
     }
-
-    /* Кнопки целей */
-    .goal-selector {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .goal-selector { display: flex; flex-wrap: wrap; gap: 8px; }
     .goal-btn {
-      padding: 10px 18px;
-      border-radius: 60px;
-      border: 2px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-weight: 500;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      flex: 1 0 auto;
-      text-align: center;
+      padding: 10px 18px; border-radius: 60px; border: 2px solid var(--border); background: var(--card);
+      color: var(--text); font-weight: 500; font-size: 0.9rem; cursor: pointer; transition: all var(--transition);
+      flex: 1 0 auto; text-align: center;
     }
     .goal-btn:hover { border-color: var(--primary); background: var(--primary-light); }
-    .goal-btn.active {
-      border-color: var(--primary);
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 4px 12px rgba(31,123,102,0.25);
-    }
-    .goal-btn .sub {
-      font-size: 0.7rem;
-      font-weight: 400;
-      opacity: 0.8;
-      display: block;
-      margin-top: 2px;
-    }
+    .goal-btn.active { border-color: var(--primary); background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(31,123,102,0.25); }
+    .goal-btn .sub { font-size: 0.7rem; font-weight: 400; opacity: 0.8; display: block; margin-top: 2px; }
     .goal-btn.active .sub { opacity: 0.9; }
-
-    .goal-tag {
-      display: inline-block;
-      background: var(--primary);
-      color: white;
-      padding: 4px 16px;
-      border-radius: 40px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-top: 6px;
-    }
-    .goal-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 4px;
-    }
-
-    /* Результаты */
+    .goal-tag { display: inline-block; background: var(--primary); color: white; padding: 4px 16px; border-radius: 40px; font-size: 0.85rem; font-weight: 500; margin-top: 6px; }
+    .goal-desc { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
     .result-box {
-      background: var(--primary-light);
-      border-radius: 20px;
-      padding: 18px 22px;
-      margin-top: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 30px;
-      transition: background var(--transition);
+      background: var(--primary-light); border-radius: 20px; padding: 18px 22px; margin-top: 16px;
+      display: flex; flex-wrap: wrap; gap: 12px 30px; transition: background var(--transition);
     }
-    .result-item strong {
-      font-size: 1.6rem;
-      color: var(--text);
-      display: block;
-    }
+    .result-item strong { font-size: 1.6rem; color: var(--text); display: block; }
     .result-item { font-size: 0.9rem; }
-
-    /* Чек-лист продуктов */
     .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 8px;
-      margin: 12px 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin: 12px 0;
     }
     .product-grid label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.9rem;
-      padding: 4px 8px;
-      border-radius: 40px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      cursor: pointer;
+      display: flex; align-items: center; gap: 6px; font-size: 0.9rem; padding: 4px 8px;
+      border-radius: 40px; background: var(--bg); border: 1px solid var(--border); cursor: pointer;
       transition: all var(--transition);
     }
     .product-grid label:hover { background: var(--primary-light); }
-    .product-grid input[type="checkbox"] {
-      accent-color: var(--primary);
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-    }
-
-    /* Дни недели */
+    .product-grid input[type="checkbox"] { accent-color: var(--primary); width: 18px; height: 18px; cursor: pointer; }
     .day-block {
-      background: var(--bg);
-      border-radius: 18px;
-      padding: 16px 20px;
-      margin-bottom: 14px;
-      border-left: 5px solid var(--primary);
-      transition: background var(--transition);
+      background: var(--bg); border-radius: 18px; padding: 16px 20px; margin-bottom: 14px;
+      border-left: 5px solid var(--primary); transition: background var(--transition);
     }
-    .day-title {
-      font-weight: 700;
-      font-size: 1.1rem;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-    .meal {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 14px;
-      padding: 4px 0;
-      border-bottom: 1px dashed var(--border);
-    }
+    .day-title { font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 8px; }
+    .meal { display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 4px 0; border-bottom: 1px dashed var(--border); }
     .meal:last-child { border-bottom: none; }
     .meal-name { font-weight: 500; min-width: 110px; }
     .meal-kcal { margin-left: auto; font-weight: 600; color: var(--primary); }
-    .total-day {
-      margin-top: 10px;
-      font-weight: 700;
-      font-size: 1rem;
-    }
-    .badge {
-      background: var(--primary-light);
-      color: var(--primary);
-      padding: 2px 14px;
-      border-radius: 40px;
-      font-size: 0.8rem;
-    }
-
-    /* Кнопки */
+    .total-day { margin-top: 10px; font-weight: 700; font-size: 1rem; }
+    .badge { background: var(--primary-light); color: var(--primary); padding: 2px 14px; border-radius: 40px; font-size: 0.8rem; }
     .btn {
-      background: var(--primary);
-      border: none;
-      color: white;
-      font-weight: 600;
-      padding: 10px 24px;
-      border-radius: 60px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      background: var(--primary); border: none; color: white; font-weight: 600; padding: 10px 24px;
+      border-radius: 60px; font-size: 0.95rem; cursor: pointer; transition: all var(--transition);
+      display: inline-flex; align-items: center; gap: 8px;
     }
     .btn:hover { background: var(--primary-hover); transform: scale(1.02); }
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-    }
+    .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
     .btn-outline:hover { background: var(--primary-light); transform: none; }
-
-    /* Список покупок (экспорт) */
-    .shop-list {
-      list-style: none;
-      padding: 0;
-      columns: 2 200px;
-      column-gap: 24px;
-    }
-    .shop-list li {
-      padding: 4px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      break-inside: avoid;
-    }
+    .shop-list { list-style: none; padding: 0; columns: 2 200px; column-gap: 24px; }
+    .shop-list li { padding: 4px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; break-inside: avoid; }
     .shop-list li span { font-weight: 500; }
-
-    /* График (простой) */
-    .progress-chart {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 12px;
-    }
-    .progress-bar {
-      height: 8px;
-      border-radius: 10px;
-      background: var(--border);
-      overflow: hidden;
-      flex: 1;
-      min-width: 30px;
-    }
-    .progress-bar .fill {
-      height: 100%;
-      background: var(--primary);
-      border-radius: 10px;
-      transition: width 0.4s ease;
-    }
-    .progress-label {
-      font-size: 0.8rem;
-      text-align: center;
-      color: var(--text-muted);
-      min-width: 40px;
-    }
-
+    .progress-chart { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .progress-bar { height: 8px; border-radius: 10px; background: var(--border); overflow: hidden; flex: 1; min-width: 30px; }
+    .progress-bar .fill { height: 100%; background: var(--primary); border-radius: 10px; transition: width 0.4s ease; }
+    .progress-label { font-size: 0.8rem; text-align: center; color: var(--text-muted); min-width: 40px; }
+    .filter-info { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; }
     @media (max-width: 600px) {
       body { padding: 10px; }
       .card { padding: 18px 16px; }
@@ -380,13 +138,12 @@
 <body>
 <div class="container">
 
-  <!-- ШАПКА -->
   <div class="card">
     <div class="flex-between">
-      <h1>🥗 FitPlan <span>v2.0</span></h1>
+      <h1>🥗 FitPlan <span>v2.1</span></h1>
       <button class="theme-toggle" id="themeToggle">🌙 Тёмная</button>
     </div>
-    <p class="text-muted">Выбери параметры, отметай продукты — получи персональный рацион.</p>
+    <p class="text-muted">Выбери параметры, отметь продукты — рацион подстроится под тебя.</p>
   </div>
 
   <!-- КАЛЬКУЛЯТОР -->
@@ -484,9 +241,10 @@
       <label><input type="checkbox" value="nuts"> Орехи</label>
     </div>
     <button class="btn" id="applyProductsBtn">🔄 Применить продукты</button>
+    <div id="filterInfo" class="filter-info"></div>
   </div>
 
-  <!-- РАЦИОН НЕДЕЛИ -->
+  <!-- РАЦИОН -->
   <div class="card">
     <div class="flex-between">
       <h2>📅 План питания на неделю</h2>
@@ -496,10 +254,9 @@
     <div id="mealPlanContainer"></div>
   </div>
 
-  <!-- СКРЫТЫЙ СПИСОК ПОКУПОК (для экспорта) -->
   <div id="shopListContainer" style="display:none;"></div>
 
-  <!-- ГРАФИК ПРОГРЕССА -->
+  <!-- ГРАФИК -->
   <div class="card">
     <h2>📈 Прогресс</h2>
     <p class="text-muted">Введи свой вес за последние дни (через запятую).</p>
@@ -516,7 +273,7 @@
 </div>
 
 <script>
-  // ====== ТЕМНАЯ ТЕМА ======
+  // ====== ТЕМА ======
   const themeToggle = document.getElementById('themeToggle');
   const currentTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', currentTheme);
@@ -528,109 +285,169 @@
     themeToggle.textContent = theme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная';
   });
 
-  // ====== СОХРАНЕНИЕ ПАРАМЕТРОВ ======
+  // ====== СОХРАНЕНИЕ ======
   function saveState(key, value) { localStorage.setItem('fitplan_' + key, JSON.stringify(value)); }
   function loadState(key, fallback) {
     const val = localStorage.getItem('fitplan_' + key);
     return val ? JSON.parse(val) : fallback;
   }
 
-  // ====== ДАННЫЕ РАЦИОНА (БАЗОВЫЙ) ======
+  // ====== БАЗА ПРОДУКТОВ В БЛЮДАХ ======
+  const mealProducts = {
+    'Овсяноблин': ['oatmeal', 'eggs', 'cottage_cheese'],
+    'Рисовая каша': ['rice', 'milk', 'apples'],
+    'Яичница': ['eggs', 'tomatoes'],
+    'Омлет': ['eggs', 'broccoli', 'mushrooms'],
+    'Запеканка творожная': ['cottage_cheese', 'eggs', 'apples'],
+    'Сырники': ['cottage_cheese', 'eggs'],
+    'Пшённая каша': ['pumpkin', 'eggs'],
+    'Овсянка': ['oatmeal', 'bananas'],
+    'Курица': ['chicken'],
+    'Индейка': ['turkey'],
+    'Говядина': ['beef'],
+    'Скумбрия': ['fish'],
+    'Тунец': ['tuna'],
+    'Печень': ['chicken'],
+    'Сердечки': ['chicken'],
+    'Гречка': ['buckwheat'],
+    'Рис': ['rice'],
+    'Паста': ['pasta'],
+    'Чечевичный суп': ['lentils'],
+    'Картофель': ['potatoes'],
+    'Капуста': ['cabbage'],
+    'Брокколи': ['broccoli'],
+    'Цветная капуста': ['broccoli'],
+    'Фасоль': ['beans'],
+    'Салат': ['cucumbers', 'tomatoes', 'cabbage'],
+    'Свёкла': ['beet'],
+    'Кабачок': ['zucchini'],
+    'Перец': ['peppers'],
+    'Грибы': ['mushrooms'],
+    'Тыква': ['pumpkin'],
+    'Яблоко': ['apples'],
+    'Банан': ['bananas'],
+    'Груша': ['pears'],
+    'Апельсин': ['oranges'],
+    'Орехи': ['nuts'],
+    'Миндаль': ['nuts'],
+    'Кефир': ['kefir'],
+    'Творог': ['cottage_cheese'],
+    'Сметана': ['kefir'],
+    'Сыр': ['eggs'],
+    'Масло': ['oil'],
+    'Хлеб': ['bread']
+  };
+
+  function getMealProducts(mealName) {
+    for (const [key, values] of Object.entries(mealProducts)) {
+      if (mealName.includes(key)) return values;
+    }
+    return [];
+  }
+
+  // ====== РАЦИОНЫ ======
   const baseMealData = {
     fatloss: {
-      label: '🔥 Жиросжигание (дефицит)',
+      label: '🔥 Жиросжигание',
       days: [
-        { name: 'Понедельник', total: 1420, meals: [['🍳 Завтрак', 'Овсяноблин + яйцо', 410], ['🍏 2-й', 'Яблоко', 78], ['🍗 Обед', 'Курица + гречка + салат', 440], ['🥜 Перекус', 'Кефир + орехи', 140], ['🥛 Ужин', 'Творог + огурец', 210]] },
-        { name: 'Вторник', total: 1410, meals: [['🍚 Завтрак', 'Рисовая каша + яйцо', 340], ['🥛 2-й', 'Кефир', 80], ['🍝 Обед', 'Паста + тунец + томаты', 410], ['🍌 Перекус', 'Банан', 116], ['🍗 Ужин', 'Сердечки + фасоль', 320]] },
-        { name: 'Среда', total: 1430, meals: [['🧀 Завтрак', 'Запеканка творожная', 380], ['🍐 2-й', 'Груша + миндаль', 170], ['🍲 Обед', 'Чечевичный суп + курица', 440], ['🥛 Перекус', 'Кефир', 80], ['🍳 Ужин', 'Омлет + брокколи', 310]] },
-        { name: 'Четверг', total: 1400, meals: [['🍳 Завтрак', 'Яичница + хлеб', 320], ['🥜 Перекус', 'Орехи + кефир', 170], ['🐟 Обед', 'Скумбрия + картофель', 500], ['🍌 Перекус', 'Яблоко', 78], ['🥛 Ужин', 'Творог + огурец', 210]] },
-        { name: 'Пятница', total: 1425, meals: [['🍚 Завтрак', 'Пшёнка + тыква + яйцо', 280], ['🍌 Перекус', 'Банан', 116], ['🍖 Обед', 'Печень + гречка + свёкла', 510], ['🍏 Перекус', 'Творог + яблоко', 190], ['🥦 Ужин', 'Цветная капуста + яйцо', 250]] },
-        { name: 'Суббота', total: 1435, meals: [['🥞 Завтрак', 'Сырники + сметана', 370], ['🍊 Перекус', 'Апельсин + кефир', 170], ['🍗 Обед', 'Курица + кабачок + рис', 490], ['🥜 Перекус', 'Семечки + яблоко', 210], ['🥗 Ужин', 'Тунец + яйцо + салат', 260]] },
-        { name: 'Воскресенье', total: 1415, meals: [['🥣 Завтрак', 'Овсянка + банан', 270], ['🥛 Перекус', 'Кефир + орехи', 170], ['🦃 Обед', 'Индейка + перловка', 470], ['🍏 Перекус', 'Творог + яблоко', 210], ['🍳 Ужин', 'Омлет + грибы', 300]] }
+        { name: 'Понедельник', meals: [['Овсяноблин + яйцо', 410], ['Яблоко', 78], ['Курица + гречка + салат', 440], ['Кефир + орехи', 140], ['Творог + огурец', 210]] },
+        { name: 'Вторник', meals: [['Рисовая каша + яйцо', 340], ['Кефир', 80], ['Паста + тунец + томаты', 410], ['Банан', 116], ['Сердечки + фасоль', 320]] },
+        { name: 'Среда', meals: [['Запеканка творожная', 380], ['Груша + миндаль', 170], ['Чечевичный суп + курица', 440], ['Кефир', 80], ['Омлет + брокколи', 310]] },
+        { name: 'Четверг', meals: [['Яичница + хлеб', 320], ['Орехи + кефир', 170], ['Скумбрия + картофель', 500], ['Яблоко', 78], ['Творог + огурец', 210]] },
+        { name: 'Пятница', meals: [['Пшённая каша + тыква + яйцо', 280], ['Банан', 116], ['Печень + гречка + свёкла', 510], ['Творог + яблоко', 190], ['Цветная капуста + яйцо', 250]] },
+        { name: 'Суббота', meals: [['Сырники + сметана', 370], ['Апельсин + кефир', 170], ['Курица + кабачок + рис', 490], ['Семечки + яблоко', 210], ['Тунец + яйцо + салат', 260]] },
+        { name: 'Воскресенье', meals: [['Овсянка + банан', 270], ['Кефир + орехи', 170], ['Индейка + перловка', 470], ['Творог + яблоко', 210], ['Омлет + грибы', 300]] }
       ]
     },
     moderate: {
       label: '⚖️ Умеренное похудение',
       days: [
-        { name: 'Понедельник', total: 1550, meals: [['🍳 Завтрак', 'Овсяноблин + яйцо + мёд', 480], ['🍏 2-й', 'Яблоко', 78], ['🍗 Обед', 'Курица + гречка + масло', 510], ['🥜 Перекус', 'Кефир + орехи', 180], ['🥛 Ужин', 'Творог + хлеб', 260]] },
-        { name: 'Вторник', total: 1540, meals: [['🍚 Завтрак', 'Рисовая каша + яйцо', 400], ['🥛 2-й', 'Кефир', 80], ['🍝 Обед', 'Паста + тунец + масло', 480], ['🍌 Перекус', 'Банан + хлеб', 180], ['🍗 Ужин', 'Сердечки + фасоль', 360]] },
-        { name: 'Среда', total: 1560, meals: [['🧀 Завтрак', 'Запеканка + мёд', 440], ['🍐 2-й', 'Груша + миндаль', 190], ['🍲 Обед', 'Чечевичный суп + хлеб', 490], ['🥛 Перекус', 'Кефир', 80], ['🍳 Ужин', 'Омлет + сыр + брокколи', 370]] },
-        { name: 'Четверг', total: 1530, meals: [['🍳 Завтрак', 'Яичница + хлеб + яйцо', 400], ['🥜 Перекус', 'Орехи + кефир', 190], ['🐟 Обед', 'Скумбрия + картофель', 570], ['🍌 Перекус', 'Банан', 116], ['🥛 Ужин', 'Творог + сметана', 290]] },
-        { name: 'Пятница', total: 1555, meals: [['🍚 Завтрак', 'Пшёнка + тыква + масло', 340], ['🍌 Перекус', 'Банан', 116], ['🍖 Обед', 'Говядина + гречка + свёкла', 580], ['🍏 Перекус', 'Творог + яблоко', 210], ['🥦 Ужин', 'Цветная капуста + сыр', 310]] },
-        { name: 'Суббота', total: 1560, meals: [['🥞 Завтрак', 'Сырники + сметана', 440], ['🍊 Перекус', 'Апельсин + кефир', 174], ['🍗 Обед', 'Курица + кабачок + рис', 570], ['🥜 Перекус', 'Семечки + яблоко', 230], ['🥗 Ужин', 'Тунец + яйцо + хлеб', 310]] },
-        { name: 'Воскресенье', total: 1540, meals: [['🥣 Завтрак', 'Овсянка + банан + мёд', 330], ['🥛 Перекус', 'Кефир + орехи', 180], ['🦃 Обед', 'Индейка + перловка + хлеб', 600], ['🍏 Перекус', 'Творог + яблоко + хлеб', 290], ['🍳 Ужин', 'Омлет + грибы + сыр', 340]] }
+        { name: 'Понедельник', meals: [['Овсяноблин + яйцо + мёд', 480], ['Яблоко', 78], ['Курица + гречка + масло', 510], ['Кефир + орехи', 180], ['Творог + хлеб', 260]] },
+        { name: 'Вторник', meals: [['Рисовая каша + яйцо', 400], ['Кефир', 80], ['Паста + тунец + масло', 480], ['Банан + хлеб', 180], ['Сердечки + фасоль', 360]] },
+        { name: 'Среда', meals: [['Запеканка + мёд', 440], ['Груша + миндаль', 190], ['Чечевичный суп + хлеб', 490], ['Кефир', 80], ['Омлет + сыр + брокколи', 370]] },
+        { name: 'Четверг', meals: [['Яичница + хлеб + яйцо', 400], ['Орехи + кефир', 190], ['Скумбрия + картофель', 570], ['Банан', 116], ['Творог + сметана', 290]] },
+        { name: 'Пятница', meals: [['Пшёнка + тыква + масло', 340], ['Банан', 116], ['Говядина + гречка + свёкла', 580], ['Творог + яблоко', 210], ['Цветная капуста + сыр', 310]] },
+        { name: 'Суббота', meals: [['Сырники + сметана', 440], ['Апельсин + кефир', 174], ['Курица + кабачок + рис', 570], ['Семечки + яблоко', 230], ['Тунец + яйцо + хлеб', 310]] },
+        { name: 'Воскресенье', meals: [['Овсянка + банан + мёд', 330], ['Кефир + орехи', 180], ['Индейка + перловка + хлеб', 600], ['Творог + яблоко + хлеб', 290], ['Омлет + грибы + сыр', 340]] }
       ]
     },
     maintain: {
-      label: '🛡️ Поддержание формы',
+      label: '🛡️ Поддержание',
       days: [
-        { name: 'Понедельник', total: 1750, meals: [['🍳 Завтрак', 'Овсяноблин + 2 яйца + мёд', 560], ['🍏 2-й', 'Яблоко + орехи', 170], ['🍗 Обед', 'Курица + гречка + хлеб', 600], ['🥜 Перекус', 'Кефир + миндаль', 220], ['🥛 Ужин', 'Творог + хлеб', 290]] },
-        { name: 'Вторник', total: 1740, meals: [['🍚 Завтрак', 'Рисовая каша + 2 яйца', 520], ['🥛 2-й', 'Кефир + банан', 200], ['🍝 Обед', 'Паста + тунец + сыр', 560], ['🍌 Перекус', 'Банан + хлеб', 200], ['🍗 Ужин', 'Сердечки + фасоль + хлеб', 430]] },
-        { name: 'Среда', total: 1760, meals: [['🧀 Завтрак', 'Запеканка + 2 яйца + мёд', 520], ['🍐 2-й', 'Груша + орехи', 210], ['🍲 Обед', 'Чечевичный суп + курица + хлеб', 530], ['🥛 Перекус', 'Кефир', 80], ['🍳 Ужин', 'Омлет + 3 яйца + сыр', 470]] },
-        { name: 'Четверг', total: 1730, meals: [['🍳 Завтрак', 'Яичница + 3 яйца + хлеб', 480], ['🥜 Перекус', 'Миндаль + кефир', 220], ['🐟 Обед', 'Скумбрия + картофель + хлеб', 680], ['🍌 Перекус', 'Банан + яблоко', 190], ['🥛 Ужин', 'Творог + сметана + хлеб', 330]] },
-        { name: 'Пятница', total: 1755, meals: [['🍚 Завтрак', 'Пшёнка + 2 яйца + масло + мёд', 460], ['🍌 Перекус', 'Банан + орехи', 210], ['🍖 Обед', 'Говядина + гречка + сметана + хлеб', 660], ['🍏 Перекус', 'Творог + яблоко + хлеб', 290], ['🥦 Ужин', 'Цветная капуста + 2 яйца + сыр', 390]] },
-        { name: 'Суббота', total: 1760, meals: [['🥞 Завтрак', 'Сырники + 2 яйца + сметана', 540], ['🍊 Перекус', 'Апельсин + кефир', 174], ['🍗 Обед', 'Курица + кабачок + рис + хлеб', 630], ['🥜 Перекус', 'Семечки + яблоко', 260], ['🥗 Ужин', 'Тунец + 2 яйца + хлеб', 400]] },
-        { name: 'Воскресенье', total: 1740, meals: [['🥣 Завтрак', 'Овсянка + банан + мёд + орехи', 400], ['🥛 Перекус', 'Кефир + миндаль', 210], ['🦃 Обед', 'Индейка + перловка + хлеб', 670], ['🍏 Перекус', 'Творог + яблоко + хлеб', 320], ['🍳 Ужин', 'Омлет + 3 яйца + грибы + сыр', 430]] }
+        { name: 'Понедельник', meals: [['Овсяноблин + 2 яйца + мёд', 560], ['Яблоко + орехи', 170], ['Курица + гречка + хлеб', 600], ['Кефир + миндаль', 220], ['Творог + хлеб', 290]] },
+        { name: 'Вторник', meals: [['Рисовая каша + 2 яйца', 520], ['Кефир + банан', 200], ['Паста + тунец + сыр', 560], ['Банан + хлеб', 200], ['Сердечки + фасоль + хлеб', 430]] },
+        { name: 'Среда', meals: [['Запеканка + 2 яйца + мёд', 520], ['Груша + орехи', 210], ['Чечевичный суп + курица + хлеб', 530], ['Кефир', 80], ['Омлет + 3 яйца + сыр', 470]] },
+        { name: 'Четверг', meals: [['Яичница + 3 яйца + хлеб', 480], ['Миндаль + кефир', 220], ['Скумбрия + картофель + хлеб', 680], ['Банан + яблоко', 190], ['Творог + сметана + хлеб', 330]] },
+        { name: 'Пятница', meals: [['Пшёнка + 2 яйца + масло + мёд', 460], ['Банан + орехи', 210], ['Говядина + гречка + сметана + хлеб', 660], ['Творог + яблоко + хлеб', 290], ['Цветная капуста + 2 яйца + сыр', 390]] },
+        { name: 'Суббота', meals: [['Сырники + 2 яйца + сметана', 540], ['Апельсин + кефир', 174], ['Курица + кабачок + рис + хлеб', 630], ['Семечки + яблоко', 260], ['Тунец + 2 яйца + хлеб', 400]] },
+        { name: 'Воскресенье', meals: [['Овсянка + банан + мёд + орехи', 400], ['Кефир + миндаль', 210], ['Индейка + перловка + хлеб', 670], ['Творог + яблоко + хлеб', 320], ['Омлет + 3 яйца + грибы + сыр', 430]] }
       ]
     },
     bulk: {
-      label: '💪 Набор массы (профицит)',
+      label: '💪 Набор массы',
       days: [
-        { name: 'Понедельник', total: 2000, meals: [['🍳 Завтрак', 'Овсяноблин + 2 яйца + творог + мёд', 650], ['🍏 2-й', 'Яблоко + орехи', 210], ['🍗 Обед', 'Курица + гречка + хлеб + масло', 710], ['🥜 Перекус', 'Кефир + миндаль + банан', 350], ['🥛 Ужин', 'Творог + сметана + хлеб', 370]] },
-        { name: 'Вторник', total: 1980, meals: [['🍚 Завтрак', 'Рисовая каша + 2 яйца + мёд', 620], ['🥛 2-й', 'Кефир + банан', 200], ['🍝 Обед', 'Паста + тунец + сыр + масло', 700], ['🍌 Перекус', 'Банан + хлеб + орехи', 300], ['🍗 Ужин', 'Сердечки + фасоль + хлеб', 550]] },
-        { name: 'Среда', total: 2010, meals: [['🧀 Завтрак', 'Запеканка + 2 яйца + мёд', 600], ['🍐 2-й', 'Груша + миндаль', 240], ['🍲 Обед', 'Чечевичный суп + курица + хлеб', 620], ['🥛 Перекус', 'Кефир + банан', 200], ['🍳 Ужин', 'Омлет + 3 яйца + сыр + масло', 540]] },
-        { name: 'Четверг', total: 1990, meals: [['🍳 Завтрак', 'Яичница + 3 яйца + хлеб + сыр', 580], ['🥜 Перекус', 'Орехи + кефир + яблоко', 340], ['🐟 Обед', 'Скумбрия + картофель + хлеб + масло', 810], ['🍌 Перекус', 'Банан + хлеб', 200], ['🥛 Ужин', 'Творог + сметана + хлеб', 390]] },
-        { name: 'Пятница', total: 2005, meals: [['🍚 Завтрак', 'Пшёнка + 2 яйца + масло + мёд', 540], ['🍌 Перекус', 'Банан + орехи', 210], ['🍖 Обед', 'Говядина + гречка + сметана + хлеб', 780], ['🍏 Перекус', 'Творог + яблоко + хлеб', 310], ['🥦 Ужин', 'Цветная капуста + 2 яйца + сыр', 470]] },
-        { name: 'Суббота', total: 2015, meals: [['🥞 Завтрак', 'Сырники + 2 яйца + сметана + мёд', 670], ['🍊 Перекус', 'Апельсин + кефир + банан', 300], ['🍗 Обед', 'Курица + кабачок + рис + хлеб', 760], ['🥜 Перекус', 'Семечки + яблоко', 310], ['🥗 Ужин', 'Тунец + 2 яйца + хлеб', 510]] },
-        { name: 'Воскресенье', total: 1990, meals: [['🥣 Завтрак', 'Овсянка + банан + мёд + орехи', 480], ['🥛 Перекус', 'Кефир + миндаль + яблоко', 340], ['🦃 Обед', 'Индейка + перловка + хлеб + масло', 790], ['🍏 Перекус', 'Творог + яблоко + хлеб', 380], ['🍳 Ужин', 'Омлет + 3 яйца + грибы + сыр', 520]] }
+        { name: 'Понедельник', meals: [['Овсяноблин + 2 яйца + творог + мёд', 650], ['Яблоко + орехи', 210], ['Курица + гречка + хлеб + масло', 710], ['Кефир + миндаль + банан', 350], ['Творог + сметана + хлеб', 370]] },
+        { name: 'Вторник', meals: [['Рисовая каша + 2 яйца + мёд', 620], ['Кефир + банан', 200], ['Паста + тунец + сыр + масло', 700], ['Банан + хлеб + орехи', 300], ['Сердечки + фасоль + хлеб', 550]] },
+        { name: 'Среда', meals: [['Запеканка + 2 яйца + мёд', 600], ['Груша + миндаль', 240], ['Чечевичный суп + курица + хлеб', 620], ['Кефир + банан', 200], ['Омлет + 3 яйца + сыр + масло', 540]] },
+        { name: 'Четверг', meals: [['Яичница + 3 яйца + хлеб + сыр', 580], ['Орехи + кефир + яблоко', 340], ['Скумбрия + картофель + хлеб + масло', 810], ['Банан + хлеб', 200], ['Творог + сметана + хлеб', 390]] },
+        { name: 'Пятница', meals: [['Пшёнка + 2 яйца + масло + мёд', 540], ['Банан + орехи', 210], ['Говядина + гречка + сметана + хлеб', 780], ['Творог + яблоко + хлеб', 310], ['Цветная капуста + 2 яйца + сыр', 470]] },
+        { name: 'Суббота', meals: [['Сырники + 2 яйца + сметана + мёд', 670], ['Апельсин + кефир + банан', 300], ['Курица + кабачок + рис + хлеб', 760], ['Семечки + яблоко', 310], ['Тунец + 2 яйца + хлеб', 510]] },
+        { name: 'Воскресенье', meals: [['Овсянка + банан + мёд + орехи', 480], ['Кефир + миндаль + яблоко', 340], ['Индейка + перловка + хлеб + масло', 790], ['Творог + яблоко + хлеб', 380], ['Омлет + 3 яйца + грибы + сыр', 520]] }
       ]
     }
   };
 
-  // ====== ФИЛЬТРАЦИЯ ПО ПРОДУКТАМ ======
-  function filterMealsByProducts(planKey) {
+  // ====== ФИЛЬТРАЦИЯ ======
+  function filterMeals(planKey) {
     const data = baseMealData[planKey];
     if (!data) return data;
     const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
     const has = Array.from(checked).map(el => el.value);
-    // Если ничего не выбрано — возвращаем как есть
     if (has.length === 0) return data;
-    // Фильтруем дни (оставляем только те, где есть доступные продукты)
+
     const filteredDays = data.days.map(day => {
       const meals = day.meals.filter(meal => {
-        const text = meal[1].toLowerCase();
-        return has.some(p => text.includes(p));
+        const products = getMealProducts(meal[0]);
+        if (products.length === 0) return true;
+        return products.some(p => has.includes(p));
       });
       if (meals.length === 0) return null;
-      const newTotal = meals.reduce((sum, m) => sum + m[2], 0);
-      return { ...day, meals, total: Math.round(newTotal) };
+      const total = meals.reduce((sum, m) => sum + m[1], 0);
+      return { name: day.name, meals, total: Math.round(total) };
     }).filter(d => d !== null);
+
     if (filteredDays.length === 0) return data;
     return { ...data, days: filteredDays };
   }
 
-  // ====== ОТРИСОВКА РАЦИОНА ======
+  // ====== ОТРИСОВКА ======
   let currentPlan = loadState('currentPlan', 'fatloss');
 
   function renderMeals() {
-    const data = filterMealsByProducts(currentPlan);
+    const data = filterMeals(currentPlan);
     const container = document.getElementById('mealPlanContainer');
+    const info = document.getElementById('filterInfo');
+    const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
+    
     if (!data || !data.days || data.days.length === 0) {
       container.innerHTML = '<p class="text-muted">😕 Нет блюд с выбранными продуктами. Попробуй отметить больше продуктов.</p>';
+      info.textContent = 'Выбрано продуктов: ' + checked.length + '. Попробуй отметить больше.';
       return;
     }
+
     let html = '';
     data.days.forEach(day => {
       html += '<div class="day-block">';
       html += '<div class="day-title">' + day.name + ' <span class="badge">' + day.total + ' ккал</span></div>';
       day.meals.forEach(m => {
-        html += '<div class="meal"><span class="meal-name">' + m[0] + '</span>' + m[1] + ' <span class="meal-kcal">' + m[2] + ' ккал</span></div>';
+        html += '<div class="meal"><span class="meal-name">' + m[0] + '</span> <span class="meal-kcal">' + m[1] + ' ккал</span></div>';
       });
       html += '<div class="total-day">⭐ Итого: ' + day.total + ' ккал</div>';
       html += '</div>';
     });
     container.innerHTML = html;
-    document.getElementById('planDesc').textContent = 'Рацион: ' + data.label + ' (под filtered продукты)';
+    document.getElementById('planDesc').textContent = 'Рацион: ' + data.label + ' (подобрано ' + data.days.length + ' дней из 7)';
+    info.textContent = '✅ Выбрано продуктов: ' + checked.length + '. Показано ' + data.days.length + ' дней.';
   }
 
   // ====== ОСНОВНОЙ РАСЧЁТ ======
@@ -671,36 +488,30 @@
     saveState('currentPlan', currentPlan);
   }
 
-  // ====== ЦЕЛИ ======
+  // ====== СОБЫТИЯ ======
   document.querySelectorAll('.goal-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       currentPlan = this.dataset.plan;
-      const label = this.dataset.label;
-      document.getElementById('goalDisplay').textContent = label;
+      document.getElementById('goalDisplay').textContent = this.dataset.label;
       const factor = parseFloat(this.dataset.factor);
-      const desc = factor === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
-                   factor === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
-                   factor === 1.0 ? 'Баланс калорий — вес стабилен' : 'Профицит 15% — качественный рост мышц';
-      document.getElementById('goalDesc').textContent = desc;
+      document.getElementById('goalDesc').textContent = factor === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
+                                                       factor === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
+                                                       factor === 1.0 ? 'Баланс калорий — вес стабилен' : 'Профицит 15% — качественный рост мышц';
       calculate();
     });
   });
 
-  // ====== ПРИМЕНИТЬ ПРОДУКТЫ ======
-  document.getElementById('applyProductsBtn').addEventListener('click', () => {
-    calculate();
-  });
+  document.getElementById('applyProductsBtn').addEventListener('click', calculate);
 
-  // ====== ЭКСПОРТ СПИСКА ПОКУПОК ======
   document.getElementById('exportShopListBtn').addEventListener('click', () => {
-    const data = filterMealsByProducts(currentPlan);
+    const data = filterMeals(currentPlan);
     if (!data || !data.days) return;
     const productMap = {};
     data.days.forEach(day => {
       day.meals.forEach(meal => {
-        const items = meal[1].split(/[+,]/).map(s => s.trim());
+        const items = meal[0].split(/[+,]/).map(s => s.trim());
         items.forEach(item => {
           const clean = item.replace(/\([^)]*\)/g, '').replace(/\d+[гмл]/, '').trim();
           if (clean && clean.length > 1 && !['и', 'с', 'в', 'на', 'из', 'за', 'по'].includes(clean)) {
@@ -717,19 +528,16 @@
     const container = document.getElementById('shopListContainer');
     container.innerHTML = list;
     container.style.display = 'block';
-    // Прокрутка к списку
     container.scrollIntoView({ behavior: 'smooth' });
-    // Через 10 сек скрываем
     setTimeout(() => { container.style.display = 'none'; }, 15000);
   });
 
-  // ====== ГРАФИК ПРОГРЕССА ======
   document.getElementById('updateChartBtn').addEventListener('click', () => {
     const input = document.getElementById('weightHistoryInput').value;
     const weights = input.split(',').map(s => parseFloat(s.trim())).filter(v => !isNaN(v));
     const container = document.getElementById('chartContainer');
     if (weights.length < 2) {
-      container.innerHTML = '<p class="text-muted">Введи хотя бы 2 значения через запятую, например: 70, 69.5, 69</p>';
+      container.innerHTML = '<p class="text-muted">Введи хотя бы 2 значения через запятую.</p>';
       return;
     }
     const min = Math.min(...weights);
@@ -743,7 +551,7 @@
     container.innerHTML = html;
   });
 
-  // ====== АВТО-СОХРАНЕНИЕ ПОЛЗУНКОВ ======
+  // ====== АВТОСОХРАНЕНИЕ ======
   ['gender', 'ageSlider', 'heightSlider', 'weightSlider', 'goalWeightSlider', 'activity'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -753,13 +561,10 @@
         else if (el.tagName === 'SELECT') el.value = saved;
       }
       el.addEventListener('change', () => saveState(id, el.value));
-      el.addEventListener('input', () => {
-        if (el.type === 'range') saveState(id, el.value);
-      });
+      el.addEventListener('input', () => { if (el.type === 'range') saveState(id, el.value); });
     }
   });
 
-  // ====== ЗАГРУЗКА СОХРАНЁННЫХ ПРОДУКТОВ ======
   const savedProducts = loadState('selectedProducts', []);
   document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => {
     if (savedProducts.includes(cb.value)) cb.checked = true;
@@ -771,15 +576,11 @@
 
   // ====== СТАРТ ======
   window.onload = function() {
-    calculate();
-    // Сохраняем выбранную цель
     const savedGoal = loadState('currentPlan', 'fatloss');
     document.querySelectorAll('.goal-btn').forEach(btn => {
       if (btn.dataset.plan === savedGoal) {
         btn.classList.add('active');
-        document.querySelectorAll('.goal-btn').forEach(b => {
-          if (b !== btn) b.classList.remove('active');
-        });
+        document.querySelectorAll('.goal-btn').forEach(b => { if (b !== btn) b.classList.remove('active'); });
         currentPlan = savedGoal;
       }
     });
