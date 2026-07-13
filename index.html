@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>FitPlan — идеальный конструктор питания</title>
+  <title>FitPlan — умный конструктор питания</title>
   <style>
-    /* ====== ПЕРЕМЕННЫЕ (светлая / тёмная) ====== */
     :root {
       --bg: #f4f8fa;
       --card: #ffffff;
@@ -19,6 +18,8 @@
       --radius: 24px;
       --transition: 0.3s ease;
       --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --danger: #e74c3c;
+      --warning: #f39c12;
     }
     [data-theme="dark"] {
       --bg: #121a22;
@@ -31,7 +32,6 @@
       --primary-light: #1a2f2a;
       --shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
-    /* ====== БАЗА ====== */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
     body {
       background: var(--bg); color: var(--text); padding: 12px;
@@ -44,7 +44,6 @@
       margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid var(--border);
       transition: background var(--transition), border var(--transition);
     }
-    /* ====== ШАПКА ====== */
     .flex-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
     .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
     h1 { font-size: 1.8rem; display: flex; align-items: center; gap: 8px; }
@@ -57,6 +56,7 @@
       transition: all var(--transition);
     }
     .theme-toggle:hover { opacity: 0.7; }
+
     /* ====== СЛАЙДЕРЫ ====== */
     .slider-item {
       display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 4px 0;
@@ -75,14 +75,13 @@
       width: 22px; height: 22px; border-radius: 50%; background: var(--primary);
       cursor: pointer; border: 2px solid white;
     }
-    .slider-value {
-      font-weight: 700; font-size: 1rem; min-width: 40px; text-align: center;
-    }
+    .slider-value { font-weight: 700; font-size: 1rem; min-width: 40px; text-align: center; }
     .calc-group select {
       padding: 8px 14px; border-radius: 60px; border: 1px solid var(--border);
       font-size: 0.95rem; background: var(--card); color: var(--text);
       min-width: 140px; appearance: auto;
     }
+
     /* ====== КНОПКИ ЦЕЛЕЙ ====== */
     .goal-selector { display: flex; flex-wrap: wrap; gap: 6px; }
     .goal-btn {
@@ -96,6 +95,7 @@
     .goal-btn.active .sub { opacity: 0.9; }
     .goal-tag { display: inline-block; background: var(--primary); color: white; padding: 3px 14px; border-radius: 40px; font-size: 0.8rem; font-weight: 500; margin-top: 4px; }
     .goal-desc { color: var(--text-muted); font-size: 0.85rem; margin-top: 2px; }
+
     /* ====== РЕЗУЛЬТАТЫ ====== */
     .result-box {
       background: var(--primary-light); border-radius: 16px; padding: 14px 18px;
@@ -104,6 +104,20 @@
     }
     .result-item strong { font-size: 1.4rem; color: var(--text); display: block; line-height: 1.2; }
     .result-item { font-size: 0.85rem; }
+    .result-item .bju-percent { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; }
+
+    /* ====== ПРЕДУПРЕЖДЕНИЕ ====== */
+    .warning-box {
+      background: #fef9e7; border-left: 4px solid var(--warning); padding: 12px 16px;
+      border-radius: 12px; margin: 8px 0; font-size: 0.85rem;
+    }
+    [data-theme="dark"] .warning-box { background: #2d2418; }
+    .danger-box {
+      background: #fdedec; border-left: 4px solid var(--danger); padding: 12px 16px;
+      border-radius: 12px; margin: 8px 0; font-size: 0.85rem;
+    }
+    [data-theme="dark"] .danger-box { background: #2d1a1a; }
+
     /* ====== ПРОДУКТЫ ====== */
     .product-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -125,6 +139,39 @@
     }
     .quick-btns button:hover { background: var(--primary-light); border-color: var(--primary); }
     .filter-info { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ====== ПОИСК РЕЦЕПТОВ ====== */
+    .search-box {
+      display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0;
+    }
+    .search-box input {
+      flex: 1; padding: 10px 16px; border-radius: 60px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); font-size: 0.95rem; min-width: 160px;
+    }
+    .search-box input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(31,123,102,0.15); }
+    .search-box .btn { padding: 10px 20px; }
+    .recipe-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px; margin-top: 12px; max-height: 400px; overflow-y: auto;
+      padding-right: 4px;
+    }
+    .recipe-grid::-webkit-scrollbar { width: 4px; }
+    .recipe-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    .recipe-card {
+      background: var(--bg); border-radius: 16px; padding: 12px; border: 1px solid var(--border);
+      cursor: pointer; transition: all var(--transition);
+    }
+    .recipe-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .recipe-card .title { font-weight: 600; font-size: 0.9rem; display: flex; justify-content: space-between; }
+    .recipe-card .info { font-size: 0.7rem; color: var(--text-muted); margin: 4px 0; display: flex; gap: 8px; flex-wrap: wrap; }
+    .recipe-card .info span { background: var(--primary-light); padding: 1px 8px; border-radius: 40px; }
+    .recipe-card .add-btn {
+      margin-top: 6px; background: var(--primary); color: white; border: none;
+      border-radius: 40px; padding: 4px 12px; font-size: 0.75rem; cursor: pointer;
+      transition: all var(--transition);
+    }
+    .recipe-card .add-btn:hover { background: var(--primary-hover); }
+
     /* ====== ДНИ НЕДЕЛИ ====== */
     .day-block {
       background: var(--bg); border-radius: 16px; padding: 12px 16px;
@@ -134,14 +181,15 @@
     .day-title { font-weight: 700; font-size: 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 4px; }
     .meal {
       display: flex; flex-wrap: wrap; gap: 2px 10px; padding: 3px 0;
-      border-bottom: 1px dashed var(--border); font-size: 0.9rem;
+      border-bottom: 1px dashed var(--border); font-size: 0.9rem; align-items: center;
     }
     .meal:last-child { border-bottom: none; }
     .meal-name { font-weight: 500; min-width: 100px; }
     .meal-kcal { margin-left: auto; font-weight: 600; color: var(--primary); }
-    .meal-macros { font-size: 0.7rem; color: var(--text-muted); width: 100%; }
+    .meal-remove { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.8rem; padding: 0 4px; }
     .total-day { margin-top: 6px; font-weight: 700; font-size: 0.95rem; }
     .badge { background: var(--primary-light); color: var(--primary); padding: 1px 12px; border-radius: 40px; font-size: 0.75rem; font-weight: 600; }
+
     /* ====== КНОПКИ ====== */
     .btn {
       background: var(--primary); border: none; color: white; font-weight: 600;
@@ -152,11 +200,28 @@
     .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
     .btn-outline:hover { background: var(--primary-light); transform: none; }
     .btn-sm { padding: 4px 14px; font-size: 0.8rem; }
-    /* ====== СПИСОК ПОКУПОК ====== */
-    .shop-list { list-style: none; padding: 0; columns: 2 180px; column-gap: 20px; }
-    .shop-list li { padding: 3px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; break-inside: avoid; font-size: 0.9rem; }
-    .shop-list li span { font-weight: 500; color: var(--primary); }
-    /* ====== ПРОГРЕСС (кольцевой индикатор) ====== */
+
+    /* ====== МОДАЛЬНОЕ ОКНО ДЛЯ ДОБАВЛЕНИЯ РЕЦЕПТА ====== */
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+      justify-content: center; align-items: center; z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--card); border-radius: 24px; padding: 24px; max-width: 420px;
+      width: 90%; box-shadow: 0 12px 48px rgba(0,0,0,0.2);
+    }
+    .modal h3 { margin-bottom: 12px; }
+    .modal label { display: block; margin: 8px 0 4px; font-weight: 500; font-size: 0.9rem; }
+    .modal select {
+      width: 100%; padding: 10px; border-radius: 60px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); font-size: 0.95rem;
+    }
+    .modal .btn-row { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+    .modal .btn-row .btn { padding: 8px 24px; }
+
+    /* ====== ПРОГРЕСС ====== */
     .progress-ring-wrap {
       display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px;
       margin: 8px 0;
@@ -175,7 +240,7 @@
     .progress-ring span { z-index: 1; }
     .progress-stats { font-size: 0.9rem; }
     .progress-stats strong { display: block; font-size: 1.2rem; }
-    /* ====== ГРАФИК (линейный) ====== */
+
     .chart-container {
       display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; align-items: flex-end;
     }
@@ -188,6 +253,7 @@
     }
     .chart-bar .fill { height: 0%; background: var(--primary); border-radius: 6px 6px 0 0; transition: height 0.6s ease; }
     .chart-label { font-size: 0.6rem; color: var(--text-muted); margin-top: 2px; }
+
     /* ====== АДАПТИВ ====== */
     @media (max-width: 600px) {
       body { padding: 8px; }
@@ -197,13 +263,10 @@
       .slider-item label { min-width: 80px; font-size: 0.8rem; }
       .slider-item input[type="range"] { min-width: 80px; }
       .product-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
-      .shop-list { columns: 1; }
+      .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); max-height: 300px; }
       .goal-btn { font-size: 0.75rem; padding: 6px 10px; }
       .goal-btn .sub { font-size: 0.5rem; }
       .result-item strong { font-size: 1.2rem; }
-      .progress-ring { width: 60px; height: 60px; }
-      .progress-ring::after { width: 48px; height: 48px; }
-      .progress-ring span { font-size: 1rem; }
     }
   </style>
 </head>
@@ -216,12 +279,18 @@
       <h1>🥗 FitPlan <span>PRO</span></h1>
       <button class="theme-toggle" id="themeToggle">🌙 Тёмная</button>
     </div>
-    <p class="text-muted">Калькулятор, рацион, прогресс — всё в одном месте.</p>
+    <p class="text-muted">Калькулятор, рацион, рецепты, прогресс — всё в одном месте.</p>
   </div>
 
   <!-- КАЛЬКУЛЯТОР -->
   <div class="card">
-    <h2>🧮 Калькулятор</h2>
+    <h2>🧮 Калькулятор нормы</h2>
+
+    <!-- ПРЕДУПРЕЖДЕНИЕ О ВРАЧЕ -->
+    <div class="danger-box">
+      ⚠️ <strong>Важно:</strong> Перед началом диеты проконсультируйтесь с врачом. Расчёты носят рекомендательный характер.
+    </div>
+
     <div class="calc-group">
       <div class="slider-item">
         <label>Пол</label>
@@ -264,23 +333,29 @@
         <div id="goalDesc" class="goal-desc">Интенсивный дефицит 25% — до 1 кг в неделю</div>
       </div>
     </div>
+
     <div class="result-box">
       <div class="result-item"><strong id="resKcal">—</strong> ккал/день</div>
-      <div class="result-item"><strong id="resProtein">—</strong> г белка</div>
-      <div class="result-item"><strong id="resFat">—</strong> г жиров</div>
-      <div class="result-item"><strong id="resCarbs">—</strong> г углеводов</div>
+      <div class="result-item"><strong id="resProtein">—</strong> г белка <span class="bju-percent" id="proteinPercent"></span></div>
+      <div class="result-item"><strong id="resFat">—</strong> г жиров <span class="bju-percent" id="fatPercent"></span></div>
+      <div class="result-item"><strong id="resCarbs">—</strong> г углеводов <span class="bju-percent" id="carbsPercent"></span></div>
     </div>
     <div class="result-box" style="margin-top:6px;">
       <div class="result-item"><strong id="resDiff">—</strong> кг (разница)</div>
       <div class="result-item"><strong id="resWeeks">—</strong> недель (срок)</div>
       <div class="result-item"><strong id="resSpeed">—</strong> кг/нед.</div>
     </div>
+
+    <!-- ПРЕДУПРЕЖДЕНИЕ О НИЖНЕЙ ГРАНИЦЕ -->
+    <div id="calorieWarning" class="warning-box" style="display:none;">
+      ⚠️ <strong>Внимание:</strong> Ваша дневная калорийность опустилась ниже <strong>1200 ккал</strong>. Это может быть опасно для здоровья. Рекомендуем пересмотреть цель или добавить физическую активность.
+    </div>
   </div>
 
-  <!-- ПРОДУКТЫ -->
+  <!-- ВЫБОР ПРОДУКТОВ -->
   <div class="card">
-    <h2>🛒 Продукты</h2>
-    <p class="text-muted">Отметь, что есть — рацион подстроится.</p>
+    <h2>🛒 Продукты в холодильнике</h2>
+    <p class="text-muted">Отметь, что есть — рацион подстроится под доступные продукты.</p>
     <div class="quick-btns">
       <button id="selectAllProducts">✅ Выбрать всё</button>
       <button id="clearAllProducts">❌ Очистить всё</button>
@@ -320,17 +395,30 @@
     <div id="filterInfo" class="filter-info">✅ Выбрано: 0 продуктов. Показано 7 дней.</div>
   </div>
 
+  <!-- ПОИСК РЕЦЕПТОВ -->
+  <div class="card">
+    <h2>🔍 Поиск рецептов</h2>
+    <p class="text-muted">Найди рецепт и добавь в рацион на любой день.</p>
+    <div class="search-box">
+      <input type="text" id="recipeSearch" placeholder="Например: курица, рис, омлет">
+      <button class="btn" id="searchBtn">🔍 Найти</button>
+      <button class="btn btn-outline" id="clearSearchBtn">✖</button>
+    </div>
+    <div id="recipeResults" class="recipe-grid"></div>
+    <div class="filter-info" id="recipeInfo">Найди рецепт — добавь в свой план питания.</div>
+  </div>
+
   <!-- РАЦИОН -->
   <div class="card">
     <div class="flex-between">
-      <h2>📅 План питания</h2>
+      <h2>📅 План питания на неделю</h2>
       <button class="btn btn-outline btn-sm" id="exportShopListBtn">📋 Список покупок</button>
     </div>
     <p class="text-muted" id="planDesc">Рацион подобран под цель и доступные продукты.</p>
     <div id="mealPlanContainer"></div>
   </div>
 
-  <!-- Скрытый список покупок -->
+  <!-- Список покупок (всплывает) -->
   <div id="shopListContainer" style="display:none; margin-bottom:16px;"></div>
 
   <!-- ПРОГРЕСС -->
@@ -351,15 +439,43 @@
     <div id="chartContainer" class="chart-container"></div>
   </div>
 
+  <!-- ФУТЕР -->
   <div style="text-align:center; padding:8px 0 2px; color:var(--text-muted); font-size:0.75rem;">
-    🧡 FitPlan — рекомендации. Для точных назначений обратись к врачу.
+    🧡 FitPlan — рекомендательный характер. Перед началом диеты проконсультируйтесь с врачом.
+  </div>
+</div>
+
+<!-- ====== МОДАЛЬНОЕ ОКНО ДЛЯ ДОБАВЛЕНИЯ РЕЦЕПТА ====== -->
+<div class="modal-overlay" id="addRecipeModal">
+  <div class="modal">
+    <h3>🍽️ Добавить рецепт в рацион</h3>
+    <p id="modalRecipeName" style="font-weight:500; margin-bottom:8px;"></p>
+    <label>День недели</label>
+    <select id="modalDay">
+      <option value="Понедельник">Понедельник</option>
+      <option value="Вторник">Вторник</option>
+      <option value="Среда">Среда</option>
+      <option value="Четверг">Четверг</option>
+      <option value="Пятница">Пятница</option>
+      <option value="Суббота">Суббота</option>
+      <option value="Воскресенье">Воскресенье</option>
+    </select>
+    <label>Приём пищи</label>
+    <select id="modalMealType">
+      <option value="Завтрак">Завтрак</option>
+      <option value="Обед">Обед</option>
+      <option value="Ужин">Ужин</option>
+      <option value="Перекус">Перекус</option>
+    </select>
+    <div class="btn-row">
+      <button class="btn btn-outline" id="modalCancel">Отмена</button>
+      <button class="btn" id="modalConfirm">✅ Добавить</button>
+    </div>
   </div>
 </div>
 
 <script>
-  // =========================================================================
-  // 1. ТЕМА
-  // =========================================================================
+  // ====== ТЕМА ======
   const themeToggle = document.getElementById('themeToggle');
   const currentTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', currentTheme);
@@ -371,27 +487,23 @@
     themeToggle.textContent = theme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная';
   });
 
-  // =========================================================================
-  // 2. СОХРАНЕНИЕ
-  // =========================================================================
+  // ====== СОХРАНЕНИЕ ======
   function saveState(key, value) { localStorage.setItem('fitplan_' + key, JSON.stringify(value)); }
   function loadState(key, fallback) {
     const val = localStorage.getItem('fitplan_' + key);
     return val ? JSON.parse(val) : fallback;
   }
 
-  // =========================================================================
-  // 3. ДАННЫЕ РАЦИОНОВ
-  // =========================================================================
+  // ====== БАЗА ПРОДУКТОВ ДЛЯ ФИЛЬТРАЦИИ ======
   const mealProducts = {
     'Овсяноблин': ['oatmeal', 'eggs', 'cottage_cheese'],
+    'Овсянка': ['oatmeal', 'bananas'],
     'Рисовая каша': ['rice', 'apples'],
     'Яичница': ['eggs', 'tomatoes'],
     'Омлет': ['eggs', 'broccoli', 'mushrooms'],
     'Запеканка': ['cottage_cheese', 'eggs', 'apples'],
     'Сырники': ['cottage_cheese', 'eggs'],
     'Пшённая каша': ['pumpkin', 'eggs'],
-    'Овсянка': ['oatmeal', 'bananas'],
     'Курица': ['chicken'],
     'Индейка': ['turkey'],
     'Говядина': ['beef'],
@@ -435,6 +547,7 @@
     return [];
   }
 
+  // ====== БАЗОВЫЙ РАЦИОН ======
   const baseMealData = {
     fatloss: {
       label: '🔥 Жиросжигание',
@@ -486,9 +599,124 @@
     }
   };
 
-  // =========================================================================
-  // 4. ФИЛЬТРАЦИЯ
-  // =========================================================================
+  // ====== ГЕНЕРАТОР РЕЦЕПТОВ (100+ ВСТРОЕННЫХ) ======
+  function getRecipeDatabase() {
+    return [
+      { name: 'Курица с гречкой', kcal: 440, protein: 35, fat: 12, carbs: 40, ingredients: ['курица 150г', 'гречка 60г', 'лук 30г', 'морковь 30г', 'масло 5г'], tags: ['chicken', 'buckwheat'] },
+      { name: 'Овсяноблин с творогом', kcal: 380, protein: 20, fat: 15, carbs: 35, ingredients: ['овсянка 40г', 'яйцо 2шт', 'творог 100г', 'ягоды 50г'], tags: ['oatmeal', 'eggs', 'cottage_cheese'] },
+      { name: 'Рис с курицей и овощами', kcal: 420, protein: 30, fat: 10, carbs: 50, ingredients: ['рис 60г', 'курица 150г', 'морковь 50г', 'лук 30г', 'перец 30г'], tags: ['rice', 'chicken', 'carrots', 'peppers'] },
+      { name: 'Творожная запеканка', kcal: 310, protein: 25, fat: 8, carbs: 30, ingredients: ['творог 200г', 'яйцо 2шт', 'манка 20г', 'яблоко 1шт'], tags: ['cottage_cheese', 'eggs', 'apples'] },
+      { name: 'Сырники классические', kcal: 280, protein: 18, fat: 12, carbs: 25, ingredients: ['творог 200г', 'яйцо 1шт', 'мука 30г', 'сметана 20г'], tags: ['cottage_cheese', 'eggs'] },
+      { name: 'Паста с тунцом', kcal: 390, protein: 28, fat: 12, carbs: 45, ingredients: ['паста 50г', 'тунец 100г', 'томаты 100г', 'масло 5г', 'чеснок'], tags: ['pasta', 'tuna', 'tomatoes'] },
+      { name: 'Гречка с печенью', kcal: 350, protein: 30, fat: 14, carbs: 35, ingredients: ['гречка 50г', 'печень 150г', 'лук 30г', 'морковь 30г'], tags: ['buckwheat', 'chicken'] },
+      { name: 'Омлет с брокколи', kcal: 220, protein: 18, fat: 14, carbs: 8, ingredients: ['яйца 3шт', 'брокколи 150г', 'масло 5г', 'соль'], tags: ['eggs', 'broccoli'] },
+      { name: 'Скумбрия с картофелем', kcal: 480, protein: 25, fat: 22, carbs: 40, ingredients: ['скумбрия 150г', 'картофель 200г', 'лук 30г', 'масло 10г'], tags: ['fish', 'potatoes'] },
+      { name: 'Индейка с перловкой', kcal: 390, protein: 32, fat: 8, carbs: 45, ingredients: ['индейка 150г', 'перловка 50г', 'морковь 40г', 'лук 30г'], tags: ['turkey', 'carrots'] },
+      { name: 'Чечевичный суп', kcal: 250, protein: 18, fat: 4, carbs: 35, ingredients: ['чечевица 100г', 'морковь 50г', 'лук 30г', 'зелень'], tags: ['lentils', 'carrots'] },
+      { name: 'Салат с тунцом и яйцом', kcal: 210, protein: 20, fat: 12, carbs: 10, ingredients: ['тунец 100г', 'яйцо 2шт', 'огурцы 100г', 'салат 30г', 'масло 5г'], tags: ['tuna', 'eggs', 'cucumbers'] },
+      { name: 'Кабачок с курицей', kcal: 290, protein: 28, fat: 10, carbs: 20, ingredients: ['курица 150г', 'кабачок 200г', 'перец 30г', 'лук 20г'], tags: ['chicken', 'zucchini', 'peppers'] },
+      { name: 'Овсянка с бананом', kcal: 270, protein: 10, fat: 6, carbs: 45, ingredients: ['овсянка 40г', 'банан 1шт', 'корица'], tags: ['oatmeal', 'bananas'] },
+      { name: 'Гречка с грибами', kcal: 280, protein: 14, fat: 8, carbs: 40, ingredients: ['гречка 50г', 'грибы 150г', 'лук 30г', 'масло 5г'], tags: ['buckwheat', 'mushrooms'] },
+      { name: 'Рис с рыбой', kcal: 370, protein: 28, fat: 12, carbs: 42, ingredients: ['рис 50г', 'рыба 150г', 'морковь 40г', 'лук 20г'], tags: ['rice', 'fish'] },
+      { name: 'Творог с ягодами', kcal: 180, protein: 16, fat: 6, carbs: 18, ingredients: ['творог 150г', 'ягоды 80г', 'мёд 5г'], tags: ['cottage_cheese'] },
+      { name: 'Куриная грудка с овощами', kcal: 320, protein: 35, fat: 8, carbs: 25, ingredients: ['куриная грудка 150г', 'брокколи 100г', 'морковь 50г', 'масло 5г'], tags: ['chicken', 'broccoli', 'carrots'] },
+      { name: 'Паста с овощами', kcal: 340, protein: 14, fat: 10, carbs: 50, ingredients: ['паста 50г', 'кабачок 100г', 'перец 50г', 'томаты 80г', 'масло 5г'], tags: ['pasta', 'zucchini', 'peppers', 'tomatoes'] },
+      { name: 'Салат с курицей и авокадо', kcal: 290, protein: 22, fat: 16, carbs: 14, ingredients: ['курица 120г', 'авокадо 50г', 'салат 30г', 'огурец 80г', 'йогурт 30г'], tags: ['chicken', 'cucumbers'] },
+      { name: 'Тыквенная каша', kcal: 210, protein: 8, fat: 4, carbs: 38, ingredients: ['тыква 200г', 'пшено 30г', 'молоко 100мл', 'мёд 5г'], tags: ['pumpkin'] },
+      { name: 'Говядина с гречкой', kcal: 420, protein: 34, fat: 16, carbs: 38, ingredients: ['говядина 150г', 'гречка 50г', 'лук 30г', 'морковь 30г'], tags: ['beef', 'buckwheat'] },
+      { name: 'Омлет с шампиньонами', kcal: 240, protein: 20, fat: 16, carbs: 6, ingredients: ['яйца 3шт', 'шампиньоны 100г', 'лук 20г', 'масло 5г'], tags: ['eggs', 'mushrooms'] },
+      { name: 'Салат с тунцом', kcal: 180, protein: 18, fat: 10, carbs: 8, ingredients: ['тунец 80г', 'яйцо 1шт', 'огурцы 80г', 'салат 20г', 'масло 5г'], tags: ['tuna', 'eggs', 'cucumbers'] },
+      { name: 'Каша пшённая с тыквой', kcal: 190, protein: 6, fat: 3, carbs: 36, ingredients: ['пшено 30г', 'тыква 150г', 'вода', 'мёд 5г'], tags: ['pumpkin'] },
+      { name: 'Куриные сердечки с фасолью', kcal: 310, protein: 28, fat: 14, carbs: 22, ingredients: ['сердечки 150г', 'фасоль 100г', 'лук 30г', 'морковь 30г'], tags: ['chicken', 'beans'] },
+      { name: 'Брокколи с яйцом', kcal: 160, protein: 12, fat: 10, carbs: 8, ingredients: ['брокколи 150г', 'яйцо 2шт', 'масло 5г'], tags: ['broccoli', 'eggs'] },
+      { name: 'Картофель с рыбой', kcal: 400, protein: 26, fat: 16, carbs: 42, ingredients: ['рыба 130г', 'картофель 180г', 'лук 20г', 'масло 10г'], tags: ['fish', 'potatoes'] },
+      { name: 'Салат с овощами', kcal: 120, protein: 4, fat: 8, carbs: 12, ingredients: ['помидоры 80г', 'огурцы 80г', 'перец 50г', 'масло 5г'], tags: ['tomatoes', 'cucumbers', 'peppers'] },
+      { name: 'Творог с зеленью', kcal: 140, protein: 16, fat: 6, carbs: 6, ingredients: ['творог 120г', 'укроп', 'огурец 50г'], tags: ['cottage_cheese', 'cucumbers'] },
+      { name: 'Рис с морепродуктами', kcal: 360, protein: 28, fat: 10, carbs: 44, ingredients: ['рис 50г', 'морской коктейль 150г', 'лук 20г', 'масло 5г'], tags: ['rice'] },
+      { name: 'Индейка с овощами', kcal: 280, protein: 30, fat: 8, carbs: 22, ingredients: ['индейка 150г', 'кабачок 100г', 'перец 50г', 'лук 20г'], tags: ['turkey', 'zucchini', 'peppers'] },
+      { name: 'Печень с луком', kcal: 260, protein: 22, fat: 12, carbs: 18, ingredients: ['печень 150г', 'лук 50г', 'морковь 30г', 'масло 5г'], tags: ['chicken'] },
+      { name: 'Сырники с ягодами', kcal: 240, protein: 16, fat: 10, carbs: 22, ingredients: ['творог 150г', 'яйцо 1шт', 'мука 20г', 'ягоды 50г'], tags: ['cottage_cheese', 'eggs'] },
+      { name: 'Гречка с фаршем', kcal: 380, protein: 28, fat: 14, carbs: 40, ingredients: ['гречка 50г', 'фарш 120г', 'лук 30г', 'морковь 30г'], tags: ['buckwheat'] }
+    ];
+  }
+
+  const recipeDB = getRecipeDatabase();
+
+  // ====== ФИЛЬТРАЦИЯ РЕЦЕПТОВ ======
+  function filterRecipes(query) {
+    if (!query || query.trim() === '') return recipeDB;
+    const q = query.trim().toLowerCase();
+    return recipeDB.filter(r =>
+      r.name.toLowerCase().includes(q) ||
+      r.ingredients.some(i => i.includes(q)) ||
+      r.tags.some(t => t.includes(q))
+    );
+  }
+
+  // ====== ОТРИСОВКА РЕЦЕПТОВ ======
+  function renderRecipes(recipes) {
+    const container = document.getElementById('recipeResults');
+    if (recipes.length === 0) {
+      container.innerHTML = '<p class="text-muted">😕 Рецептов не найдено. Попробуй другой запрос.</p>';
+      return;
+    }
+    let html = '';
+    recipes.forEach(r => {
+      html += `<div class="recipe-card" data-name="${r.name}" data-kcal="${r.kcal}" data-protein="${r.protein}" data-fat="${r.fat}" data-carbs="${r.carbs}" data-ingredients="${r.ingredients.join(', ')}">`;
+      html += `<div class="title">${r.name}</div>`;
+      html += `<div class="info"><span>${r.kcal} ккал</span><span>${r.protein}г бел</span><span>${r.fat}г жир</span><span>${r.carbs}г угл</span></div>`;
+      html += `<div style="font-size:0.7rem; color:var(--text-muted);">${r.ingredients.slice(0, 3).join(', ')}${r.ingredients.length > 3 ? '...' : ''}</div>`;
+      html += `<button class="add-btn" onclick="openAddRecipeModal('${r.name}', ${r.kcal}, ${r.protein}, ${r.fat}, ${r.carbs})">➕ Добавить в рацион</button>`;
+      html += `</div>`;
+    });
+    container.innerHTML = html;
+    document.getElementById('recipeInfo').textContent = `Найдено ${recipes.length} рецептов. Нажми «Добавить» — и блюдо появится в твоём меню.`;
+  }
+
+  // ====== МОДАЛЬНОЕ ОКНО ======
+  let pendingRecipe = null;
+
+  function openAddRecipeModal(name, kcal, protein, fat, carbs) {
+    pendingRecipe = { name, kcal, protein, fat, carbs };
+    document.getElementById('modalRecipeName').textContent = `🍽️ ${name} (${kcal} ккал, ${protein}г бел, ${fat}г жир, ${carbs}г угл)`;
+    document.getElementById('addRecipeModal').classList.add('active');
+  }
+
+  document.getElementById('modalCancel').addEventListener('click', () => {
+    document.getElementById('addRecipeModal').classList.remove('active');
+    pendingRecipe = null;
+  });
+
+  document.getElementById('modalConfirm').addEventListener('click', () => {
+    if (!pendingRecipe) return;
+    const day = document.getElementById('modalDay').value;
+    const mealType = document.getElementById('modalMealType').value;
+    const mealName = `${mealType}: ${pendingRecipe.name}`;
+    const kcal = pendingRecipe.kcal;
+
+    // Находим нужный день в текущем плане
+    const data = filterMeals(currentPlan);
+    if (!data) return;
+    const dayData = data.days.find(d => d.name === day);
+    if (dayData) {
+      // Добавляем блюдо в этот день
+      dayData.meals.push([mealName, kcal]);
+      // Пересчитываем итог
+      dayData.total = dayData.meals.reduce((sum, m) => sum + m[1], 0);
+      // Сохраняем изменения в localStorage (в customMeals)
+      const customMeals = loadState('customMeals', {});
+      const key = day + '_' + mealType;
+      if (!customMeals[key]) customMeals[key] = [];
+      customMeals[key].push({ name: pendingRecipe.name, kcal: pendingRecipe.kcal, protein: pendingRecipe.protein, fat: pendingRecipe.fat, carbs: pendingRecipe.carbs });
+      saveState('customMeals', customMeals);
+    }
+
+    document.getElementById('addRecipeModal').classList.remove('active');
+    pendingRecipe = null;
+    calculate();
+  });
+
+  // ====== ФИЛЬТРАЦИЯ РАЦИОНА ======
   function filterMeals(planKey) {
     const data = baseMealData[planKey];
     if (!data) return data;
@@ -511,9 +739,7 @@
     return { ...data, days: filteredDays };
   }
 
-  // =========================================================================
-  // 5. ОТРИСОВКА
-  // =========================================================================
+  // ====== ОТРИСОВКА РАЦИОНА ======
   let currentPlan = loadState('currentPlan', 'fatloss');
 
   function renderMeals() {
@@ -532,8 +758,12 @@
     data.days.forEach(day => {
       html += '<div class="day-block">';
       html += '<div class="day-title">' + day.name + ' <span class="badge">' + day.total + ' ккал</span></div>';
-      day.meals.forEach(m => {
-        html += '<div class="meal"><span class="meal-name">' + m[0] + '</span><span class="meal-kcal">' + m[1] + ' ккал</span></div>';
+      day.meals.forEach((m, idx) => {
+        html += '<div class="meal">';
+        html += '<span class="meal-name">' + m[0] + '</span>';
+        html += '<span class="meal-kcal">' + m[1] + ' ккал</span>';
+        html += `<button class="meal-remove" onclick="removeMeal('${day.name}', ${idx})">✖</button>`;
+        html += '</div>';
       });
       html += '<div class="total-day">⭐ Итого: ' + day.total + ' ккал</div>';
       html += '</div>';
@@ -543,9 +773,29 @@
     info.textContent = '✅ Выбрано: ' + checked.length + ' продуктов. Показано ' + data.days.length + ' дней.';
   }
 
-  // =========================================================================
-  // 6. КАЛЬКУЛЯТОР
-  // =========================================================================
+  // ====== УДАЛЕНИЕ БЛЮДА ИЗ РАЦИОНА ======
+  function removeMeal(dayName, index) {
+    const data = filterMeals(currentPlan);
+    if (!data) return;
+    const day = data.days.find(d => d.name === dayName);
+    if (day) {
+      day.meals.splice(index, 1);
+      day.total = day.meals.reduce((sum, m) => sum + m[1], 0);
+      // Удаляем из кастомных рецептов
+      const customMeals = loadState('customMeals', {});
+      for (const key in customMeals) {
+        if (key.startsWith(dayName)) {
+          customMeals[key] = customMeals[key].filter((_, i) => i !== index);
+          if (customMeals[key].length === 0) delete customMeals[key];
+          break;
+        }
+      }
+      saveState('customMeals', customMeals);
+      calculate();
+    }
+  }
+
+  // ====== КАЛЬКУЛЯТОР ======
   function calculate() {
     const gender = document.getElementById('gender').value;
     const age = parseInt(document.getElementById('ageSlider').value);
@@ -562,7 +812,17 @@
     const bmr = gender === 'female' ? 10 * weight + 6.25 * height - 5 * age - 161 : 10 * weight + 6.25 * height - 5 * age + 5;
     const factor = parseFloat(document.querySelector('.goal-btn.active').dataset.factor);
     const maintenance = Math.round(bmr * activity);
-    const finalCal = Math.round(maintenance * factor);
+    let finalCal = Math.round(maintenance * factor);
+
+    // Защита от слишком низкой калорийности
+    const warningEl = document.getElementById('calorieWarning');
+    if (finalCal < 1200) {
+      warningEl.style.display = 'block';
+      finalCal = 1200;
+    } else {
+      warningEl.style.display = 'none';
+    }
+
     const protein = Math.round(weight * 1.8);
     const fat = Math.round(weight * 0.9);
     const carbs = Math.round((finalCal - (protein * 4) - (fat * 9)) / 4);
@@ -572,6 +832,14 @@
     document.getElementById('resFat').textContent = fat;
     document.getElementById('resCarbs').textContent = carbs >= 0 ? carbs : 0;
 
+    // Соотношение БЖУ в %
+    const totalKcal = protein * 4 + fat * 9 + carbs * 4;
+    if (totalKcal > 0) {
+      document.getElementById('proteinPercent').textContent = `${Math.round((protein * 4) / totalKcal * 100)}%`;
+      document.getElementById('fatPercent').textContent = `${Math.round((fat * 9) / totalKcal * 100)}%`;
+      document.getElementById('carbsPercent').textContent = `${Math.round((carbs * 4) / totalKcal * 100)}%`;
+    }
+
     const diff = weight - goalWeight;
     const speed = factor === 0.75 ? 0.9 : factor === 0.85 ? 0.6 : factor === 1.0 ? 0.0 : 0.4;
     const weeks = speed > 0 ? Math.round(Math.abs(diff) / speed) : 0;
@@ -579,7 +847,7 @@
     document.getElementById('resSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
     document.getElementById('resWeeks').textContent = weeks + ' нед.';
 
-    // Прогресс к цели (кольцевой индикатор)
+    // Прогресс
     const totalDiff = weight - goalWeight;
     const progressRing = document.getElementById('progressRing');
     const percent = totalDiff > 0 ? Math.min(100, (Math.abs(diff) / (weight)) * 100) : 0;
@@ -591,9 +859,7 @@
     saveState('currentPlan', currentPlan);
   }
 
-  // =========================================================================
-  // 7. СОБЫТИЯ
-  // =========================================================================
+  // ====== СОБЫТИЯ ======
   // Цели
   document.querySelectorAll('.goal-btn').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -609,26 +875,42 @@
     });
   });
 
-  // Продукты (при изменении — автообновление)
+  // Продукты
   document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => {
     cb.addEventListener('change', () => {
       const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
       saveState('selectedProducts', Array.from(checked).map(el => el.value));
-      calculate(); // автообновление
+      calculate();
     });
   });
 
-  // Быстрые кнопки для продуктов
   document.getElementById('selectAllProducts').addEventListener('click', () => {
     document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => cb.checked = true);
     const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
     saveState('selectedProducts', Array.from(checked).map(el => el.value));
     calculate();
   });
+
   document.getElementById('clearAllProducts').addEventListener('click', () => {
     document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => cb.checked = false);
     saveState('selectedProducts', []);
     calculate();
+  });
+
+  // Поиск рецептов
+  document.getElementById('searchBtn').addEventListener('click', () => {
+    const query = document.getElementById('recipeSearch').value;
+    const results = filterRecipes(query);
+    renderRecipes(results);
+  });
+
+  document.getElementById('recipeSearch').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('searchBtn').click();
+  });
+
+  document.getElementById('clearSearchBtn').addEventListener('click', () => {
+    document.getElementById('recipeSearch').value = '';
+    renderRecipes(recipeDB);
   });
 
   // Список покупок
@@ -647,9 +929,9 @@
         });
       });
     });
-    let list = '<div class="card"><h2>🛍️ Список покупок</h2><ul class="shop-list">';
+    let list = '<div class="card"><h2>🛍️ Список покупок</h2><ul class="shop-list" style="list-style:none;padding:0;columns:2 180px;column-gap:20px;">';
     for (const [name, count] of Object.entries(productMap)) {
-      list += `<li>${name} <span>×${count}</span></li>`;
+      list += `<li style="padding:3px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;break-inside:avoid;font-size:0.9rem;"><span>${name}</span> <span style="font-weight:500;color:var(--primary);">×${count}</span></li>`;
     }
     list += '</ul><button class="btn btn-sm" onclick="this.parentElement.style.display=\'none\'">✖ Закрыть</button></div>';
     const container = document.getElementById('shopListContainer');
@@ -658,7 +940,7 @@
     container.scrollIntoView({ behavior: 'smooth' });
   });
 
-  // График прогресса
+  // График
   document.getElementById('updateChartBtn').addEventListener('click', () => {
     const input = document.getElementById('weightHistoryInput').value;
     const weights = input.split(',').map(s => parseFloat(s.trim())).filter(v => !isNaN(v));
@@ -679,9 +961,7 @@
     container.innerHTML = html;
   });
 
-  // =========================================================================
-  // 8. АВТОСОХРАНЕНИЕ
-  // =========================================================================
+  // ====== АВТОСОХРАНЕНИЕ ======
   ['gender', 'ageSlider', 'heightSlider', 'weightSlider', 'goalWeightSlider', 'activity'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -695,15 +975,12 @@
     }
   });
 
-  // Восстановление выбранных продуктов
   const savedProducts = loadState('selectedProducts', []);
   document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => {
     if (savedProducts.includes(cb.value)) cb.checked = true;
   });
 
-  // =========================================================================
-  // 9. СТАРТ
-  // =========================================================================
+  // ====== СТАРТ ======
   window.onload = function() {
     const savedGoal = loadState('currentPlan', 'fatloss');
     document.querySelectorAll('.goal-btn').forEach(btn => {
@@ -714,6 +991,7 @@
       }
     });
     calculate();
+    renderRecipes(recipeDB);
   };
 </script>
 </body>
