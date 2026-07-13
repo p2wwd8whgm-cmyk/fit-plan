@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>FitPlan — 500+ рецептов</title>
   <style>
-    /* Стили — такие же, как в прошлой версии, всё работает */
+    /* ====== ПЕРЕМЕННЫЕ ====== */
     :root {
       --bg: #f4f8fa;
       --card: #ffffff;
@@ -35,6 +35,7 @@
       --primary-light: #1a2f2a;
       --shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
+    /* ====== БАЗА ====== */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
     body {
       background: var(--bg); color: var(--text); padding: 0;
@@ -334,9 +335,12 @@
 
 <div class="container">
 
-  <!-- ГЛАВНАЯ -->
+  <!-- ======== ГЛАВНАЯ ======== -->
   <div class="page active" id="page-home">
-    <div class="card"><h2>👋 Привет!</h2><p class="text-muted">500+ рецептов для твоего идеального рациона.</p></div>
+    <div class="card">
+      <h2>👋 Привет!</h2>
+      <p class="text-muted">500+ рецептов для твоего идеального рациона.</p>
+    </div>
     <div class="card">
       <h2>🎯 Прогресс к цели</h2>
       <div class="progress-ring-wrap">
@@ -362,7 +366,7 @@
     </div>
   </div>
 
-  <!-- КАЛЬКУЛЯТОР -->
+  <!-- ======== КАЛЬКУЛЯТОР ======== -->
   <div class="page" id="page-calc">
     <div class="card">
       <h2>🧮 Калькулятор нормы</h2>
@@ -405,7 +409,7 @@
     </div>
   </div>
 
-  <!-- РЕЦЕПТЫ -->
+  <!-- ======== РЕЦЕПТЫ ======== -->
   <div class="page" id="page-recipes">
     <div class="card">
       <h2>🔍 500+ рецептов</h2>
@@ -451,7 +455,7 @@
     </div>
   </div>
 
-  <!-- РАЦИОН -->
+  <!-- ======== РАЦИОН ======== -->
   <div class="page" id="page-mealplan">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
@@ -473,7 +477,7 @@
     </div>
   </div>
 
-  <!-- ПРОГРЕСС -->
+  <!-- ======== ПРОГРЕСС ======== -->
   <div class="page" id="page-progress">
     <div class="card">
       <h2>📈 Прогресс к цели</h2>
@@ -505,7 +509,7 @@
 
 </div>
 
-<!-- НИЖНЕЕ МЕНЮ -->
+<!-- ======== НИЖНЕЕ МЕНЮ ======== -->
 <nav class="bottom-nav">
   <button class="tab-btn active" data-tab="home"><span class="icon">🏠</span>Главная</button>
   <button class="tab-btn" data-tab="calc"><span class="icon">🧮</span>Кальк</button>
@@ -514,7 +518,7 @@
   <button class="tab-btn" data-tab="progress"><span class="icon">📊</span>Прогресс</button>
 </nav>
 
-<!-- МОДАЛКИ -->
+<!-- ======== МОДАЛКИ ======== -->
 <div class="modal-overlay" id="addRecipeModal">
   <div class="modal">
     <h3>🍽️ Добавить в рацион</h3>
