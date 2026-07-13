@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>FitPlan — конструктор питания</title>
   <style>
-    /* ====== ПЕРЕМЕННЫЕ ====== */
+    /* ====== ВЕСЬ ТВОЙ СТАРЫЙ CSS (без изменений) ====== */
     :root {
       --bg: #f4f8fa;
       --card: #ffffff;
@@ -37,8 +37,6 @@
       --primary-light: #1a2f2a;
       --shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
-
-    /* ====== БАЗА ====== */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
     body {
       background: var(--bg); color: var(--text); padding: 0;
@@ -48,8 +46,6 @@
       padding-top: var(--header-height);
     }
     .container { max-width: 1024px; margin: 0 auto; padding: 0 12px; }
-
-    /* ====== ШАПКА ====== */
     .header {
       position: fixed; top: 0; left: 0; right: 0; height: var(--header-height);
       background: var(--card); border-bottom: 1px solid var(--border);
@@ -68,8 +64,6 @@
       transition: all var(--transition);
     }
     .theme-toggle:hover { opacity: 0.7; }
-
-    /* ====== НИЖНЕЕ МЕНЮ ====== */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       height: var(--bottom-nav-height);
@@ -93,13 +87,9 @@
       height: 3px; background: var(--primary); border-radius: 0 0 4px 4px;
     }
     .bottom-nav .tab-btn:hover { color: var(--text); }
-
-    /* ====== СТРАНИЦЫ ====== */
     .page { display: none; animation: fadeIn 0.3s ease; }
     .page.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* ====== КАРТОЧКИ ====== */
     .card {
       background: var(--card); border-radius: var(--radius); padding: 16px 18px;
       margin-bottom: 16px; box-shadow: var(--shadow); border: 1px solid var(--border);
@@ -107,8 +97,6 @@
     }
     .card h2 { font-size: 1.1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
     .card .text-muted { color: var(--text-muted); font-size: 0.85rem; }
-
-    /* ====== СЛАЙДЕРЫ ====== */
     .slider-item {
       display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 4px 0;
     }
@@ -132,8 +120,6 @@
       font-size: 0.9rem; background: var(--card); color: var(--text);
       min-width: 120px; appearance: auto;
     }
-
-    /* ====== РЕЗУЛЬТАТЫ ====== */
     .result-box {
       background: var(--primary-light); border-radius: 16px; padding: 12px 16px;
       margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 16px;
@@ -142,8 +128,6 @@
     .result-item strong { font-size: 1.2rem; color: var(--text); display: block; }
     .result-item { font-size: 0.8rem; }
     .result-item .bju-percent { font-size: 0.65rem; color: var(--text-muted); font-weight: 400; }
-
-    /* ====== ПРОДУКТЫ ====== */
     .product-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       gap: 6px; margin: 8px 0;
@@ -164,8 +148,6 @@
     }
     .quick-btns button:hover { background: var(--primary-light); border-color: var(--primary); }
     .filter-info { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
-
-    /* ====== РЕЦЕПТЫ ====== */
     .search-box {
       display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0;
     }
@@ -208,8 +190,6 @@
     .recipe-card .add-btn:hover { background: var(--primary-hover); }
     .recipe-card .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
     .recipe-card .tags span { font-size: 0.55rem; background: var(--border); padding: 1px 6px; border-radius: 40px; color: var(--text-muted); }
-
-    /* ====== ДНИ НЕДЕЛИ ====== */
     .day-block {
       background: var(--bg); border-radius: 14px; padding: 10px 14px;
       margin-bottom: 10px; border-left: 4px solid var(--primary);
@@ -228,12 +208,18 @@
     .meal:last-child { border-bottom: none; }
     .meal-name { font-weight: 500; min-width: 80px; }
     .meal-kcal { margin-left: auto; font-weight: 600; color: var(--primary); font-size: 0.8rem; }
-    .meal-remove { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.75rem; padding: 0 4px; }
+    .meal-actions { display: flex; gap: 4px; margin-left: 4px; }
+    .meal-actions button {
+      background: none; border: none; font-size: 0.7rem; cursor: pointer;
+      padding: 0 2px; color: var(--text-muted);
+      transition: all var(--transition);
+    }
+    .meal-actions button:hover { color: var(--primary); }
+    .meal-actions .replace-btn { color: var(--warning); }
+    .meal-actions .remove-btn { color: var(--danger); }
     .total-day { margin-top: 6px; font-weight: 700; font-size: 0.85rem; }
     .empty-msg { text-align: center; padding: 24px 0; color: var(--text-muted); }
     .empty-msg .big-icon { font-size: 3rem; display: block; margin-bottom: 8px; }
-
-    /* ====== ПРОГРЕСС ====== */
     .progress-ring-wrap {
       display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 8px 0;
     }
@@ -251,7 +237,6 @@
     .progress-ring span { z-index: 1; }
     .progress-stats { font-size: 0.85rem; }
     .progress-stats strong { display: block; font-size: 1.1rem; }
-
     .chart-container {
       display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; align-items: flex-end;
       min-height: 60px;
@@ -265,8 +250,6 @@
     }
     .chart-bar .fill { height: 0%; background: var(--primary); border-radius: 4px 4px 0 0; transition: height 0.6s ease; }
     .chart-label { font-size: 0.5rem; color: var(--text-muted); margin-top: 2px; }
-
-    /* ====== КНОПКИ ====== */
     .btn {
       background: var(--primary); border: none; color: white; font-weight: 600;
       padding: 6px 16px; border-radius: 60px; font-size: 0.8rem; cursor: pointer;
@@ -277,9 +260,6 @@
     .btn-outline:hover { background: var(--primary-light); transform: none; }
     .btn-sm { padding: 4px 12px; font-size: 0.7rem; }
     .btn-block { width: 100%; justify-content: center; }
-    .btn .icon { font-size: 1rem; }
-
-    /* ====== МОДАЛКА ====== */
     .modal-overlay {
       display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
@@ -301,8 +281,6 @@
     }
     .modal .btn-row { display: flex; gap: 8px; margin-top: 12px; justify-content: flex-end; }
     .modal .btn-row .btn { padding: 6px 20px; }
-
-    /* ====== УВЕДОМЛЕНИЯ ====== */
     .toast {
       position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
       background: var(--card); border: 1px solid var(--primary); border-radius: 60px;
@@ -312,8 +290,17 @@
       white-space: nowrap;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
-
-    /* ====== АДАПТИВ ====== */
+    .replace-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;
+      max-height: 200px; overflow-y: auto;
+    }
+    .replace-grid .replace-item {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 6px 10px; font-size: 0.8rem; cursor: pointer; transition: all var(--transition);
+      text-align: center;
+    }
+    .replace-grid .replace-item:hover { border-color: var(--primary); background: var(--primary-light); }
+    .replace-grid .replace-item .kcal { font-size: 0.6rem; color: var(--text-muted); }
     @media (max-width: 600px) {
       .header h1 { font-size: 1rem; }
       .slider-item label { min-width: 70px; font-size: 0.75rem; }
@@ -323,6 +310,7 @@
       .bottom-nav .tab-btn { font-size: 0.5rem; min-width: 40px; }
       .result-item strong { font-size: 1rem; }
       .card { padding: 12px 14px; }
+      .replace-grid { grid-template-columns: 1fr; }
     }
     @media (min-width: 601px) {
       body { padding: 0 24px; padding-bottom: calc(var(--bottom-nav-height) + 16px); padding-top: var(--header-height); }
@@ -474,13 +462,17 @@
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
         <h2 style="margin:0;">📅 Мой рацион</h2>
-        <button class="btn btn-outline btn-sm" id="exportShopListBtn">📋 Список покупок</button>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="btn btn-sm" id="autoPlanBtn">🧠 Собрать рацион</button>
+          <button class="btn btn-outline btn-sm" id="exportShopListBtn">📋 Список</button>
+          <button class="btn btn-outline btn-sm" id="clearPlanBtn">🗑️ Очистить</button>
+        </div>
       </div>
-      <p class="text-muted" id="planDesc">Добавь блюда из раздела «Рецепты».</p>
+      <p class="text-muted" id="planDesc">Добавь блюда из раздела «Рецепты» или нажми «Собрать рацион».</p>
       <div id="mealPlanContainer">
         <div class="empty-msg">
           <span class="big-icon">🍽️</span>
-          <p>Рацион пуст. Начни с поиска рецептов!</p>
+          <p>Рацион пуст. Начни с поиска рецептов или нажми «Собрать рацион»!</p>
           <button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:8px;">🍽️ Перейти к рецептам</button>
         </div>
       </div>
@@ -531,7 +523,7 @@
   <button class="tab-btn" data-tab="progress"><span class="icon">📊</span>Прогресс</button>
 </nav>
 
-<!-- ====== МОДАЛКА ====== -->
+<!-- ====== МОДАЛКА ДЛЯ ДОБАВЛЕНИЯ ====== -->
 <div class="modal-overlay" id="addRecipeModal">
   <div class="modal">
     <h3>🍽️ Добавить в рацион</h3>
@@ -556,6 +548,18 @@
     <div class="btn-row">
       <button class="btn btn-outline" id="modalCancel">Отмена</button>
       <button class="btn" id="modalConfirm">✅ Добавить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== МОДАЛКА ДЛЯ ЗАМЕНЫ ====== -->
+<div class="modal-overlay" id="replaceModal">
+  <div class="modal">
+    <h3>🔄 Заменить блюдо</h3>
+    <p id="replaceInfo" style="font-size:0.9rem; margin-bottom:6px;">Выбери альтернативу:</p>
+    <div id="replaceOptions" class="replace-grid"></div>
+    <div class="btn-row">
+      <button class="btn btn-outline" id="replaceCancel">Отмена</button>
     </div>
   </div>
 </div>
@@ -744,7 +748,7 @@
   });
 
   // =========================================================================
-  // 7. МОДАЛКА
+  // 7. МОДАЛКА ДОБАВЛЕНИЯ
   // =========================================================================
   let pendingRecipe = null;
 
@@ -768,7 +772,7 @@
 
     const customMeals = loadState('customMeals', {});
     if (!customMeals[day]) customMeals[day] = [];
-    customMeals[day].push({ name: mealName, kcal: kcal, recipe: pendingRecipe.name });
+    customMeals[day].push({ name: mealName, kcal: kcal, recipe: pendingRecipe.name, category: pendingRecipe.category || 'lunch' });
     saveState('customMeals', customMeals);
 
     document.getElementById('addRecipeModal').classList.remove('active');
@@ -797,7 +801,10 @@
         html += `<div class="meal">`;
         html += `<span class="meal-name">${m.name}</span>`;
         html += `<span class="meal-kcal">${m.kcal} ккал</span>`;
-        html += `<button class="meal-remove" onclick="removeMeal('${day}', ${idx})">✖</button>`;
+        html += `<div class="meal-actions">`;
+        html += `<button class="replace-btn" onclick="openReplaceModal('${day}', ${idx})" title="Заменить">🔄</button>`;
+        html += `<button class="remove-btn" onclick="removeMeal('${day}', ${idx})" title="Удалить">✖</button>`;
+        html += `</div>`;
         html += `</div>`;
       });
       html += `<div class="total-day">⭐ Итого: ${total} ккал</div>`;
@@ -808,16 +815,16 @@
       container.innerHTML = `
         <div class="empty-msg">
           <span class="big-icon">🍽️</span>
-          <p>Рацион пуст. Начни с поиска рецептов!</p>
+          <p>Рацион пуст. Начни с поиска рецептов или нажми «Собрать рацион»!</p>
           <button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:8px;">🍽️ Перейти к рецептам</button>
         </div>
       `;
-      document.getElementById('planDesc').textContent = 'Добавь блюда из раздела «Рецепты».';
+      document.getElementById('planDesc').textContent = 'Добавь блюда из раздела «Рецепты» или нажми «Собрать рацион».';
       return;
     }
 
     container.innerHTML = html;
-    document.getElementById('planDesc').textContent = 'Твой собранный рацион на неделю.';
+    document.getElementById('planDesc').textContent = 'Твой собранный рацион на неделю. Нажми 🔄 чтобы заменить блюдо.';
   }
 
   function removeMeal(day, index) {
@@ -832,7 +839,117 @@
   }
 
   // =========================================================================
-  // 9. КАЛЬКУЛЯТОР
+  // 9. АВТО-СОСТАВЛЕНИЕ РАЦИОНА
+  // =========================================================================
+  document.getElementById('autoPlanBtn').addEventListener('click', function() {
+    const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+    const mealTypes = ['Завтрак', 'Обед', 'Ужин', 'Перекус'];
+    const categories = ['breakfast', 'lunch', 'dinner', 'snack'];
+    const customMeals = {};
+
+    // Получаем калорийность на день
+    const dailyKcal = parseInt(document.getElementById('resKcal').textContent) || 1800;
+    const targetPerMeal = Math.round(dailyKcal / 4);
+
+    days.forEach(day => {
+      customMeals[day] = [];
+      mealTypes.forEach((mealType, idx) => {
+        const category = categories[idx] || 'lunch';
+        // Находим рецепты этой категории
+        let available = recipeDB.filter(r => r.category === category);
+        if (available.length === 0) available = recipeDB; // fallback
+        // Выбираем случайный рецепт
+        const random = available[Math.floor(Math.random() * available.length)];
+        if (random) {
+          customMeals[day].push({
+            name: `${mealType}: ${random.name}`,
+            kcal: random.kcal,
+            recipe: random.name,
+            category: random.category
+          });
+        }
+      });
+    });
+
+    saveState('customMeals', customMeals);
+    renderMeals();
+    showToast('🧠 Рацион автоматически собран! Меняй блюда по вкусу.');
+  });
+
+  // Очистка рациона
+  document.getElementById('clearPlanBtn').addEventListener('click', function() {
+    if (confirm('Очистить весь рацион?')) {
+      saveState('customMeals', {});
+      renderMeals();
+      showToast('🗑️ Рацион очищен');
+    }
+  });
+
+  // =========================================================================
+  // 10. ЗАМЕНА БЛЮДА
+  // =========================================================================
+  let replaceContext = null;
+
+  function openReplaceModal(day, index) {
+    const customMeals = loadState('customMeals', {});
+    const meals = customMeals[day] || [];
+    const meal = meals[index];
+    if (!meal) return;
+
+    // Находим категорию блюда
+    let category = meal.category || 'lunch';
+    // Если не указана — определяем по названию
+    if (!meal.category) {
+      if (meal.name.includes('Завтрак')) category = 'breakfast';
+      else if (meal.name.includes('Обед')) category = 'lunch';
+      else if (meal.name.includes('Ужин')) category = 'dinner';
+      else if (meal.name.includes('Перекус')) category = 'snack';
+    }
+
+    // Находим альтернативы
+    let alternatives = recipeDB.filter(r => r.category === category && r.name !== meal.recipe);
+    if (alternatives.length === 0) alternatives = recipeDB.filter(r => r.name !== meal.recipe);
+    if (alternatives.length > 8) alternatives = alternatives.slice(0, 8);
+
+    replaceContext = { day, index, meal };
+    const container = document.getElementById('replaceOptions');
+    container.innerHTML = '';
+    alternatives.forEach(r => {
+      const div = document.createElement('div');
+      div.className = 'replace-item';
+      div.innerHTML = `<div>${r.name}</div><div class="kcal">${r.kcal} ккал</div>`;
+      div.addEventListener('click', function() {
+        // Заменяем
+        const customMeals2 = loadState('customMeals', {});
+        if (customMeals2[day] && customMeals2[day][index]) {
+          const oldName = customMeals2[day][index].name;
+          const mealType = oldName.split(':')[0] + ':';
+          customMeals2[day][index] = {
+            name: `${mealType} ${r.name}`,
+            kcal: r.kcal,
+            recipe: r.name,
+            category: r.category
+          };
+          saveState('customMeals', customMeals2);
+          renderMeals();
+          document.getElementById('replaceModal').classList.remove('active');
+          showToast(`🔄 Заменено на «${r.name}»`);
+        }
+      });
+      container.appendChild(div);
+    });
+
+    document.getElementById('replaceInfo').textContent = `Замена для «${meal.name}» (категория: ${category})`;
+    document.getElementById('replaceModal').classList.add('active');
+  }
+
+  document.getElementById('replaceCancel').addEventListener('click', () => {
+    document.getElementById('replaceModal').classList.remove('active');
+    replaceContext = null;
+  });
+
+  // =========================================================================
+  // 11. КАЛЬКУЛЯТОР
   // =========================================================================
   let currentPlan = loadState('currentPlan', 'fatloss');
 
@@ -941,7 +1058,7 @@
   });
 
   // =========================================================================
-  // 10. ПРОГРЕСС
+  // 12. ПРОГРЕСС
   // =========================================================================
   function updateProgressPage() {
     const history = loadState('weightHistory', []);
@@ -998,7 +1115,7 @@
   });
 
   // =========================================================================
-  // 11. СПИСОК ПОКУПОК
+  // 13. СПИСОК ПОКУПОК
   // =========================================================================
   document.getElementById('exportShopListBtn').addEventListener('click', () => {
     const customMeals = loadState('customMeals', {});
@@ -1034,7 +1151,7 @@
   });
 
   // =========================================================================
-  // 12. АВТОСОХРАНЕНИЕ
+  // 14. АВТОСОХРАНЕНИЕ
   // =========================================================================
   ['gender', 'ageSlider', 'heightSlider', 'weightSlider', 'goalWeightSlider', 'activity'].forEach(id => {
     const el = document.getElementById(id);
@@ -1050,7 +1167,7 @@
   });
 
   // =========================================================================
-  // 13. СТАРТ
+  // 15. СТАРТ
   // =========================================================================
   function updateHomePage() {
     const weight = parseInt(document.getElementById('weightSlider').value);
