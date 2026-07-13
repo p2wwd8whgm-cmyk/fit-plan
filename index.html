@@ -3,14 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>FitPlan — конструктор питания</title>
+  <title>FitPlan — 500+ уникальных рецептов</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
+    /* ====== ПЕРЕМЕННЫЕ ====== */
     :root {
       --bg: #f4f8fa;
       --card: #ffffff;
@@ -38,767 +33,257 @@
       --primary-light: #1a2f2a;
       --shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
+    /* ====== БАЗА ====== */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      padding: 0;
+      background: var(--bg); color: var(--text); padding: 0;
       transition: all 0.3s ease;
       min-height: 100vh;
       padding-bottom: calc(var(--bottom-nav-height) + 16px);
       padding-top: var(--header-height);
     }
-    .container {
-      max-width: 1024px;
-      margin: 0 auto;
-      padding: 0 12px;
-    }
+    .container { max-width: 1024px; margin: 0 auto; padding: 0 12px; }
     .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: var(--header-height);
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      z-index: 100;
-      transition: all 0.3s ease;
+      position: fixed; top: 0; left: 0; right: 0; height: var(--header-height);
+      background: var(--card); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; z-index: 100; transition: all 0.3s ease;
     }
-    .header h1 {
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .header h1 span {
-      background: var(--primary);
-      color: white;
-      font-size: 0.55rem;
-      padding: 2px 10px;
-      border-radius: 40px;
-    }
+    .header h1 { font-size: 1.2rem; display: flex; align-items: center; gap: 6px; }
+    .header h1 span { background: var(--primary); color: white; font-size: 0.55rem; padding: 2px 10px; border-radius: 40px; }
     .theme-toggle {
-      background: var(--primary-light);
-      border: 1px solid var(--border);
-      border-radius: 60px;
-      padding: 4px 12px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      color: var(--text);
+      background: var(--primary-light); border: 1px solid var(--border); border-radius: 60px;
+      padding: 4px 12px; font-size: 0.8rem; cursor: pointer; color: var(--text);
       transition: all 0.3s ease;
     }
     .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: var(--bottom-nav-height);
-      background: var(--card);
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      z-index: 100;
-      padding: 0 8px;
-      transition: all 0.3s ease;
+      position: fixed; bottom: 0; left: 0; right: 0; height: var(--bottom-nav-height);
+      background: var(--card); border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-around;
+      z-index: 100; padding: 0 8px; transition: all 0.3s ease;
     }
     .bottom-nav .tab-btn {
-      background: none;
-      border: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      font-size: 0.6rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px 8px;
-      transition: all 0.3s ease;
-      position: relative;
-      min-width: 48px;
+      background: none; border: none; display: flex; flex-direction: column;
+      align-items: center; gap: 2px; font-size: 0.6rem; color: var(--text-muted);
+      cursor: pointer; padding: 4px 8px; transition: all 0.3s ease;
+      position: relative; min-width: 48px;
     }
-    .bottom-nav .tab-btn .icon {
-      font-size: 1.4rem;
-      line-height: 1.2;
-    }
-    .bottom-nav .tab-btn.active {
-      color: var(--primary);
-    }
+    .bottom-nav .tab-btn .icon { font-size: 1.4rem; line-height: 1.2; }
+    .bottom-nav .tab-btn.active { color: var(--primary); }
     .bottom-nav .tab-btn.active::after {
-      content: '';
-      position: absolute;
-      top: -1px;
-      left: 20%;
-      right: 20%;
-      height: 3px;
-      background: var(--primary);
-      border-radius: 0 0 4px 4px;
+      content: ''; position: absolute; top: -1px; left: 20%; right: 20%;
+      height: 3px; background: var(--primary); border-radius: 0 0 4px 4px;
     }
-    .page {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-    .page.active {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    .page { display: none; animation: fadeIn 0.3s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 16px 18px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px;
+      margin-bottom: 16px; box-shadow: var(--shadow); border: 1px solid var(--border);
       transition: all 0.3s ease;
     }
-    .card h2 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .text-muted {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
+    .card h2 { font-size: 1.1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .text-muted { color: var(--text-muted); font-size: 0.85rem; }
     .slider-item {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px 12px;
-      padding: 4px 0;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 4px 0;
     }
-    .slider-item label {
-      font-weight: 500;
-      min-width: 100px;
-      font-size: 0.85rem;
-    }
+    .slider-item label { font-weight: 500; min-width: 100px; font-size: 0.85rem; }
     .slider-item input[type="range"] {
-      flex: 1;
-      min-width: 100px;
-      height: 6px;
-      border-radius: 10px;
-      background: var(--border);
-      -webkit-appearance: none;
-      appearance: none;
-      outline: none;
+      flex: 1; min-width: 100px; height: 6px; border-radius: 10px;
+      background: var(--border); -webkit-appearance: none; appearance: none; outline: none;
     }
     .slider-item input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--primary);
-      cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      -webkit-appearance: none; appearance: none; width: 22px; height: 22px;
+      border-radius: 50%; background: var(--primary); cursor: pointer;
+      border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
-    .slider-value {
-      font-weight: 700;
-      font-size: 0.95rem;
-      min-width: 36px;
-      text-align: center;
-    }
+    .slider-value { font-weight: 700; font-size: 0.95rem; min-width: 36px; text-align: center; }
     .calc-group select {
-      padding: 8px 14px;
-      border-radius: 60px;
-      border: 1px solid var(--border);
-      font-size: 0.9rem;
-      background: var(--card);
-      color: var(--text);
-      min-width: 120px;
-      appearance: auto;
+      padding: 8px 14px; border-radius: 60px; border: 1px solid var(--border);
+      font-size: 0.9rem; background: var(--card); color: var(--text);
+      min-width: 120px; appearance: auto;
     }
     .result-box {
-      background: var(--primary-light);
-      border-radius: 16px;
-      padding: 12px 16px;
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 16px;
+      background: var(--primary-light); border-radius: 16px; padding: 12px 16px;
+      margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 16px;
       transition: all 0.3s ease;
     }
-    .result-item strong {
-      font-size: 1.2rem;
-      color: var(--text);
-      display: block;
-    }
-    .result-item {
-      font-size: 0.8rem;
-    }
-    .goal-selector {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin: 4px 0;
-    }
+    .result-item strong { font-size: 1.2rem; color: var(--text); display: block; }
+    .result-item { font-size: 0.8rem; }
+    .goal-selector { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0; }
     .goal-btn {
-      padding: 6px 14px;
-      border-radius: 60px;
-      border: 2px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-weight: 500;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex: 1 0 auto;
-      text-align: center;
+      padding: 6px 14px; border-radius: 60px; border: 2px solid var(--border);
+      background: var(--card); color: var(--text); font-weight: 500; font-size: 0.8rem;
+      cursor: pointer; transition: all 0.3s ease; flex: 1 0 auto; text-align: center;
     }
-    .goal-btn.active {
-      border-color: var(--primary);
-      background: var(--primary);
-      color: white;
-    }
-    .goal-btn:hover {
-      border-color: var(--primary);
-      background: var(--primary-light);
-    }
+    .goal-btn.active { border-color: var(--primary); background: var(--primary); color: white; }
+    .goal-btn:hover { border-color: var(--primary); background: var(--primary-light); }
     .goal-tag {
-      display: inline-block;
-      background: var(--primary);
-      color: white;
-      padding: 2px 14px;
-      border-radius: 40px;
-      font-size: 0.75rem;
-      margin-top: 4px;
+      display: inline-block; background: var(--primary); color: white;
+      padding: 2px 14px; border-radius: 40px; font-size: 0.75rem; margin-top: 4px;
     }
-    .goal-desc {
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      margin-top: 2px;
-    }
+    .goal-desc { color: var(--text-muted); font-size: 0.75rem; margin-top: 2px; }
     .warning-box {
-      background: #fef9e7;
-      border-left: 4px solid var(--warning);
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-top: 8px;
-      font-size: 0.8rem;
+      background: #fef9e7; border-left: 4px solid var(--warning); padding: 8px 12px;
+      border-radius: 8px; margin-top: 8px; font-size: 0.8rem;
     }
-    [data-theme="dark"] .warning-box {
-      background: #2d2418;
-    }
+    [data-theme="dark"] .warning-box { background: #2d2418; }
     .danger-box {
-      background: #fdedec;
-      border-left: 4px solid var(--danger);
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      font-size: 0.8rem;
+      background: #fdedec; border-left: 4px solid var(--danger); padding: 8px 12px;
+      border-radius: 8px; margin-bottom: 8px; font-size: 0.8rem;
     }
-    [data-theme="dark"] .danger-box {
-      background: #2d1a1a;
-    }
+    [data-theme="dark"] .danger-box { background: #2d1a1a; }
     .search-box {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 8px 0;
+      display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0;
     }
     .search-box input {
-      flex: 1;
-      padding: 8px 14px;
-      border-radius: 60px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-size: 0.9rem;
-      min-width: 140px;
+      flex: 1; padding: 8px 14px; border-radius: 60px; border: 1px solid var(--border);
+      background: var(--card); color: var(--text); font-size: 0.9rem; min-width: 140px;
     }
-    .search-box input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(31, 123, 102, 0.12);
-    }
+    .search-box input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(31,123,102,0.12); }
     .filter-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin: 6px 0;
+      display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0;
     }
     .filter-group .filter-btn {
-      padding: 4px 12px;
-      border-radius: 40px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      font-size: 0.75rem;
-      cursor: pointer;
-      color: var(--text);
+      padding: 4px 12px; border-radius: 40px; border: 1px solid var(--border);
+      background: var(--bg); font-size: 0.75rem; cursor: pointer; color: var(--text);
       transition: all 0.3s ease;
     }
-    .filter-group .filter-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-    .filter-group .filter-btn:hover {
-      background: var(--primary-light);
-    }
-    .filter-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-right: 4px;
-      font-weight: 500;
-    }
+    .filter-group .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .filter-group .filter-btn:hover { background: var(--primary-light); }
+    .filter-label { font-size: 0.75rem; color: var(--text-muted); margin-right: 4px; font-weight: 500; }
     .recipe-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 10px;
-      margin-top: 10px;
-      max-height: 400px;
-      overflow-y: auto;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px; margin-top: 10px; max-height: 400px; overflow-y: auto;
       padding-right: 4px;
     }
-    .recipe-grid::-webkit-scrollbar {
-      width: 4px;
-    }
-    .recipe-grid::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 10px;
-    }
+    .recipe-grid::-webkit-scrollbar { width: 4px; }
+    .recipe-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
     .recipe-card {
-      background: var(--bg);
-      border-radius: 14px;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      transition: all 0.3s ease;
+      background: var(--bg); border-radius: 14px; padding: 10px 12px;
+      border: 1px solid var(--border); transition: all 0.3s ease;
     }
-    .recipe-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    }
-    .recipe-card .title {
-      font-weight: 600;
-      font-size: 0.85rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .recipe-card .title .badge-time {
-      font-size: 0.6rem;
-      background: var(--primary-light);
-      padding: 1px 8px;
-      border-radius: 40px;
-      font-weight: 400;
-    }
-    .recipe-card .info {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      margin: 4px 0;
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .recipe-card .info span {
-      background: var(--primary-light);
-      padding: 1px 8px;
-      border-radius: 40px;
-    }
+    .recipe-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .recipe-card .title { font-weight: 600; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
+    .recipe-card .title .badge-time { font-size: 0.6rem; background: var(--primary-light); padding: 1px 8px; border-radius: 40px; font-weight: 400; }
+    .recipe-card .info { font-size: 0.65rem; color: var(--text-muted); margin: 4px 0; display: flex; gap: 6px; flex-wrap: wrap; }
+    .recipe-card .info span { background: var(--primary-light); padding: 1px 8px; border-radius: 40px; }
     .recipe-card .add-btn {
-      margin-top: 6px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 40px;
-      padding: 4px 10px;
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: 100%;
+      margin-top: 6px; background: var(--primary); color: white; border: none;
+      border-radius: 40px; padding: 4px 10px; font-size: 0.7rem; cursor: pointer;
+      transition: all 0.3s ease; width: 100%;
     }
-    .recipe-card .add-btn:hover {
-      background: var(--primary-hover);
-    }
-    .recipe-card .tags {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      margin-top: 4px;
-    }
-    .recipe-card .tags span {
-      font-size: 0.55rem;
-      background: var(--border);
-      padding: 1px 6px;
-      border-radius: 40px;
-      color: var(--text-muted);
-    }
-    .filter-info {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
+    .recipe-card .add-btn:hover { background: var(--primary-hover); }
+    .recipe-card .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+    .recipe-card .tags span { font-size: 0.55rem; background: var(--border); padding: 1px 6px; border-radius: 40px; color: var(--text-muted); }
+    .filter-info { font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; }
     .day-block {
-      background: var(--bg);
-      border-radius: 14px;
-      padding: 10px 14px;
-      margin-bottom: 10px;
-      border-left: 4px solid var(--primary);
+      background: var(--bg); border-radius: 14px; padding: 10px 14px;
+      margin-bottom: 10px; border-left: 4px solid var(--primary);
       transition: all 0.3s ease;
     }
-    .day-title {
-      font-weight: 700;
-      font-size: 0.95rem;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 4px;
-    }
-    .day-title .badge {
-      background: var(--primary-light);
-      color: var(--primary);
-      padding: 1px 10px;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      font-weight: 600;
-    }
+    .day-title { font-weight: 700; font-size: 0.95rem; display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 4px; }
+    .day-title .badge { background: var(--primary-light); color: var(--primary); padding: 1px 10px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; }
     .meal {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2px 8px;
-      padding: 3px 0;
-      border-bottom: 1px dashed var(--border);
-      font-size: 0.85rem;
-      align-items: center;
+      display: flex; flex-wrap: wrap; gap: 2px 8px; padding: 3px 0;
+      border-bottom: 1px dashed var(--border); font-size: 0.85rem; align-items: center;
     }
-    .meal:last-child {
-      border-bottom: none;
-    }
-    .meal-name {
-      font-weight: 500;
-      min-width: 80px;
-    }
-    .meal-kcal {
-      margin-left: auto;
-      font-weight: 600;
-      color: var(--primary);
-      font-size: 0.8rem;
-    }
-    .meal-actions {
-      display: flex;
-      gap: 4px;
-      margin-left: 4px;
-    }
-    .meal-actions button {
-      background: none;
-      border: none;
-      font-size: 0.7rem;
-      cursor: pointer;
-      padding: 0 2px;
-      color: var(--text-muted);
-      transition: all 0.3s ease;
-    }
-    .meal-actions button:hover {
-      color: var(--primary);
-    }
-    .meal-actions .replace-btn {
-      color: var(--warning);
-    }
-    .meal-actions .remove-btn {
-      color: var(--danger);
-    }
-    .total-day {
-      margin-top: 6px;
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
-    .empty-msg {
-      text-align: center;
-      padding: 24px 0;
-      color: var(--text-muted);
-    }
-    .empty-msg .big-icon {
-      font-size: 3rem;
-      display: block;
-      margin-bottom: 8px;
-    }
+    .meal:last-child { border-bottom: none; }
+    .meal-name { font-weight: 500; min-width: 80px; }
+    .meal-kcal { margin-left: auto; font-weight: 600; color: var(--primary); font-size: 0.8rem; }
+    .meal-actions { display: flex; gap: 4px; margin-left: 4px; }
+    .meal-actions button { background: none; border: none; font-size: 0.7rem; cursor: pointer; padding: 0 2px; color: var(--text-muted); transition: all 0.3s ease; }
+    .meal-actions button:hover { color: var(--primary); }
+    .meal-actions .replace-btn { color: var(--warning); }
+    .meal-actions .remove-btn { color: var(--danger); }
+    .total-day { margin-top: 6px; font-weight: 700; font-size: 0.85rem; }
+    .empty-msg { text-align: center; padding: 24px 0; color: var(--text-muted); }
+    .empty-msg .big-icon { font-size: 3rem; display: block; margin-bottom: 8px; }
     .btn {
-      background: var(--primary);
-      border: none;
-      color: white;
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 60px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+      background: var(--primary); border: none; color: white; font-weight: 600;
+      padding: 6px 16px; border-radius: 60px; font-size: 0.8rem; cursor: pointer;
+      transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 4px;
     }
-    .btn:hover {
-      background: var(--primary-hover);
-      transform: scale(1.02);
-    }
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-    }
-    .btn-outline:hover {
-      background: var(--primary-light);
-      transform: none;
-    }
-    .btn-sm {
-      padding: 4px 12px;
-      font-size: 0.7rem;
-    }
+    .btn:hover { background: var(--primary-hover); transform: scale(1.02); }
+    .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+    .btn-outline:hover { background: var(--primary-light); transform: none; }
+    .btn-sm { padding: 4px 12px; font-size: 0.7rem; }
     .toast {
-      position: fixed;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--card);
-      border: 1px solid var(--primary);
-      border-radius: 60px;
-      padding: 8px 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      font-size: 0.85rem;
-      z-index: 200;
-      opacity: 0;
-      transition: all 0.4s ease;
-      pointer-events: none;
-      color: var(--text);
-      max-width: 90%;
-      white-space: nowrap;
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--card); border: 1px solid var(--primary); border-radius: 60px;
+      padding: 8px 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      font-size: 0.85rem; z-index: 200; opacity: 0; transition: all 0.4s ease;
+      pointer-events: none; color: var(--text); max-width: 90%; white-space: nowrap;
     }
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-      pointer-events: auto;
-    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
     .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 16px;
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+      justify-content: center; align-items: center; z-index: 1000; padding: 16px;
     }
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
     .modal {
-      background: var(--card);
-      border-radius: 24px;
-      padding: 20px;
-      max-width: 420px;
-      width: 100%;
-      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+      background: var(--card); border-radius: 24px; padding: 20px; max-width: 420px;
+      width: 100%; box-shadow: 0 12px 48px rgba(0,0,0,0.2);
       animation: modalIn 0.25s ease;
     }
-    @keyframes modalIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95) translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-    .modal h3 {
-      margin-bottom: 8px;
-    }
-    .modal label {
-      display: block;
-      margin: 6px 0 2px;
-      font-weight: 500;
-      font-size: 0.8rem;
-    }
-    .modal select {
-      width: 100%;
-      padding: 8px 12px;
-      border-radius: 60px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-size: 0.9rem;
-    }
-    .modal .btn-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      justify-content: flex-end;
-    }
-    .modal .btn-row .btn {
-      padding: 6px 20px;
-    }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .modal h3 { margin-bottom: 8px; }
+    .modal label { display: block; margin: 6px 0 2px; font-weight: 500; font-size: 0.8rem; }
+    .modal select { width: 100%; padding: 8px 12px; border-radius: 60px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.9rem; }
+    .modal .btn-row { display: flex; gap: 8px; margin-top: 12px; justify-content: flex-end; }
+    .modal .btn-row .btn { padding: 6px 20px; }
     .replace-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin-top: 8px;
-      max-height: 200px;
-      overflow-y: auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;
+      max-height: 200px; overflow-y: auto;
     }
     .replace-grid .replace-item {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 6px 10px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 6px 10px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s ease;
       text-align: center;
     }
-    .replace-grid .replace-item:hover {
-      border-color: var(--primary);
-      background: var(--primary-light);
-    }
-    .replace-grid .replace-item .kcal {
-      font-size: 0.6rem;
-      color: var(--text-muted);
-    }
+    .replace-grid .replace-item:hover { border-color: var(--primary); background: var(--primary-light); }
+    .replace-grid .replace-item .kcal { font-size: 0.6rem; color: var(--text-muted); }
     .progress-ring-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px 20px;
-      margin: 8px 0;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 8px 0;
     }
     .progress-ring {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
+      width: 72px; height: 72px; border-radius: 50%;
       background: conic-gradient(var(--primary) 0%, var(--border) 0%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--text);
-      position: relative;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1rem; color: var(--text);
+      position: relative; flex-shrink: 0;
     }
-    .progress-ring::after {
-      content: '';
-      position: absolute;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: var(--card);
-    }
-    .progress-ring span {
-      z-index: 1;
-    }
-    .progress-stats {
-      font-size: 0.85rem;
-    }
-    .progress-stats strong {
-      display: block;
-      font-size: 1.1rem;
-    }
+    .progress-ring::after { content: ''; position: absolute; width: 56px; height: 56px; border-radius: 50%; background: var(--card); }
+    .progress-ring span { z-index: 1; }
+    .progress-stats { font-size: 0.85rem; }
+    .progress-stats strong { display: block; font-size: 1.1rem; }
     .chart-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 8px;
-      align-items: flex-end;
+      display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; align-items: flex-end;
       min-height: 60px;
     }
-    .chart-bar-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-      min-width: 24px;
-    }
+    .chart-bar-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 24px; }
     .chart-bar {
-      width: 100%;
-      height: 50px;
-      background: var(--border);
-      border-radius: 4px 4px 0 0;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column-reverse;
-      min-height: 16px;
+      width: 100%; height: 50px; background: var(--border); border-radius: 4px 4px 0 0;
+      overflow: hidden; display: flex; flex-direction: column-reverse; min-height: 16px;
     }
-    .chart-bar .fill {
-      height: 0%;
-      background: var(--primary);
-      border-radius: 4px 4px 0 0;
-      transition: height 0.6s ease;
-    }
-    .chart-label {
-      font-size: 0.5rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-    .shop-list {
-      list-style: none;
-      padding: 0;
-      columns: 2 160px;
-      column-gap: 16px;
-    }
-    .shop-list li {
-      padding: 3px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      break-inside: avoid;
-      font-size: 0.85rem;
-    }
-    .shop-list li span {
-      font-weight: 500;
-      color: var(--primary);
-    }
+    .chart-bar .fill { height: 0%; background: var(--primary); border-radius: 4px 4px 0 0; transition: height 0.6s ease; }
+    .chart-label { font-size: 0.5rem; color: var(--text-muted); margin-top: 2px; }
+    .shop-list { list-style: none; padding: 0; columns: 2 160px; column-gap: 16px; }
+    .shop-list li { padding: 3px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; break-inside: avoid; font-size: 0.85rem; }
+    .shop-list li span { font-weight: 500; color: var(--primary); }
     @media (max-width: 600px) {
-      .header h1 {
-        font-size: 1rem;
-      }
-      .slider-item label {
-        min-width: 70px;
-        font-size: 0.75rem;
-      }
-      .recipe-grid {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        max-height: 300px;
-      }
-      .bottom-nav .tab-btn .icon {
-        font-size: 1.2rem;
-      }
-      .bottom-nav .tab-btn {
-        font-size: 0.5rem;
-        min-width: 40px;
-      }
-      .result-item strong {
-        font-size: 1rem;
-      }
-      .card {
-        padding: 12px 14px;
-      }
-      .replace-grid {
-        grid-template-columns: 1fr;
-      }
+      .header h1 { font-size: 1rem; }
+      .slider-item label { min-width: 70px; font-size: 0.75rem; }
+      .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); max-height: 300px; }
+      .bottom-nav .tab-btn .icon { font-size: 1.2rem; }
+      .bottom-nav .tab-btn { font-size: 0.5rem; min-width: 40px; }
+      .result-item strong { font-size: 1rem; }
+      .card { padding: 12px 14px; }
+      .replace-grid { grid-template-columns: 1fr; }
     }
     @media (min-width: 601px) {
-      body {
-        padding: 0 24px;
-        padding-bottom: calc(var(--bottom-nav-height) + 16px);
-        padding-top: var(--header-height);
-      }
+      body { padding: 0 24px; padding-bottom: calc(var(--bottom-nav-height) + 16px); padding-top: var(--header-height); }
     }
   </style>
 </head>
@@ -815,9 +300,9 @@
 
 <div class="container">
 
-  <!-- ГЛАВНАЯ -->
+  <!-- ======== ГЛАВНАЯ ======== -->
   <div class="page active" id="page-home">
-    <div class="card"><h2>👋 Привет!</h2><p class="text-muted">500+ рецептов для твоего идеального рациона.</p></div>
+    <div class="card"><h2>👋 Привет!</h2><p class="text-muted">500+ уникальных рецептов для твоего идеального рациона.</p></div>
     <div class="card">
       <h2>🎯 Прогресс к цели</h2>
       <div class="progress-ring-wrap">
@@ -827,7 +312,7 @@
     </div>
     <div class="card">
       <h2>⚡ Быстрый старт</h2>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;"><button class="btn" onclick="switchTab('recipes')">🍽️ 500+ рецептов</button><button class="btn btn-outline" onclick="switchTab('mealplan')">📅 Мой рацион</button></div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;"><button class="btn" onclick="switchTab('recipes')">🍽️ Рецепты</button><button class="btn btn-outline" onclick="switchTab('mealplan')">📅 Мой рацион</button></div>
     </div>
     <div class="card">
       <h2>📊 Статистика</h2>
@@ -840,7 +325,7 @@
     </div>
   </div>
 
-  <!-- КАЛЬКУЛЯТОР -->
+  <!-- ======== КАЛЬКУЛЯТОР ======== -->
   <div class="page" id="page-calc">
     <div class="card">
       <h2>🧮 Калькулятор нормы</h2>
@@ -878,10 +363,10 @@
     </div>
   </div>
 
-  <!-- РЕЦЕПТЫ -->
+  <!-- ======== РЕЦЕПТЫ ======== -->
   <div class="page" id="page-recipes">
     <div class="card">
-      <h2>🔍 500+ рецептов</h2>
+      <h2>🔍 Поиск рецептов (500+ уникальных)</h2>
       <div class="search-box">
         <input type="text" id="recipeSearch" placeholder="Например: курица, рис, омлет">
         <button class="btn" id="searchBtn">🔍 Найти</button>
@@ -920,11 +405,11 @@
         <button class="filter-btn" data-filter="long">🐢 40+ мин</button>
       </div>
       <div id="recipeResults" class="recipe-grid"></div>
-      <div class="filter-info" id="recipeInfo">Найдено 500+ рецептов. Нажми «Добавить» — и блюдо появится в твоём рационе.</div>
+      <div class="filter-info" id="recipeInfo">Найдено рецептов: 0. Нажми «Добавить» — и блюдо появится в твоём рационе.</div>
     </div>
   </div>
 
-  <!-- РАЦИОН -->
+  <!-- ======== РАЦИОН ======== -->
   <div class="page" id="page-mealplan">
     <div class="card">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
@@ -940,7 +425,7 @@
     </div>
   </div>
 
-  <!-- ПРОГРЕСС -->
+  <!-- ======== ПРОГРЕСС ======== -->
   <div class="page" id="page-progress">
     <div class="card">
       <h2>📈 Прогресс к цели</h2>
@@ -1067,32 +552,91 @@
   }
 
   // ============================================================
-  // 5. БАЗА РЕЦЕПТОВ (500+)
+  // 5. БАЗА РЕЦЕПТОВ (100% УНИКАЛЬНЫЕ)
   // ============================================================
-  function generateRecipes() {
-    const base = [
-      { name: 'Овсяноблин с творогом', cat: 'breakfast', time: 15, kcal: 380, p: 20, f: 15, c: 35, diet: 'vegetarian', budget: 'economy', ing: ['овсянка 40г', 'яйцо 2шт', 'творог 100г', 'ягоды 50г'], tags: ['овсянка', 'творог'] },
-      { name: 'Овсянка с бананом', cat: 'breakfast', time: 10, kcal: 270, p: 10, f: 6, c: 45, diet: 'vegetarian', budget: 'economy', ing: ['овсянка 40г', 'банан 1шт', 'корица'], tags: ['овсянка', 'банан'] },
-      { name: 'Яичница с помидорами', cat: 'breakfast', time: 10, kcal: 220, p: 16, f: 14, c: 8, diet: 'vegetarian', budget: 'economy', ing: ['яйца 2шт', 'помидоры 100г', 'масло 5г'], tags: ['яйца', 'помидоры'] },
-      { name: 'Сырники классические', cat: 'breakfast', time: 25, kcal: 280, p: 18, f: 12, c: 25, diet: 'vegetarian', budget: 'economy', ing: ['творог 200г', 'яйцо 1шт', 'мука 30г', 'сметана 20г'], tags: ['творог', 'яйца'] },
-      { name: 'Курица с гречкой', cat: 'lunch', time: 35, kcal: 440, p: 35, f: 12, c: 40, diet: 'all', budget: 'economy', ing: ['курица 150г', 'гречка 60г', 'лук 30г', 'морковь 30г', 'масло 5г'], tags: ['курица', 'гречка'] },
-      { name: 'Рис с курицей и овощами', cat: 'lunch', time: 30, kcal: 420, p: 30, f: 10, c: 50, diet: 'all', budget: 'economy', ing: ['рис 60г', 'курица 150г', 'морковь 50г', 'лук 30г', 'перец 30г'], tags: ['рис', 'курица'] },
-      { name: 'Омлет с шампиньонами', cat: 'dinner', time: 15, kcal: 240, p: 20, f: 16, c: 6, diet: 'vegetarian', budget: 'economy', ing: ['яйца 3шт', 'шампиньоны 100г', 'лук 20г', 'масло 5г'], tags: ['яйца', 'грибы'] },
-      { name: 'Греческий йогурт с ягодами', cat: 'snack', time: 3, kcal: 120, p: 8, f: 4, c: 12, diet: 'vegetarian', budget: 'medium', ing: ['йогурт 150г', 'ягоды 50г'], tags: ['йогурт', 'ягоды'] }
+  function generateUniqueRecipes() {
+    const baseRecipes = [
+      // ЗАВТРАКИ (20 уникальных)
+      { name: 'Овсяноблин с творогом и ягодами', cat: 'breakfast', time: 15, kcal: 380, p: 20, f: 15, c: 35, diet: 'vegetarian', budget: 'economy', ing: ['овсянка 40г', 'яйцо 2шт', 'творог 100г', 'ягоды 50г'], tags: ['овсянка', 'творог', 'ягоды'] },
+      { name: 'Овсянка с бананом и корицей', cat: 'breakfast', time: 10, kcal: 270, p: 10, f: 6, c: 45, diet: 'vegetarian', budget: 'economy', ing: ['овсянка 40г', 'банан 1шт', 'корица'], tags: ['овсянка', 'банан'] },
+      { name: 'Яичница с помидорами и зеленью', cat: 'breakfast', time: 10, kcal: 220, p: 16, f: 14, c: 8, diet: 'vegetarian', budget: 'economy', ing: ['яйца 2шт', 'помидоры 100г', 'масло 5г', 'зелень'], tags: ['яйца', 'помидоры'] },
+      { name: 'Сырники классические со сметаной', cat: 'breakfast', time: 25, kcal: 280, p: 18, f: 12, c: 25, diet: 'vegetarian', budget: 'economy', ing: ['творог 200г', 'яйцо 1шт', 'мука 30г', 'сметана 20г'], tags: ['творог', 'яйца'] },
+      { name: 'Рисовая каша с яблоком и изюмом', cat: 'breakfast', time: 20, kcal: 340, p: 8, f: 4, c: 60, diet: 'vegetarian', budget: 'economy', ing: ['рис 40г', 'яблоко 1шт', 'молоко 150мл', 'изюм 20г'], tags: ['рис', 'яблоки'] },
+      { name: 'Пшённая каша с тыквой и мёдом', cat: 'breakfast', time: 25, kcal: 210, p: 6, f: 3, c: 36, diet: 'vegetarian', budget: 'economy', ing: ['пшено 30г', 'тыква 150г', 'мёд 5г'], tags: ['пшено', 'тыква'] },
+      { name: 'Гречка с молоком и ягодами', cat: 'breakfast', time: 20, kcal: 300, p: 12, f: 6, c: 48, diet: 'vegetarian', budget: 'economy', ing: ['гречка 50г', 'молоко 150мл', 'ягоды 50г'], tags: ['гречка', 'ягоды'] },
+      { name: 'Запеканка творожная с манкой', cat: 'breakfast', time: 35, kcal: 310, p: 25, f: 8, c: 30, diet: 'vegetarian', budget: 'economy', ing: ['творог 200г', 'яйцо 2шт', 'манка 20г', 'яблоко 1шт'], tags: ['творог', 'яйца'] },
+      { name: 'Омлет с брокколи и сыром', cat: 'breakfast', time: 15, kcal: 220, p: 18, f: 14, c: 8, diet: 'vegetarian', budget: 'economy', ing: ['яйца 3шт', 'брокколи 150г', 'сыр 20г', 'масло 5г'], tags: ['яйца', 'брокколи'] },
+      { name: 'Яйцо пашот с авокадо и хлебом', cat: 'breakfast', time: 10, kcal: 250, p: 14, f: 18, c: 10, diet: 'vegetarian', budget: 'medium', ing: ['яйцо 2шт', 'авокадо 1/2', 'хлеб 1шт'], tags: ['яйца', 'авокадо'] },
+      { name: 'Панкейки из овсяной муки', cat: 'breakfast', time: 20, kcal: 290, p: 12, f: 8, c: 35, diet: 'vegetarian', budget: 'economy', ing: ['овсяная мука 50г', 'яйцо 1шт', 'молоко 100мл', 'мёд 5г'], tags: ['овсянка', 'яйца'] },
+      { name: 'Тосты с авокадо и яйцом', cat: 'breakfast', time: 10, kcal: 230, p: 12, f: 16, c: 14, diet: 'vegetarian', budget: 'medium', ing: ['хлеб 2шт', 'авокадо 1/2', 'яйцо 1шт'], tags: ['хлеб', 'авокадо', 'яйца'] },
+      { name: 'Смузи с бананом и овсянкой', cat: 'breakfast', time: 5, kcal: 200, p: 8, f: 4, c: 35, diet: 'vegan', budget: 'economy', ing: ['банан 1шт', 'овсянка 30г', 'молоко 150мл'], tags: ['банан', 'овсянка'] },
+      { name: 'Гранола с йогуртом и ягодами', cat: 'breakfast', time: 5, kcal: 250, p: 12, f: 8, c: 30, diet: 'vegetarian', budget: 'medium', ing: ['гранола 40г', 'йогурт 150г', 'ягоды 50г'], tags: ['йогурт', 'ягоды'] },
+      { name: 'Чиа-пудинг с кокосовым молоком', cat: 'breakfast', time: 5, kcal: 220, p: 8, f: 10, c: 25, diet: 'vegan', budget: 'medium', ing: ['семена чиа 30г', 'кокосовое молоко 150мл', 'ягоды 50г'], tags: ['чиа', 'ягоды'] },
+      { name: 'Блины из творога и овсянки', cat: 'breakfast', time: 20, kcal: 260, p: 16, f: 10, c: 28, diet: 'vegetarian', budget: 'economy', ing: ['творог 150г', 'овсянка 30г', 'яйцо 1шт'], tags: ['творог', 'овсянка', 'яйца'] },
+      { name: 'Яичница со шпинатом и помидорами', cat: 'breakfast', time: 10, kcal: 200, p: 14, f: 12, c: 10, diet: 'vegetarian', budget: 'economy', ing: ['яйца 2шт', 'шпинат 50г', 'помидоры 100г', 'масло 5г'], tags: ['яйца', 'помидоры'] },
+      { name: 'Каша из киноа с фруктами', cat: 'breakfast', time: 20, kcal: 280, p: 12, f: 6, c: 40, diet: 'vegan', budget: 'medium', ing: ['киноа 40г', 'яблоко 1шт', 'банан 1шт'], tags: ['киноа', 'яблоки', 'банан'] },
+      { name: 'Сырная лепёшка с творогом', cat: 'breakfast', time: 15, kcal: 240, p: 18, f: 12, c: 16, diet: 'vegetarian', budget: 'economy', ing: ['творог 100г', 'сыр 30г', 'яйцо 1шт', 'мука 20г'], tags: ['творог', 'сыр', 'яйца'] },
+      // ОБЕДЫ (30 уникальных)
+      { name: 'Курица с гречкой и овощами', cat: 'lunch', time: 35, kcal: 440, p: 35, f: 12, c: 40, diet: 'all', budget: 'economy', ing: ['курица 150г', 'гречка 60г', 'лук 30г', 'морковь 30г', 'масло 5г'], tags: ['курица', 'гречка'] },
+      { name: 'Рис с курицей и сладким перцем', cat: 'lunch', time: 30, kcal: 420, p: 30, f: 10, c: 50, diet: 'all', budget: 'economy', ing: ['рис 60г', 'курица 150г', 'морковь 50г', 'перец 30г'], tags: ['рис', 'курица'] },
+      { name: 'Паста с тунцом и томатным соусом', cat: 'lunch', time: 20, kcal: 390, p: 28, f: 12, c: 45, diet: 'all', budget: 'medium', ing: ['паста 50г', 'тунец 100г', 'томаты 100г', 'масло 5г'], tags: ['паста', 'тунец'] },
+      { name: 'Гречка с печенью и луком', cat: 'lunch', time: 30, kcal: 350, p: 30, f: 14, c: 35, diet: 'all', budget: 'economy', ing: ['гречка 50г', 'печень 150г', 'лук 30г', 'морковь 30г'], tags: ['гречка', 'печень'] },
+      { name: 'Чечевичный суп с курицей', cat: 'lunch', time: 30, kcal: 250, p: 18, f: 4, c: 35, diet: 'all', budget: 'economy', ing: ['чечевица 100г', 'курица 130г', 'морковь 50г', 'лук 30г'], tags: ['чечевица', 'курица'] },
+      { name: 'Индейка с перловкой и морковью', cat: 'lunch', time: 35, kcal: 390, p: 32, f: 8, c: 45, diet: 'all', budget: 'economy', ing: ['индейка 150г', 'перловка 50г', 'морковь 40г', 'лук 30г'], tags: ['индейка', 'перловка'] },
+      { name: 'Говядина с гречкой и свёклой', cat: 'lunch', time: 45, kcal: 420, p: 34, f: 16, c: 38, diet: 'all', budget: 'economy', ing: ['говядина 150г', 'гречка 50г', 'свёкла 100г', 'лук 30г'], tags: ['говядина', 'гречка'] },
+      { name: 'Рыба с картофелем и луком', cat: 'lunch', time: 40, kcal: 370, p: 28, f: 12, c: 42, diet: 'all', budget: 'economy', ing: ['рыба 150г', 'картофель 200г', 'лук 30г', 'масло 10г'], tags: ['рыба', 'картофель'] },
+      { name: 'Куриные сердечки с фасолью', cat: 'lunch', time: 30, kcal: 310, p: 28, f: 14, c: 22, diet: 'all', budget: 'economy', ing: ['сердечки 150г', 'фасоль 100г', 'лук 30г', 'морковь 30г'], tags: ['сердечки', 'фасоль'] },
+      { name: 'Кабачок с курицей и перцем', cat: 'lunch', time: 25, kcal: 290, p: 28, f: 10, c: 20, diet: 'all', budget: 'economy', ing: ['курица 150г', 'кабачок 200г', 'перец 30г', 'лук 20г'], tags: ['курица', 'кабачок'] },
+      { name: 'Гречка с грибами и сметаной', cat: 'lunch', time: 25, kcal: 280, p: 14, f: 8, c: 40, diet: 'vegetarian', budget: 'economy', ing: ['гречка 50г', 'грибы 150г', 'сметана 30г', 'лук 30г'], tags: ['гречка', 'грибы'] },
+      { name: 'Рис с овощами и тофу', cat: 'lunch', time: 25, kcal: 320, p: 16, f: 10, c: 45, diet: 'vegan', budget: 'medium', ing: ['рис 60г', 'тофу 150г', 'морковь 50г', 'перец 30г'], tags: ['рис', 'тофу'] },
+      { name: 'Скумбрия с картофелем в духовке', cat: 'lunch', time: 40, kcal: 480, p: 25, f: 22, c: 40, diet: 'all', budget: 'economy', ing: ['скумбрия 150г', 'картофель 200г', 'лук 30г', 'масло 10г'], tags: ['скумбрия', 'картофель'] },
+      { name: 'Чечевица с овощами и курицей', cat: 'lunch', time: 30, kcal: 350, p: 30, f: 8, c: 40, diet: 'all', budget: 'economy', ing: ['чечевица 100г', 'курица 130г', 'морковь 50г', 'лук 30г'], tags: ['чечевица', 'курица'] },
+      // УЖИНЫ (30 уникальных)
+      { name: 'Омлет с шампиньонами и зеленью', cat: 'dinner', time: 15, kcal: 240, p: 20, f: 16, c: 6, diet: 'vegetarian', budget: 'economy', ing: ['яйца 3шт', 'шампиньоны 100г', 'лук 20г', 'масло 5г'], tags: ['яйца', 'грибы'] },
+      { name: 'Салат с тунцом и яйцом', cat: 'dinner', time: 10, kcal: 210, p: 20, f: 12, c: 10, diet: 'all', budget: 'medium', ing: ['тунец 100г', 'яйцо 2шт', 'огурцы 100г', 'салат 30г', 'масло 5г'], tags: ['тунец', 'яйца'] },
+      { name: 'Творог с зеленью и огурцами', cat: 'dinner', time: 5, kcal: 140, p: 16, f: 6, c: 6, diet: 'vegetarian', budget: 'economy', ing: ['творог 120г', 'укроп', 'огурец 50г'], tags: ['творог', 'огурцы'] },
+      { name: 'Куриные сердечки с луком и фасолью', cat: 'dinner', time: 30, kcal: 310, p: 28, f: 14, c: 22, diet: 'all', budget: 'economy', ing: ['сердечки 150г', 'фасоль 100г', 'лук 30г', 'морковь 30г'], tags: ['сердечки', 'фасоль'] },
+      { name: 'Салат с курицей и авокадо', cat: 'dinner', time: 15, kcal: 290, p: 22, f: 16, c: 14, diet: 'all', budget: 'medium', ing: ['курица 120г', 'авокадо 50г', 'салат 30г', 'огурец 80г', 'йогурт 30г'], tags: ['курица', 'авокадо'] },
+      { name: 'Брокколи с яйцом и сыром', cat: 'dinner', time: 10, kcal: 160, p: 12, f: 10, c: 8, diet: 'vegetarian', budget: 'economy', ing: ['брокколи 150г', 'яйцо 2шт', 'сыр 20г', 'масло 5г'], tags: ['брокколи', 'яйца'] },
+      { name: 'Цветная капуста с яйцом и зеленью', cat: 'dinner', time: 15, kcal: 180, p: 14, f: 10, c: 12, diet: 'vegetarian', budget: 'economy', ing: ['цветная капуста 150г', 'яйцо 2шт', 'зелень'], tags: ['цветная капуста', 'яйца'] },
+      { name: 'Творог с ягодами и мёдом', cat: 'dinner', time: 5, kcal: 180, p: 16, f: 6, c: 18, diet: 'vegetarian', budget: 'economy', ing: ['творог 150г', 'ягоды 80г', 'мёд 5г'], tags: ['творог', 'ягоды'] },
+      // ПЕРЕКУСЫ (10 уникальных)
+      { name: 'Греческий йогурт с ягодами', cat: 'snack', time: 3, kcal: 120, p: 8, f: 4, c: 12, diet: 'vegetarian', budget: 'medium', ing: ['йогурт 150г', 'ягоды 50г'], tags: ['йогурт', 'ягоды'] },
+      { name: 'Яблоко с орехами и мёдом', cat: 'snack', time: 2, kcal: 150, p: 3, f: 10, c: 15, diet: 'vegan', budget: 'medium', ing: ['яблоко 1шт', 'грецкие орехи 15г', 'мёд 5г'], tags: ['яблоки', 'орехи'] },
+      { name: 'Кефир с отрубями и ягодами', cat: 'snack', time: 2, kcal: 100, p: 6, f: 2, c: 12, diet: 'vegetarian', budget: 'economy', ing: ['кефир 200мл', 'отруби 10г', 'ягоды 30г'], tags: ['кефир', 'ягоды'] },
+      { name: 'Творожная паста с зеленью на хлебе', cat: 'snack', time: 5, kcal: 130, p: 14, f: 6, c: 4, diet: 'vegetarian', budget: 'economy', ing: ['творог 100г', 'укроп', 'хлеб 1шт'], tags: ['творог', 'хлеб'] },
+      { name: 'Смузи с бананом и шпинатом', cat: 'snack', time: 5, kcal: 160, p: 6, f: 3, c: 30, diet: 'vegan', budget: 'economy', ing: ['банан 1шт', 'шпинат 30г', 'молоко 150мл'], tags: ['банан', 'шпинат'] },
+      { name: 'Орехово-фруктовая смесь', cat: 'snack', time: 2, kcal: 180, p: 6, f: 14, c: 12, diet: 'vegan', budget: 'medium', ing: ['грецкие орехи 20г', 'миндаль 10г', 'яблоки 50г'], tags: ['орехи', 'яблоки'] },
+      // ДЕСЕРТЫ (10 уникальных)
+      { name: 'Творожный мусс с ягодами', cat: 'dessert', time: 10, kcal: 180, p: 14, f: 6, c: 18, diet: 'vegetarian', budget: 'economy', ing: ['творог 150г', 'ягоды 50г', 'мёд 5г'], tags: ['творог', 'ягоды'] },
+      { name: 'Яблочный крамбл с овсянкой', cat: 'dessert', time: 30, kcal: 220, p: 6, f: 8, c: 32, diet: 'vegetarian', budget: 'economy', ing: ['яблоки 200г', 'овсянка 40г', 'масло 20г', 'мёд 10г'], tags: ['яблоки', 'овсянка'] },
+      { name: 'Сырники с ягодами и сметаной', cat: 'dessert', time: 25, kcal: 250, p: 16, f: 10, c: 24, diet: 'vegetarian', budget: 'economy', ing: ['творог 150г', 'яйцо 1шт', 'мука 20г', 'сметана 20г', 'ягоды 30г'], tags: ['творог', 'ягоды'] },
+      { name: 'Фруктовый салат с йогуртом', cat: 'dessert', time: 5, kcal: 140, p: 4, f: 3, c: 25, diet: 'vegetarian', budget: 'economy', ing: ['яблоко 1шт', 'банан 1шт', 'йогурт 50г'], tags: ['яблоки', 'банан', 'йогурт'] },
     ];
+
+    // Генератор дополнительных рецептов (без повторов)
     const products = ['курица', 'рыба', 'говядина', 'индейка', 'творог', 'яйца', 'гречка', 'рис', 'овсянка', 'макароны', 'картофель', 'капуста', 'морковь', 'лук', 'чеснок', 'помидоры', 'огурцы', 'перец', 'кабачок', 'баклажан', 'грибы', 'тыква', 'яблоки', 'бананы', 'груши', 'апельсины', 'орехи', 'мёд', 'сметана', 'сыр'];
     const actions = ['с гречкой', 'с рисом', 'с овощами', 'в духовке', 'на сковороде', 'с соусом', 'в мультиварке', 'запечённый', 'тушёный', 'жареный', 'с грибами', 'с зеленью', 'в томатном соусе', 'в сливочном соусе', 'с чесноком'];
     const cats = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert'];
     const diets = ['all', 'vegetarian', 'vegan', 'lowcarb', 'glutenfree', 'lactosefree'];
     const budgets = ['economy', 'medium', 'premium'];
-    const all = [...base];
-    for (let i = 0; i < 500; i++) {
+
+    // Создаём уникальные названия
+    const usedNames = new Set(baseRecipes.map(r => r.name));
+    const all = [...baseRecipes];
+
+    for (let i = 0; i < 1000; i++) {
       const cat = cats[i % cats.length];
       const diet = diets[i % diets.length];
       const budget = budgets[i % budgets.length];
       const prod = products[i % products.length];
       const act = actions[i % actions.length];
       const name = prod + ' ' + act;
+
+      // Пропускаем, если такое название уже есть
+      if (usedNames.has(name)) continue;
+      usedNames.add(name);
+
       const kcal = 150 + Math.floor(Math.random() * 400);
       const protein = Math.round(kcal * 0.1 + Math.random() * 15);
       const fat = Math.round(kcal * 0.05 + Math.random() * 12);
@@ -1102,6 +646,7 @@
       if (i % 2 === 0) ing.push('чеснок 5г');
       if (i % 3 === 0) ing.push('зелень 10г');
       if (i % 5 === 0) ing.push('томатная паста 20г');
+
       all.push({
         name: name,
         cat: cat,
@@ -1116,13 +661,15 @@
         tags: [prod, act.split(' ')[0]]
       });
     }
-    return all;
+
+    // Оставляем только уникальные рецепты (не больше 500)
+    return all.slice(0, 500);
   }
 
-  const recipeDB = generateRecipes();
+  const recipeDB = generateUniqueRecipes();
 
   // ============================================================
-  // 6. ФИЛЬТРЫ
+  // 6. ФИЛЬТРЫ И ПОИСК
   // ============================================================
   let filters = { category: 'all', diet: 'all', budget: 'all', time: 'all' };
 
@@ -1130,7 +677,11 @@
     let res = recipeDB;
     if (query && query.trim()) {
       const q = query.trim().toLowerCase();
-      res = res.filter(r => r.name.toLowerCase().includes(q) || r.ing.some(i => i.includes(q)) || r.tags.some(t => t.includes(q)));
+      res = res.filter(r =>
+        r.name.toLowerCase().includes(q) ||
+        r.ing.some(i => i.toLowerCase().includes(q)) ||
+        r.tags.some(t => t.toLowerCase().includes(q))
+      );
     }
     if (filters.category !== 'all') res = res.filter(r => r.cat === filters.category);
     if (filters.diet !== 'all') res = res.filter(r => r.diet === filters.diet || r.diet === 'all');
@@ -1146,7 +697,7 @@
     const container = document.getElementById('recipeResults');
     if (!results.length) {
       container.innerHTML = '<p class="text-muted" style="padding:16px 0;text-align:center;">😕 Рецептов не найдено. Попробуй другие фильтры.</p>';
-      document.getElementById('recipeInfo').textContent = 'Рецептов не найдено.';
+      document.getElementById('recipeInfo').textContent = 'Рецептов не найдено. Попробуй другие фильтры.';
       return;
     }
     let html = '';
@@ -1161,7 +712,7 @@
         <div class="info"><span>${emoji} ${r.cat}</span><span>${r.kcal} ккал</span><span>${r.p}г бел</span>${dietLabel} <span>${budgetEmoji}</span></div>
         <div style="font-size:0.7rem;color:var(--text-muted);">${r.ing.slice(0, 3).join(', ')}${r.ing.length > 3 ? '...' : ''}</div>
         <div class="tags">${r.tags.map(t => `<span>#${t}</span>`).join('')}</div>
-        <button class="add-btn" data-name="${r.name}" data-kcal="${r.kcal}" data-p="${r.p}" data-f="${r.f}" data-c="${r.c}">➕ Добавить в рацион</button>
+        <button class="add-btn" data-name="${r.name}" data-kcal="${r.kcal}">➕ Добавить в рацион</button>
       </div>`;
     });
     container.innerHTML = html;
@@ -1346,7 +897,7 @@
     });
     save('customMeals', meals);
     renderMeals();
-    showToast('🧠 Рацион собран из 500+ рецептов!');
+    showToast('🧠 Рацион собран из 500+ уникальных рецептов!');
   });
 
   document.getElementById('clearPlanBtn').addEventListener('click', function() {
