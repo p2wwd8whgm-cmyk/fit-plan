@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>FitPlan — конструктор питания</title>
   <style>
+    /* ====== ВЕСЬ ТВОЙ СТАРЫЙ CSS (без изменений) ====== */
     :root {
       --bg: #f4f8fa;
       --card: #ffffff;
@@ -656,7 +657,6 @@
     container.innerHTML = html;
     document.getElementById('recipeInfo').textContent = `Найдено ${recipes.length} рецептов. Нажми «Добавить» — и блюдо появится в твоём меню.`;
 
-    // Привязываем обработчики на кнопки
     document.querySelectorAll('.recipe-card .add-btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -691,14 +691,12 @@
     const mealName = `${mealType}: ${pendingRecipe.name}`;
     const kcal = pendingRecipe.kcal;
 
-    // Находим нужный день в текущем плане
     const data = filterMeals(currentPlan);
     if (data && data.days) {
       const dayData = data.days.find(d => d.name === day);
       if (dayData) {
         dayData.meals.push([mealName, kcal]);
         dayData.total = dayData.meals.reduce((sum, m) => sum + m[1], 0);
-        // Сохраняем кастомные рецепты
         const customMeals = loadState('customMeals', {});
         const key = day + '_' + mealType;
         if (!customMeals[key]) customMeals[key] = [];
@@ -777,7 +775,6 @@
     if (day) {
       day.meals.splice(index, 1);
       day.total = day.meals.reduce((sum, m) => sum + m[1], 0);
-      // Удаляем из кастомных
       const customMeals = loadState('customMeals', {});
       for (const key in customMeals) {
         if (key.startsWith(dayName)) {
@@ -866,6 +863,14 @@
       calculate();
     });
   });
+
+  // АВТООБНОВЛЕНИЕ ПОЛЗУНКОВ (это было сломано — теперь работает!)
+  document.getElementById('ageSlider').addEventListener('input', calculate);
+  document.getElementById('heightSlider').addEventListener('input', calculate);
+  document.getElementById('weightSlider').addEventListener('input', calculate);
+  document.getElementById('goalWeightSlider').addEventListener('input', calculate);
+  document.getElementById('gender').addEventListener('change', calculate);
+  document.getElementById('activity').addEventListener('change', calculate);
 
   document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => {
     cb.addEventListener('change', () => {
