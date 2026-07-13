@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>FitPlan — умный конструктор питания</title>
+  <title>FitPlan — конструктор питания</title>
   <style>
     :root {
       --bg: #f4f8fa;
@@ -57,7 +57,6 @@
     }
     .theme-toggle:hover { opacity: 0.7; }
 
-    /* ====== СЛАЙДЕРЫ ====== */
     .slider-item {
       display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 4px 0;
     }
@@ -82,7 +81,6 @@
       min-width: 140px; appearance: auto;
     }
 
-    /* ====== КНОПКИ ЦЕЛЕЙ ====== */
     .goal-selector { display: flex; flex-wrap: wrap; gap: 6px; }
     .goal-btn {
       padding: 8px 14px; border-radius: 60px; border: 2px solid var(--border);
@@ -96,7 +94,6 @@
     .goal-tag { display: inline-block; background: var(--primary); color: white; padding: 3px 14px; border-radius: 40px; font-size: 0.8rem; font-weight: 500; margin-top: 4px; }
     .goal-desc { color: var(--text-muted); font-size: 0.85rem; margin-top: 2px; }
 
-    /* ====== РЕЗУЛЬТАТЫ ====== */
     .result-box {
       background: var(--primary-light); border-radius: 16px; padding: 14px 18px;
       margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px 24px;
@@ -106,7 +103,6 @@
     .result-item { font-size: 0.85rem; }
     .result-item .bju-percent { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; }
 
-    /* ====== ПРЕДУПРЕЖДЕНИЕ ====== */
     .warning-box {
       background: #fef9e7; border-left: 4px solid var(--warning); padding: 12px 16px;
       border-radius: 12px; margin: 8px 0; font-size: 0.85rem;
@@ -118,7 +114,6 @@
     }
     [data-theme="dark"] .danger-box { background: #2d1a1a; }
 
-    /* ====== ПРОДУКТЫ ====== */
     .product-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       gap: 6px; margin: 8px 0;
@@ -140,7 +135,6 @@
     .quick-btns button:hover { background: var(--primary-light); border-color: var(--primary); }
     .filter-info { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
 
-    /* ====== ПОИСК РЕЦЕПТОВ ====== */
     .search-box {
       display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0;
     }
@@ -172,7 +166,6 @@
     }
     .recipe-card .add-btn:hover { background: var(--primary-hover); }
 
-    /* ====== ДНИ НЕДЕЛИ ====== */
     .day-block {
       background: var(--bg); border-radius: 16px; padding: 12px 16px;
       margin-bottom: 10px; border-left: 4px solid var(--primary);
@@ -190,7 +183,6 @@
     .total-day { margin-top: 6px; font-weight: 700; font-size: 0.95rem; }
     .badge { background: var(--primary-light); color: var(--primary); padding: 1px 12px; border-radius: 40px; font-size: 0.75rem; font-weight: 600; }
 
-    /* ====== КНОПКИ ====== */
     .btn {
       background: var(--primary); border: none; color: white; font-weight: 600;
       padding: 8px 20px; border-radius: 60px; font-size: 0.9rem; cursor: pointer;
@@ -201,7 +193,6 @@
     .btn-outline:hover { background: var(--primary-light); transform: none; }
     .btn-sm { padding: 4px 14px; font-size: 0.8rem; }
 
-    /* ====== МОДАЛЬНОЕ ОКНО ДЛЯ ДОБАВЛЕНИЯ РЕЦЕПТА ====== */
     .modal-overlay {
       display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
@@ -221,7 +212,6 @@
     .modal .btn-row { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
     .modal .btn-row .btn { padding: 8px 24px; }
 
-    /* ====== ПРОГРЕСС ====== */
     .progress-ring-wrap {
       display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px;
       margin: 8px 0;
@@ -254,7 +244,10 @@
     .chart-bar .fill { height: 0%; background: var(--primary); border-radius: 6px 6px 0 0; transition: height 0.6s ease; }
     .chart-label { font-size: 0.6rem; color: var(--text-muted); margin-top: 2px; }
 
-    /* ====== АДАПТИВ ====== */
+    .shop-list { list-style: none; padding: 0; columns: 2 180px; column-gap: 20px; }
+    .shop-list li { padding: 3px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; break-inside: avoid; font-size: 0.9rem; }
+    .shop-list li span { font-weight: 500; color: var(--primary); }
+
     @media (max-width: 600px) {
       body { padding: 8px; }
       .card { padding: 14px 16px; margin-bottom: 14px; }
@@ -273,7 +266,6 @@
 <body>
 <div class="container">
 
-  <!-- ШАПКА -->
   <div class="card">
     <div class="flex-between">
       <h1>🥗 FitPlan <span>PRO</span></h1>
@@ -285,12 +277,9 @@
   <!-- КАЛЬКУЛЯТОР -->
   <div class="card">
     <h2>🧮 Калькулятор нормы</h2>
-
-    <!-- ПРЕДУПРЕЖДЕНИЕ О ВРАЧЕ -->
     <div class="danger-box">
       ⚠️ <strong>Важно:</strong> Перед началом диеты проконсультируйтесь с врачом. Расчёты носят рекомендательный характер.
     </div>
-
     <div class="calc-group">
       <div class="slider-item">
         <label>Пол</label>
@@ -333,7 +322,6 @@
         <div id="goalDesc" class="goal-desc">Интенсивный дефицит 25% — до 1 кг в неделю</div>
       </div>
     </div>
-
     <div class="result-box">
       <div class="result-item"><strong id="resKcal">—</strong> ккал/день</div>
       <div class="result-item"><strong id="resProtein">—</strong> г белка <span class="bju-percent" id="proteinPercent"></span></div>
@@ -345,14 +333,12 @@
       <div class="result-item"><strong id="resWeeks">—</strong> недель (срок)</div>
       <div class="result-item"><strong id="resSpeed">—</strong> кг/нед.</div>
     </div>
-
-    <!-- ПРЕДУПРЕЖДЕНИЕ О НИЖНЕЙ ГРАНИЦЕ -->
     <div id="calorieWarning" class="warning-box" style="display:none;">
       ⚠️ <strong>Внимание:</strong> Ваша дневная калорийность опустилась ниже <strong>1200 ккал</strong>. Это может быть опасно для здоровья. Рекомендуем пересмотреть цель или добавить физическую активность.
     </div>
   </div>
 
-  <!-- ВЫБОР ПРОДУКТОВ -->
+  <!-- ПРОДУКТЫ -->
   <div class="card">
     <h2>🛒 Продукты в холодильнике</h2>
     <p class="text-muted">Отметь, что есть — рацион подстроится под доступные продукты.</p>
@@ -395,7 +381,7 @@
     <div id="filterInfo" class="filter-info">✅ Выбрано: 0 продуктов. Показано 7 дней.</div>
   </div>
 
-  <!-- ПОИСК РЕЦЕПТОВ -->
+  <!-- РЕЦЕПТЫ -->
   <div class="card">
     <h2>🔍 Поиск рецептов</h2>
     <p class="text-muted">Найди рецепт и добавь в рацион на любой день.</p>
@@ -418,7 +404,6 @@
     <div id="mealPlanContainer"></div>
   </div>
 
-  <!-- Список покупок (всплывает) -->
   <div id="shopListContainer" style="display:none; margin-bottom:16px;"></div>
 
   <!-- ПРОГРЕСС -->
@@ -439,13 +424,12 @@
     <div id="chartContainer" class="chart-container"></div>
   </div>
 
-  <!-- ФУТЕР -->
   <div style="text-align:center; padding:8px 0 2px; color:var(--text-muted); font-size:0.75rem;">
     🧡 FitPlan — рекомендательный характер. Перед началом диеты проконсультируйтесь с врачом.
   </div>
 </div>
 
-<!-- ====== МОДАЛЬНОЕ ОКНО ДЛЯ ДОБАВЛЕНИЯ РЕЦЕПТА ====== -->
+<!-- МОДАЛЬНОЕ ОКНО -->
 <div class="modal-overlay" id="addRecipeModal">
   <div class="modal">
     <h3>🍽️ Добавить рецепт в рацион</h3>
@@ -475,7 +459,7 @@
 </div>
 
 <script>
-  // ====== ТЕМА ======
+  // ===================== ТЕМА =====================
   const themeToggle = document.getElementById('themeToggle');
   const currentTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', currentTheme);
@@ -487,14 +471,14 @@
     themeToggle.textContent = theme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная';
   });
 
-  // ====== СОХРАНЕНИЕ ======
+  // ===================== СОХРАНЕНИЕ =====================
   function saveState(key, value) { localStorage.setItem('fitplan_' + key, JSON.stringify(value)); }
   function loadState(key, fallback) {
     const val = localStorage.getItem('fitplan_' + key);
     return val ? JSON.parse(val) : fallback;
   }
 
-  // ====== БАЗА ПРОДУКТОВ ДЛЯ ФИЛЬТРАЦИИ ======
+  // ===================== БАЗА ДЛЯ ФИЛЬТРАЦИИ =====================
   const mealProducts = {
     'Овсяноблин': ['oatmeal', 'eggs', 'cottage_cheese'],
     'Овсянка': ['oatmeal', 'bananas'],
@@ -547,7 +531,7 @@
     return [];
   }
 
-  // ====== БАЗОВЫЙ РАЦИОН ======
+  // ===================== БАЗОВЫЙ РАЦИОН =====================
   const baseMealData = {
     fatloss: {
       label: '🔥 Жиросжигание',
@@ -599,7 +583,7 @@
     }
   };
 
-  // ====== ГЕНЕРАТОР РЕЦЕПТОВ (100+ ВСТРОЕННЫХ) ======
+  // ===================== ГЕНЕРАТОР РЕЦЕПТОВ =====================
   function getRecipeDatabase() {
     return [
       { name: 'Курица с гречкой', kcal: 440, protein: 35, fat: 12, carbs: 40, ingredients: ['курица 150г', 'гречка 60г', 'лук 30г', 'морковь 30г', 'масло 5г'], tags: ['chicken', 'buckwheat'] },
@@ -642,7 +626,7 @@
 
   const recipeDB = getRecipeDatabase();
 
-  // ====== ФИЛЬТРАЦИЯ РЕЦЕПТОВ ======
+  // ===================== ФИЛЬТР РЕЦЕПТОВ =====================
   function filterRecipes(query) {
     if (!query || query.trim() === '') return recipeDB;
     const q = query.trim().toLowerCase();
@@ -653,7 +637,7 @@
     );
   }
 
-  // ====== ОТРИСОВКА РЕЦЕПТОВ ======
+  // ===================== ОТРИСОВКА РЕЦЕПТОВ =====================
   function renderRecipes(recipes) {
     const container = document.getElementById('recipeResults');
     if (recipes.length === 0) {
@@ -662,18 +646,31 @@
     }
     let html = '';
     recipes.forEach(r => {
-      html += `<div class="recipe-card" data-name="${r.name}" data-kcal="${r.kcal}" data-protein="${r.protein}" data-fat="${r.fat}" data-carbs="${r.carbs}" data-ingredients="${r.ingredients.join(', ')}">`;
+      html += `<div class="recipe-card">`;
       html += `<div class="title">${r.name}</div>`;
       html += `<div class="info"><span>${r.kcal} ккал</span><span>${r.protein}г бел</span><span>${r.fat}г жир</span><span>${r.carbs}г угл</span></div>`;
       html += `<div style="font-size:0.7rem; color:var(--text-muted);">${r.ingredients.slice(0, 3).join(', ')}${r.ingredients.length > 3 ? '...' : ''}</div>`;
-      html += `<button class="add-btn" onclick="openAddRecipeModal('${r.name}', ${r.kcal}, ${r.protein}, ${r.fat}, ${r.carbs})">➕ Добавить в рацион</button>`;
+      html += `<button class="add-btn" data-name="${r.name}" data-kcal="${r.kcal}" data-protein="${r.protein}" data-fat="${r.fat}" data-carbs="${r.carbs}">➕ Добавить в рацион</button>`;
       html += `</div>`;
     });
     container.innerHTML = html;
     document.getElementById('recipeInfo').textContent = `Найдено ${recipes.length} рецептов. Нажми «Добавить» — и блюдо появится в твоём меню.`;
+
+    // Привязываем обработчики на кнопки
+    document.querySelectorAll('.recipe-card .add-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const name = this.dataset.name;
+        const kcal = parseInt(this.dataset.kcal);
+        const protein = parseInt(this.dataset.protein);
+        const fat = parseInt(this.dataset.fat);
+        const carbs = parseInt(this.dataset.carbs);
+        openAddRecipeModal(name, kcal, protein, fat, carbs);
+      });
+    });
   }
 
-  // ====== МОДАЛЬНОЕ ОКНО ======
+  // ===================== МОДАЛКА =====================
   let pendingRecipe = null;
 
   function openAddRecipeModal(name, kcal, protein, fat, carbs) {
@@ -696,19 +693,18 @@
 
     // Находим нужный день в текущем плане
     const data = filterMeals(currentPlan);
-    if (!data) return;
-    const dayData = data.days.find(d => d.name === day);
-    if (dayData) {
-      // Добавляем блюдо в этот день
-      dayData.meals.push([mealName, kcal]);
-      // Пересчитываем итог
-      dayData.total = dayData.meals.reduce((sum, m) => sum + m[1], 0);
-      // Сохраняем изменения в localStorage (в customMeals)
-      const customMeals = loadState('customMeals', {});
-      const key = day + '_' + mealType;
-      if (!customMeals[key]) customMeals[key] = [];
-      customMeals[key].push({ name: pendingRecipe.name, kcal: pendingRecipe.kcal, protein: pendingRecipe.protein, fat: pendingRecipe.fat, carbs: pendingRecipe.carbs });
-      saveState('customMeals', customMeals);
+    if (data && data.days) {
+      const dayData = data.days.find(d => d.name === day);
+      if (dayData) {
+        dayData.meals.push([mealName, kcal]);
+        dayData.total = dayData.meals.reduce((sum, m) => sum + m[1], 0);
+        // Сохраняем кастомные рецепты
+        const customMeals = loadState('customMeals', {});
+        const key = day + '_' + mealType;
+        if (!customMeals[key]) customMeals[key] = [];
+        customMeals[key].push({ name: pendingRecipe.name, kcal: pendingRecipe.kcal, protein: pendingRecipe.protein, fat: pendingRecipe.fat, carbs: pendingRecipe.carbs });
+        saveState('customMeals', customMeals);
+      }
     }
 
     document.getElementById('addRecipeModal').classList.remove('active');
@@ -716,7 +712,7 @@
     calculate();
   });
 
-  // ====== ФИЛЬТРАЦИЯ РАЦИОНА ======
+  // ===================== ФИЛЬТР РАЦИОНА =====================
   function filterMeals(planKey) {
     const data = baseMealData[planKey];
     if (!data) return data;
@@ -739,7 +735,7 @@
     return { ...data, days: filteredDays };
   }
 
-  // ====== ОТРИСОВКА РАЦИОНА ======
+  // ===================== ОТРИСОВКА РАЦИОНА =====================
   let currentPlan = loadState('currentPlan', 'fatloss');
 
   function renderMeals() {
@@ -757,7 +753,7 @@
     let html = '';
     data.days.forEach(day => {
       html += '<div class="day-block">';
-      html += '<div class="day-title">' + day.name + ' <span class="badge">' + day.total + ' ккал</span></div>';
+      html += '<div class="day-title">' + day.name + ' <span class="badge">' + (day.total || 0) + ' ккал</span></div>';
       day.meals.forEach((m, idx) => {
         html += '<div class="meal">';
         html += '<span class="meal-name">' + m[0] + '</span>';
@@ -765,7 +761,7 @@
         html += `<button class="meal-remove" onclick="removeMeal('${day.name}', ${idx})">✖</button>`;
         html += '</div>';
       });
-      html += '<div class="total-day">⭐ Итого: ' + day.total + ' ккал</div>';
+      html += '<div class="total-day">⭐ Итого: ' + (day.total || 0) + ' ккал</div>';
       html += '</div>';
     });
     container.innerHTML = html;
@@ -773,7 +769,7 @@
     info.textContent = '✅ Выбрано: ' + checked.length + ' продуктов. Показано ' + data.days.length + ' дней.';
   }
 
-  // ====== УДАЛЕНИЕ БЛЮДА ИЗ РАЦИОНА ======
+  // ===================== УДАЛЕНИЕ БЛЮДА =====================
   function removeMeal(dayName, index) {
     const data = filterMeals(currentPlan);
     if (!data) return;
@@ -781,7 +777,7 @@
     if (day) {
       day.meals.splice(index, 1);
       day.total = day.meals.reduce((sum, m) => sum + m[1], 0);
-      // Удаляем из кастомных рецептов
+      // Удаляем из кастомных
       const customMeals = loadState('customMeals', {});
       for (const key in customMeals) {
         if (key.startsWith(dayName)) {
@@ -795,7 +791,7 @@
     }
   }
 
-  // ====== КАЛЬКУЛЯТОР ======
+  // ===================== КАЛЬКУЛЯТОР =====================
   function calculate() {
     const gender = document.getElementById('gender').value;
     const age = parseInt(document.getElementById('ageSlider').value);
@@ -814,7 +810,6 @@
     const maintenance = Math.round(bmr * activity);
     let finalCal = Math.round(maintenance * factor);
 
-    // Защита от слишком низкой калорийности
     const warningEl = document.getElementById('calorieWarning');
     if (finalCal < 1200) {
       warningEl.style.display = 'block';
@@ -832,7 +827,6 @@
     document.getElementById('resFat').textContent = fat;
     document.getElementById('resCarbs').textContent = carbs >= 0 ? carbs : 0;
 
-    // Соотношение БЖУ в %
     const totalKcal = protein * 4 + fat * 9 + carbs * 4;
     if (totalKcal > 0) {
       document.getElementById('proteinPercent').textContent = `${Math.round((protein * 4) / totalKcal * 100)}%`;
@@ -847,7 +841,6 @@
     document.getElementById('resSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
     document.getElementById('resWeeks').textContent = weeks + ' нед.';
 
-    // Прогресс
     const totalDiff = weight - goalWeight;
     const progressRing = document.getElementById('progressRing');
     const percent = totalDiff > 0 ? Math.min(100, (Math.abs(diff) / (weight)) * 100) : 0;
@@ -859,8 +852,7 @@
     saveState('currentPlan', currentPlan);
   }
 
-  // ====== СОБЫТИЯ ======
-  // Цели
+  // ===================== СОБЫТИЯ =====================
   document.querySelectorAll('.goal-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
@@ -875,7 +867,6 @@
     });
   });
 
-  // Продукты
   document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => {
     cb.addEventListener('change', () => {
       const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
@@ -897,7 +888,6 @@
     calculate();
   });
 
-  // Поиск рецептов
   document.getElementById('searchBtn').addEventListener('click', () => {
     const query = document.getElementById('recipeSearch').value;
     const results = filterRecipes(query);
@@ -913,7 +903,6 @@
     renderRecipes(recipeDB);
   });
 
-  // Список покупок
   document.getElementById('exportShopListBtn').addEventListener('click', () => {
     const data = filterMeals(currentPlan);
     if (!data || !data.days) return;
@@ -929,9 +918,9 @@
         });
       });
     });
-    let list = '<div class="card"><h2>🛍️ Список покупок</h2><ul class="shop-list" style="list-style:none;padding:0;columns:2 180px;column-gap:20px;">';
+    let list = '<div class="card"><h2>🛍️ Список покупок</h2><ul class="shop-list">';
     for (const [name, count] of Object.entries(productMap)) {
-      list += `<li style="padding:3px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;break-inside:avoid;font-size:0.9rem;"><span>${name}</span> <span style="font-weight:500;color:var(--primary);">×${count}</span></li>`;
+      list += `<li>${name} <span>×${count}</span></li>`;
     }
     list += '</ul><button class="btn btn-sm" onclick="this.parentElement.style.display=\'none\'">✖ Закрыть</button></div>';
     const container = document.getElementById('shopListContainer');
@@ -940,7 +929,6 @@
     container.scrollIntoView({ behavior: 'smooth' });
   });
 
-  // График
   document.getElementById('updateChartBtn').addEventListener('click', () => {
     const input = document.getElementById('weightHistoryInput').value;
     const weights = input.split(',').map(s => parseFloat(s.trim())).filter(v => !isNaN(v));
@@ -961,7 +949,7 @@
     container.innerHTML = html;
   });
 
-  // ====== АВТОСОХРАНЕНИЕ ======
+  // ===================== АВТОСОХРАНЕНИЕ =====================
   ['gender', 'ageSlider', 'heightSlider', 'weightSlider', 'goalWeightSlider', 'activity'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -980,7 +968,7 @@
     if (savedProducts.includes(cb.value)) cb.checked = true;
   });
 
-  // ====== СТАРТ ======
+  // ===================== СТАРТ =====================
   window.onload = function() {
     const savedGoal = loadState('currentPlan', 'fatloss');
     document.querySelectorAll('.goal-btn').forEach(btn => {
