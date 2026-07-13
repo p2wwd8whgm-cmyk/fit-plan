@@ -2,9 +2,10 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FitPlan — конструктор питания</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>FitPlan — идеальный конструктор питания</title>
   <style>
+    /* ====== ПЕРЕМЕННЫЕ (светлая / тёмная) ====== */
     :root {
       --bg: #f4f8fa;
       --card: #ffffff;
@@ -14,9 +15,10 @@
       --primary: #1f7b66;
       --primary-hover: #16634f;
       --primary-light: #eaf3f0;
-      --shadow: 0 8px 24px rgba(0,0,0,0.05);
-      --radius: 28px;
+      --shadow: 0 8px 24px rgba(0,0,0,0.04);
+      --radius: 24px;
       --transition: 0.3s ease;
+      --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     }
     [data-theme="dark"] {
       --bg: #121a22;
@@ -29,126 +31,197 @@
       --primary-light: #1a2f2a;
       --shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 16px; transition: background var(--transition), color var(--transition); }
-    .container { max-width: 1000px; margin: 0 auto; }
+    /* ====== БАЗА ====== */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
+    body {
+      background: var(--bg); color: var(--text); padding: 12px;
+      transition: background var(--transition), color var(--transition);
+      min-height: 100vh;
+    }
+    .container { max-width: 1024px; margin: 0 auto; }
     .card {
-      background: var(--card); border-radius: var(--radius); padding: 24px 26px; margin-bottom: 24px;
-      box-shadow: var(--shadow); border: 1px solid var(--border);
+      background: var(--card); border-radius: var(--radius); padding: 20px 22px;
+      margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid var(--border);
       transition: background var(--transition), border var(--transition);
     }
-    .flex-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
-    .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-    .gap-2 { gap: 12px; }
-    h1 { font-size: 2rem; display: flex; align-items: center; gap: 10px; }
-    h1 span { background: var(--primary); color: white; font-size: 0.75rem; padding: 2px 14px; border-radius: 40px; }
-    h2 { font-size: 1.4rem; margin-bottom: 14px; }
-    .text-muted { color: var(--text-muted); font-size: 0.95rem; }
+    /* ====== ШАПКА ====== */
+    .flex-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    h1 { font-size: 1.8rem; display: flex; align-items: center; gap: 8px; }
+    h1 span { background: var(--primary); color: white; font-size: 0.65rem; padding: 2px 12px; border-radius: 40px; font-weight: 500; }
+    h2 { font-size: 1.3rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .text-muted { color: var(--text-muted); font-size: 0.9rem; }
     .theme-toggle {
-      background: var(--primary-light); border: none; border-radius: 60px; padding: 8px 18px;
-      font-size: 1rem; cursor: pointer; color: var(--text); border: 1px solid var(--border);
+      background: var(--primary-light); border: 1px solid var(--border); border-radius: 60px;
+      padding: 6px 16px; font-size: 0.9rem; cursor: pointer; color: var(--text);
       transition: all var(--transition);
     }
-    .theme-toggle:hover { opacity: 0.8; }
+    .theme-toggle:hover { opacity: 0.7; }
+    /* ====== СЛАЙДЕРЫ ====== */
     .slider-item {
-      display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 6px 0;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 4px 0;
     }
-    .slider-item label { font-weight: 500; min-width: 120px; font-size: 0.95rem; }
+    .slider-item label { font-weight: 500; min-width: 110px; font-size: 0.9rem; }
     .slider-item input[type="range"] {
-      flex: 1; min-width: 140px; height: 6px; border-radius: 10px; background: var(--border);
-      -webkit-appearance: none; appearance: none; outline: none;
+      flex: 1; min-width: 120px; height: 6px; border-radius: 10px;
+      background: var(--border); -webkit-appearance: none; appearance: none; outline: none;
     }
     .slider-item input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
-      background: var(--primary); cursor: pointer; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      -webkit-appearance: none; appearance: none; width: 22px; height: 22px;
+      border-radius: 50%; background: var(--primary); cursor: pointer;
+      border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
     .slider-item input[type="range"]::-moz-range-thumb {
-      width: 22px; height: 22px; border-radius: 50%; background: var(--primary); cursor: pointer; border: 2px solid white;
+      width: 22px; height: 22px; border-radius: 50%; background: var(--primary);
+      cursor: pointer; border: 2px solid white;
     }
-    .slider-value { font-weight: 700; font-size: 1.1rem; min-width: 44px; text-align: center; }
+    .slider-value {
+      font-weight: 700; font-size: 1rem; min-width: 40px; text-align: center;
+    }
     .calc-group select {
-      padding: 10px 14px; border-radius: 60px; border: 1px solid var(--border); font-size: 1rem;
-      background: var(--card); color: var(--text); min-width: 160px;
+      padding: 8px 14px; border-radius: 60px; border: 1px solid var(--border);
+      font-size: 0.95rem; background: var(--card); color: var(--text);
+      min-width: 140px; appearance: auto;
     }
-    .goal-selector { display: flex; flex-wrap: wrap; gap: 8px; }
+    /* ====== КНОПКИ ЦЕЛЕЙ ====== */
+    .goal-selector { display: flex; flex-wrap: wrap; gap: 6px; }
     .goal-btn {
-      padding: 10px 18px; border-radius: 60px; border: 2px solid var(--border); background: var(--card);
-      color: var(--text); font-weight: 500; font-size: 0.9rem; cursor: pointer; transition: all var(--transition);
-      flex: 1 0 auto; text-align: center;
+      padding: 8px 14px; border-radius: 60px; border: 2px solid var(--border);
+      background: var(--card); color: var(--text); font-weight: 500; font-size: 0.85rem;
+      cursor: pointer; transition: all var(--transition); flex: 1 0 auto; text-align: center;
     }
     .goal-btn:hover { border-color: var(--primary); background: var(--primary-light); }
-    .goal-btn.active { border-color: var(--primary); background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(31,123,102,0.25); }
-    .goal-btn .sub { font-size: 0.7rem; font-weight: 400; opacity: 0.8; display: block; margin-top: 2px; }
+    .goal-btn.active { border-color: var(--primary); background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(31,123,102,0.2); }
+    .goal-btn .sub { font-size: 0.6rem; font-weight: 400; opacity: 0.8; display: block; margin-top: 2px; }
     .goal-btn.active .sub { opacity: 0.9; }
-    .goal-tag { display: inline-block; background: var(--primary); color: white; padding: 4px 16px; border-radius: 40px; font-size: 0.85rem; font-weight: 500; margin-top: 6px; }
-    .goal-desc { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+    .goal-tag { display: inline-block; background: var(--primary); color: white; padding: 3px 14px; border-radius: 40px; font-size: 0.8rem; font-weight: 500; margin-top: 4px; }
+    .goal-desc { color: var(--text-muted); font-size: 0.85rem; margin-top: 2px; }
+    /* ====== РЕЗУЛЬТАТЫ ====== */
     .result-box {
-      background: var(--primary-light); border-radius: 20px; padding: 18px 22px; margin-top: 16px;
-      display: flex; flex-wrap: wrap; gap: 12px 30px; transition: background var(--transition);
+      background: var(--primary-light); border-radius: 16px; padding: 14px 18px;
+      margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px 24px;
+      transition: background var(--transition);
     }
-    .result-item strong { font-size: 1.6rem; color: var(--text); display: block; }
-    .result-item { font-size: 0.9rem; }
+    .result-item strong { font-size: 1.4rem; color: var(--text); display: block; line-height: 1.2; }
+    .result-item { font-size: 0.85rem; }
+    /* ====== ПРОДУКТЫ ====== */
     .product-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin: 12px 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 6px; margin: 8px 0;
     }
     .product-grid label {
-      display: flex; align-items: center; gap: 6px; font-size: 0.9rem; padding: 4px 8px;
-      border-radius: 40px; background: var(--bg); border: 1px solid var(--border); cursor: pointer;
+      display: flex; align-items: center; gap: 4px; font-size: 0.85rem;
+      padding: 4px 8px; border-radius: 40px; background: var(--bg);
+      border: 1px solid var(--border); cursor: pointer;
       transition: all var(--transition);
     }
     .product-grid label:hover { background: var(--primary-light); }
-    .product-grid input[type="checkbox"] { accent-color: var(--primary); width: 18px; height: 18px; cursor: pointer; }
+    .product-grid input[type="checkbox"] { accent-color: var(--primary); width: 16px; height: 16px; cursor: pointer; }
+    .quick-btns { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+    .quick-btns button {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 40px;
+      padding: 4px 14px; font-size: 0.8rem; cursor: pointer; color: var(--text);
+      transition: all var(--transition);
+    }
+    .quick-btns button:hover { background: var(--primary-light); border-color: var(--primary); }
+    .filter-info { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+    /* ====== ДНИ НЕДЕЛИ ====== */
     .day-block {
-      background: var(--bg); border-radius: 18px; padding: 16px 20px; margin-bottom: 14px;
-      border-left: 5px solid var(--primary); transition: background var(--transition);
+      background: var(--bg); border-radius: 16px; padding: 12px 16px;
+      margin-bottom: 10px; border-left: 4px solid var(--primary);
+      transition: background var(--transition);
     }
-    .day-title { font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 8px; }
-    .meal { display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 4px 0; border-bottom: 1px dashed var(--border); }
+    .day-title { font-weight: 700; font-size: 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 4px; }
+    .meal {
+      display: flex; flex-wrap: wrap; gap: 2px 10px; padding: 3px 0;
+      border-bottom: 1px dashed var(--border); font-size: 0.9rem;
+    }
     .meal:last-child { border-bottom: none; }
-    .meal-name { font-weight: 500; min-width: 110px; }
+    .meal-name { font-weight: 500; min-width: 100px; }
     .meal-kcal { margin-left: auto; font-weight: 600; color: var(--primary); }
-    .total-day { margin-top: 10px; font-weight: 700; font-size: 1rem; }
-    .badge { background: var(--primary-light); color: var(--primary); padding: 2px 14px; border-radius: 40px; font-size: 0.8rem; }
+    .meal-macros { font-size: 0.7rem; color: var(--text-muted); width: 100%; }
+    .total-day { margin-top: 6px; font-weight: 700; font-size: 0.95rem; }
+    .badge { background: var(--primary-light); color: var(--primary); padding: 1px 12px; border-radius: 40px; font-size: 0.75rem; font-weight: 600; }
+    /* ====== КНОПКИ ====== */
     .btn {
-      background: var(--primary); border: none; color: white; font-weight: 600; padding: 10px 24px;
-      border-radius: 60px; font-size: 0.95rem; cursor: pointer; transition: all var(--transition);
-      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--primary); border: none; color: white; font-weight: 600;
+      padding: 8px 20px; border-radius: 60px; font-size: 0.9rem; cursor: pointer;
+      transition: all var(--transition); display: inline-flex; align-items: center; gap: 6px;
     }
-    .btn:hover { background: var(--primary-hover); transform: scale(1.02); }
+    .btn:hover { background: var(--primary-hover); transform: scale(1.01); }
     .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
     .btn-outline:hover { background: var(--primary-light); transform: none; }
-    .shop-list { list-style: none; padding: 0; columns: 2 200px; column-gap: 24px; }
-    .shop-list li { padding: 4px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; break-inside: avoid; }
-    .shop-list li span { font-weight: 500; }
-    .progress-chart { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-    .progress-bar { height: 8px; border-radius: 10px; background: var(--border); overflow: hidden; flex: 1; min-width: 30px; }
-    .progress-bar .fill { height: 100%; background: var(--primary); border-radius: 10px; transition: width 0.4s ease; }
-    .progress-label { font-size: 0.8rem; text-align: center; color: var(--text-muted); min-width: 40px; }
-    .filter-info { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; }
+    .btn-sm { padding: 4px 14px; font-size: 0.8rem; }
+    /* ====== СПИСОК ПОКУПОК ====== */
+    .shop-list { list-style: none; padding: 0; columns: 2 180px; column-gap: 20px; }
+    .shop-list li { padding: 3px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; break-inside: avoid; font-size: 0.9rem; }
+    .shop-list li span { font-weight: 500; color: var(--primary); }
+    /* ====== ПРОГРЕСС (кольцевой индикатор) ====== */
+    .progress-ring-wrap {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px;
+      margin: 8px 0;
+    }
+    .progress-ring {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: conic-gradient(var(--primary) 0%, var(--border) 0%);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1.2rem; color: var(--text);
+      position: relative; flex-shrink: 0;
+    }
+    .progress-ring::after {
+      content: ''; position: absolute; width: 64px; height: 64px;
+      border-radius: 50%; background: var(--card);
+    }
+    .progress-ring span { z-index: 1; }
+    .progress-stats { font-size: 0.9rem; }
+    .progress-stats strong { display: block; font-size: 1.2rem; }
+    /* ====== ГРАФИК (линейный) ====== */
+    .chart-container {
+      display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; align-items: flex-end;
+    }
+    .chart-bar-wrap {
+      display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 28px;
+    }
+    .chart-bar {
+      width: 100%; height: 60px; background: var(--border); border-radius: 6px 6px 0 0;
+      overflow: hidden; display: flex; flex-direction: column-reverse; min-height: 20px;
+    }
+    .chart-bar .fill { height: 0%; background: var(--primary); border-radius: 6px 6px 0 0; transition: height 0.6s ease; }
+    .chart-label { font-size: 0.6rem; color: var(--text-muted); margin-top: 2px; }
+    /* ====== АДАПТИВ ====== */
     @media (max-width: 600px) {
-      body { padding: 10px; }
-      .card { padding: 18px 16px; }
-      h1 { font-size: 1.6rem; }
-      .product-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+      body { padding: 8px; }
+      .card { padding: 14px 16px; margin-bottom: 14px; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.1rem; }
+      .slider-item label { min-width: 80px; font-size: 0.8rem; }
+      .slider-item input[type="range"] { min-width: 80px; }
+      .product-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
       .shop-list { columns: 1; }
-      .slider-item label { min-width: 90px; }
+      .goal-btn { font-size: 0.75rem; padding: 6px 10px; }
+      .goal-btn .sub { font-size: 0.5rem; }
+      .result-item strong { font-size: 1.2rem; }
+      .progress-ring { width: 60px; height: 60px; }
+      .progress-ring::after { width: 48px; height: 48px; }
+      .progress-ring span { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
 <div class="container">
 
+  <!-- ШАПКА -->
   <div class="card">
     <div class="flex-between">
-      <h1>🥗 FitPlan <span>v2.1</span></h1>
+      <h1>🥗 FitPlan <span>PRO</span></h1>
       <button class="theme-toggle" id="themeToggle">🌙 Тёмная</button>
     </div>
-    <p class="text-muted">Выбери параметры, отметь продукты — рацион подстроится под тебя.</p>
+    <p class="text-muted">Калькулятор, рацион, прогресс — всё в одном месте.</p>
   </div>
 
   <!-- КАЛЬКУЛЯТОР -->
   <div class="card">
-    <h2>🧮 Калькулятор нормы</h2>
+    <h2>🧮 Калькулятор</h2>
     <div class="calc-group">
       <div class="slider-item">
         <label>Пол</label>
@@ -173,19 +246,19 @@
       <div class="slider-item">
         <label>Активность</label>
         <select id="activity">
-          <option value="1.2">Сидячий образ жизни</option>
+          <option value="1.2">Сидячий</option>
           <option value="1.375" selected>Лёгкая (1–3 тренировки)</option>
           <option value="1.55">Умеренная (3–5 тренировок)</option>
           <option value="1.725">Высокая (6–7 тренировок)</option>
         </select>
       </div>
       <div>
-        <label style="font-weight:500; display:block; margin:8px 0 6px;">🎯 Ваша цель</label>
+        <label style="font-weight:500; display:block; margin:6px 0 4px;">🎯 Цель</label>
         <div class="goal-selector">
-          <button class="goal-btn active" data-factor="0.75" data-plan="fatloss">🔥 Жиросжигание<span class="sub">Интенсивный дефицит</span></button>
-          <button class="goal-btn" data-factor="0.85" data-plan="moderate">⚖️ Умеренное похудение<span class="sub">Комфортный темп</span></button>
-          <button class="goal-btn" data-factor="1.0" data-plan="maintain">🛡️ Поддержание<span class="sub">Вес стабилен</span></button>
-          <button class="goal-btn" data-factor="1.15" data-plan="bulk">💪 Набор массы<span class="sub">Профицит</span></button>
+          <button class="goal-btn active" data-factor="0.75" data-plan="fatloss">🔥 Жиросжигание<span class="sub">дефицит 25%</span></button>
+          <button class="goal-btn" data-factor="0.85" data-plan="moderate">⚖️ Умеренное<span class="sub">дефицит 15%</span></button>
+          <button class="goal-btn" data-factor="1.0" data-plan="maintain">🛡️ Поддержание<span class="sub">баланс</span></button>
+          <button class="goal-btn" data-factor="1.15" data-plan="bulk">💪 Набор массы<span class="sub">профицит 15%</span></button>
         </div>
         <div id="goalDisplay" class="goal-tag">🔥 Жиросжигание</div>
         <div id="goalDesc" class="goal-desc">Интенсивный дефицит 25% — до 1 кг в неделю</div>
@@ -197,17 +270,21 @@
       <div class="result-item"><strong id="resFat">—</strong> г жиров</div>
       <div class="result-item"><strong id="resCarbs">—</strong> г углеводов</div>
     </div>
-    <div class="result-box" style="margin-top:10px;">
+    <div class="result-box" style="margin-top:6px;">
       <div class="result-item"><strong id="resDiff">—</strong> кг (разница)</div>
       <div class="result-item"><strong id="resWeeks">—</strong> недель (срок)</div>
-      <div class="result-item"><strong id="resSpeed">—</strong> кг/неделю</div>
+      <div class="result-item"><strong id="resSpeed">—</strong> кг/нед.</div>
     </div>
   </div>
 
-  <!-- ВЫБОР ПРОДУКТОВ -->
+  <!-- ПРОДУКТЫ -->
   <div class="card">
-    <h2>🛒 Что есть в холодильнике?</h2>
-    <p class="text-muted">Отметь продукты, которые у тебя есть. Рацион подстроится под них.</p>
+    <h2>🛒 Продукты</h2>
+    <p class="text-muted">Отметь, что есть — рацион подстроится.</p>
+    <div class="quick-btns">
+      <button id="selectAllProducts">✅ Выбрать всё</button>
+      <button id="clearAllProducts">❌ Очистить всё</button>
+    </div>
     <div class="product-grid" id="productGrid">
       <label><input type="checkbox" value="chicken"> Курица</label>
       <label><input type="checkbox" value="turkey"> Индейка</label>
@@ -240,40 +317,49 @@
       <label><input type="checkbox" value="oranges"> Апельсины</label>
       <label><input type="checkbox" value="nuts"> Орехи</label>
     </div>
-    <button class="btn" id="applyProductsBtn">🔄 Применить продукты</button>
-    <div id="filterInfo" class="filter-info"></div>
+    <div id="filterInfo" class="filter-info">✅ Выбрано: 0 продуктов. Показано 7 дней.</div>
   </div>
 
   <!-- РАЦИОН -->
   <div class="card">
     <div class="flex-between">
-      <h2>📅 План питания на неделю</h2>
-      <button class="btn btn-outline" id="exportShopListBtn">📋 Список покупок</button>
+      <h2>📅 План питания</h2>
+      <button class="btn btn-outline btn-sm" id="exportShopListBtn">📋 Список покупок</button>
     </div>
-    <p class="text-muted" id="planDesc">Рацион подобран под выбранную цель и доступные продукты.</p>
+    <p class="text-muted" id="planDesc">Рацион подобран под цель и доступные продукты.</p>
     <div id="mealPlanContainer"></div>
   </div>
 
-  <div id="shopListContainer" style="display:none;"></div>
+  <!-- Скрытый список покупок -->
+  <div id="shopListContainer" style="display:none; margin-bottom:16px;"></div>
 
-  <!-- ГРАФИК -->
+  <!-- ПРОГРЕСС -->
   <div class="card">
-    <h2>📈 Прогресс</h2>
+    <h2>📈 Прогресс к цели</h2>
+    <div class="progress-ring-wrap">
+      <div class="progress-ring" id="progressRing"><span id="progressPercent">0%</span></div>
+      <div class="progress-stats">
+        <strong id="progressWeightDiff">0 кг</strong>
+        <span class="text-muted">осталось до цели</span>
+      </div>
+    </div>
     <p class="text-muted">Введи свой вес за последние дни (через запятую).</p>
     <div class="flex-row">
-      <input type="text" id="weightHistoryInput" placeholder="70, 69.5, 69, 68.5" style="flex:1; padding:10px 16px; border-radius:60px; border:1px solid var(--border); background:var(--card); color:var(--text);">
-      <button class="btn" id="updateChartBtn">📊 Показать</button>
+      <input type="text" id="weightHistoryInput" placeholder="70, 69.5, 69, 68.5" style="flex:1; padding:8px 14px; border-radius:60px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:0.9rem;">
+      <button class="btn btn-sm" id="updateChartBtn">📊 Показать</button>
     </div>
-    <div id="chartContainer" class="progress-chart"></div>
+    <div id="chartContainer" class="chart-container"></div>
   </div>
 
-  <div style="text-align:center; padding:12px 0 4px; color:var(--text-muted); font-size:0.85rem;">
-    🧡 FitPlan — рекомендательный характер. Для точных назначений обратись к врачу.
+  <div style="text-align:center; padding:8px 0 2px; color:var(--text-muted); font-size:0.75rem;">
+    🧡 FitPlan — рекомендации. Для точных назначений обратись к врачу.
   </div>
 </div>
 
 <script>
-  // ====== ТЕМА ======
+  // =========================================================================
+  // 1. ТЕМА
+  // =========================================================================
   const themeToggle = document.getElementById('themeToggle');
   const currentTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', currentTheme);
@@ -285,20 +371,24 @@
     themeToggle.textContent = theme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная';
   });
 
-  // ====== СОХРАНЕНИЕ ======
+  // =========================================================================
+  // 2. СОХРАНЕНИЕ
+  // =========================================================================
   function saveState(key, value) { localStorage.setItem('fitplan_' + key, JSON.stringify(value)); }
   function loadState(key, fallback) {
     const val = localStorage.getItem('fitplan_' + key);
     return val ? JSON.parse(val) : fallback;
   }
 
-  // ====== БАЗА ПРОДУКТОВ В БЛЮДАХ ======
+  // =========================================================================
+  // 3. ДАННЫЕ РАЦИОНОВ
+  // =========================================================================
   const mealProducts = {
     'Овсяноблин': ['oatmeal', 'eggs', 'cottage_cheese'],
-    'Рисовая каша': ['rice', 'milk', 'apples'],
+    'Рисовая каша': ['rice', 'apples'],
     'Яичница': ['eggs', 'tomatoes'],
     'Омлет': ['eggs', 'broccoli', 'mushrooms'],
-    'Запеканка творожная': ['cottage_cheese', 'eggs', 'apples'],
+    'Запеканка': ['cottage_cheese', 'eggs', 'apples'],
     'Сырники': ['cottage_cheese', 'eggs'],
     'Пшённая каша': ['pumpkin', 'eggs'],
     'Овсянка': ['oatmeal', 'bananas'],
@@ -345,7 +435,6 @@
     return [];
   }
 
-  // ====== РАЦИОНЫ ======
   const baseMealData = {
     fatloss: {
       label: '🔥 Жиросжигание',
@@ -397,7 +486,9 @@
     }
   };
 
-  // ====== ФИЛЬТРАЦИЯ ======
+  // =========================================================================
+  // 4. ФИЛЬТРАЦИЯ
+  // =========================================================================
   function filterMeals(planKey) {
     const data = baseMealData[planKey];
     if (!data) return data;
@@ -420,7 +511,9 @@
     return { ...data, days: filteredDays };
   }
 
-  // ====== ОТРИСОВКА ======
+  // =========================================================================
+  // 5. ОТРИСОВКА
+  // =========================================================================
   let currentPlan = loadState('currentPlan', 'fatloss');
 
   function renderMeals() {
@@ -428,10 +521,10 @@
     const container = document.getElementById('mealPlanContainer');
     const info = document.getElementById('filterInfo');
     const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
-    
+
     if (!data || !data.days || data.days.length === 0) {
       container.innerHTML = '<p class="text-muted">😕 Нет блюд с выбранными продуктами. Попробуй отметить больше продуктов.</p>';
-      info.textContent = 'Выбрано продуктов: ' + checked.length + '. Попробуй отметить больше.';
+      info.textContent = '✅ Выбрано: ' + checked.length + ' продуктов. Попробуй отметить больше.';
       return;
     }
 
@@ -440,17 +533,19 @@
       html += '<div class="day-block">';
       html += '<div class="day-title">' + day.name + ' <span class="badge">' + day.total + ' ккал</span></div>';
       day.meals.forEach(m => {
-        html += '<div class="meal"><span class="meal-name">' + m[0] + '</span> <span class="meal-kcal">' + m[1] + ' ккал</span></div>';
+        html += '<div class="meal"><span class="meal-name">' + m[0] + '</span><span class="meal-kcal">' + m[1] + ' ккал</span></div>';
       });
       html += '<div class="total-day">⭐ Итого: ' + day.total + ' ккал</div>';
       html += '</div>';
     });
     container.innerHTML = html;
     document.getElementById('planDesc').textContent = 'Рацион: ' + data.label + ' (подобрано ' + data.days.length + ' дней из 7)';
-    info.textContent = '✅ Выбрано продуктов: ' + checked.length + '. Показано ' + data.days.length + ' дней.';
+    info.textContent = '✅ Выбрано: ' + checked.length + ' продуктов. Показано ' + data.days.length + ' дней.';
   }
 
-  // ====== ОСНОВНОЙ РАСЧЁТ ======
+  // =========================================================================
+  // 6. КАЛЬКУЛЯТОР
+  // =========================================================================
   function calculate() {
     const gender = document.getElementById('gender').value;
     const age = parseInt(document.getElementById('ageSlider').value);
@@ -484,11 +579,22 @@
     document.getElementById('resSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
     document.getElementById('resWeeks').textContent = weeks + ' нед.';
 
+    // Прогресс к цели (кольцевой индикатор)
+    const totalDiff = weight - goalWeight;
+    const progressRing = document.getElementById('progressRing');
+    const percent = totalDiff > 0 ? Math.min(100, (Math.abs(diff) / (weight)) * 100) : 0;
+    progressRing.style.background = `conic-gradient(var(--primary) ${percent}%, var(--border) ${percent}%)`;
+    document.getElementById('progressPercent').textContent = Math.round(percent) + '%';
+    document.getElementById('progressWeightDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
+
     renderMeals();
     saveState('currentPlan', currentPlan);
   }
 
-  // ====== СОБЫТИЯ ======
+  // =========================================================================
+  // 7. СОБЫТИЯ
+  // =========================================================================
+  // Цели
   document.querySelectorAll('.goal-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
@@ -503,8 +609,29 @@
     });
   });
 
-  document.getElementById('applyProductsBtn').addEventListener('click', calculate);
+  // Продукты (при изменении — автообновление)
+  document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
+      saveState('selectedProducts', Array.from(checked).map(el => el.value));
+      calculate(); // автообновление
+    });
+  });
 
+  // Быстрые кнопки для продуктов
+  document.getElementById('selectAllProducts').addEventListener('click', () => {
+    document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => cb.checked = true);
+    const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
+    saveState('selectedProducts', Array.from(checked).map(el => el.value));
+    calculate();
+  });
+  document.getElementById('clearAllProducts').addEventListener('click', () => {
+    document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => cb.checked = false);
+    saveState('selectedProducts', []);
+    calculate();
+  });
+
+  // Список покупок
   document.getElementById('exportShopListBtn').addEventListener('click', () => {
     const data = filterMeals(currentPlan);
     if (!data || !data.days) return;
@@ -520,18 +647,18 @@
         });
       });
     });
-    let list = '<h2>🛍️ Список покупок</h2><ul class="shop-list">';
+    let list = '<div class="card"><h2>🛍️ Список покупок</h2><ul class="shop-list">';
     for (const [name, count] of Object.entries(productMap)) {
       list += `<li>${name} <span>×${count}</span></li>`;
     }
-    list += '</ul>';
+    list += '</ul><button class="btn btn-sm" onclick="this.parentElement.style.display=\'none\'">✖ Закрыть</button></div>';
     const container = document.getElementById('shopListContainer');
     container.innerHTML = list;
     container.style.display = 'block';
     container.scrollIntoView({ behavior: 'smooth' });
-    setTimeout(() => { container.style.display = 'none'; }, 15000);
   });
 
+  // График прогресса
   document.getElementById('updateChartBtn').addEventListener('click', () => {
     const input = document.getElementById('weightHistoryInput').value;
     const weights = input.split(',').map(s => parseFloat(s.trim())).filter(v => !isNaN(v));
@@ -546,12 +673,15 @@
     let html = '';
     weights.forEach((w, i) => {
       const percent = ((w - min) / range) * 100;
-      html += `<div><div class="progress-bar"><div class="fill" style="width:${100 - percent}%"></div></div><div class="progress-label">${w.toFixed(1)}</div></div>`;
+      const height = Math.max(5, percent);
+      html += `<div class="chart-bar-wrap"><div class="chart-bar"><div class="fill" style="height:${height}%"></div></div><div class="chart-label">${w.toFixed(1)}</div></div>`;
     });
     container.innerHTML = html;
   });
 
-  // ====== АВТОСОХРАНЕНИЕ ======
+  // =========================================================================
+  // 8. АВТОСОХРАНЕНИЕ
+  // =========================================================================
   ['gender', 'ageSlider', 'heightSlider', 'weightSlider', 'goalWeightSlider', 'activity'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -565,16 +695,15 @@
     }
   });
 
+  // Восстановление выбранных продуктов
   const savedProducts = loadState('selectedProducts', []);
   document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => {
     if (savedProducts.includes(cb.value)) cb.checked = true;
-    cb.addEventListener('change', () => {
-      const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
-      saveState('selectedProducts', Array.from(checked).map(el => el.value));
-    });
   });
 
-  // ====== СТАРТ ======
+  // =========================================================================
+  // 9. СТАРТ
+  // =========================================================================
   window.onload = function() {
     const savedGoal = loadState('currentPlan', 'fatloss');
     document.querySelectorAll('.goal-btn').forEach(btn => {
