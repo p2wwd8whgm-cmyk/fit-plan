@@ -864,14 +864,28 @@
     });
   });
 
-  // АВТООБНОВЛЕНИЕ ПОЛЗУНКОВ (это было сломано — теперь работает!)
-  document.getElementById('ageSlider').addEventListener('input', calculate);
-  document.getElementById('heightSlider').addEventListener('input', calculate);
-  document.getElementById('weightSlider').addEventListener('input', calculate);
-  document.getElementById('goalWeightSlider').addEventListener('input', calculate);
+  // ===================== АВТООБНОВЛЕНИЕ ПОЛЗУНКОВ =====================
+  // Эти обработчики заставляют сайт пересчитываться мгновенно
+  document.getElementById('ageSlider').addEventListener('input', function() {
+    document.getElementById('ageValue').textContent = this.value;
+    calculate();
+  });
+  document.getElementById('heightSlider').addEventListener('input', function() {
+    document.getElementById('heightValue').textContent = this.value;
+    calculate();
+  });
+  document.getElementById('weightSlider').addEventListener('input', function() {
+    document.getElementById('weightValue').textContent = this.value;
+    calculate();
+  });
+  document.getElementById('goalWeightSlider').addEventListener('input', function() {
+    document.getElementById('goalWeightValue').textContent = this.value;
+    calculate();
+  });
   document.getElementById('gender').addEventListener('change', calculate);
   document.getElementById('activity').addEventListener('change', calculate);
 
+  // Продукты
   document.querySelectorAll('#productGrid input[type="checkbox"]').forEach(cb => {
     cb.addEventListener('change', () => {
       const checked = document.querySelectorAll('#productGrid input[type="checkbox"]:checked');
@@ -893,6 +907,7 @@
     calculate();
   });
 
+  // Поиск рецептов
   document.getElementById('searchBtn').addEventListener('click', () => {
     const query = document.getElementById('recipeSearch').value;
     const results = filterRecipes(query);
@@ -908,6 +923,7 @@
     renderRecipes(recipeDB);
   });
 
+  // Список покупок
   document.getElementById('exportShopListBtn').addEventListener('click', () => {
     const data = filterMeals(currentPlan);
     if (!data || !data.days) return;
@@ -934,6 +950,7 @@
     container.scrollIntoView({ behavior: 'smooth' });
   });
 
+  // График прогресса
   document.getElementById('updateChartBtn').addEventListener('click', () => {
     const input = document.getElementById('weightHistoryInput').value;
     const weights = input.split(',').map(s => parseFloat(s.trim())).filter(v => !isNaN(v));
@@ -964,7 +981,9 @@
         else if (el.tagName === 'SELECT') el.value = saved;
       }
       el.addEventListener('change', () => saveState(id, el.value));
-      el.addEventListener('input', () => { if (el.type === 'range') saveState(id, el.value); });
+      el.addEventListener('input', () => {
+        if (el.type === 'range') saveState(id, el.value);
+      });
     }
   });
 
