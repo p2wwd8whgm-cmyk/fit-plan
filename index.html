@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#1f7b66">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>FitPlan — конструктор питания</title>
   <style>
     /* ====== ПЕРЕМЕННЫЕ ====== */
@@ -303,7 +302,7 @@
     .modal .btn-row { display: flex; gap: 8px; margin-top: 12px; justify-content: flex-end; }
     .modal .btn-row .btn { padding: 6px 20px; }
 
-    /* ====== УВЕДОМЛЕНИЯ (тосты) ====== */
+    /* ====== УВЕДОМЛЕНИЯ ====== */
     .toast {
       position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
       background: var(--card); border: 1px solid var(--primary); border-radius: 60px;
@@ -328,14 +327,6 @@
     @media (min-width: 601px) {
       body { padding: 0 24px; padding-bottom: calc(var(--bottom-nav-height) + 16px); padding-top: var(--header-height); }
     }
-
-    /* ====== СКЕЛЕТОН ====== */
-    .skeleton {
-      background: linear-gradient(90deg, var(--border) 25%, var(--bg) 50%, var(--border) 75%);
-      background-size: 200% 100%; animation: shimmer 1.5s infinite;
-      border-radius: 8px;
-    }
-    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
   </style>
 </head>
 <body>
@@ -348,7 +339,7 @@
   </div>
 </header>
 
-<!-- ====== ТОСТ ДЛЯ УВЕДОМЛЕНИЙ ====== -->
+<!-- ====== ТОСТ ====== -->
 <div class="toast" id="toast"></div>
 
 <!-- ====== КОНТЕЙНЕР ====== -->
@@ -360,7 +351,6 @@
       <h2>👋 Привет!</h2>
       <p class="text-muted">Добро пожаловать в FitPlan. Твой персональный конструктор питания.</p>
     </div>
-
     <div class="card">
       <h2>🎯 Прогресс к цели</h2>
       <div class="progress-ring-wrap">
@@ -371,7 +361,6 @@
         </div>
       </div>
     </div>
-
     <div class="card">
       <h2>⚡ Быстрый старт</h2>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -379,7 +368,6 @@
         <button class="btn btn-outline" onclick="switchTab('mealplan')">📅 Мой рацион</button>
       </div>
     </div>
-
     <div class="card">
       <h2>📊 Статистика</h2>
       <div style="display:flex; flex-wrap:wrap; gap:12px;">
@@ -511,7 +499,6 @@
         </div>
       </div>
     </div>
-
     <div class="card">
       <h2>📊 История веса</h2>
       <p class="text-muted">Введи свой вес за последние дни (через запятую).</p>
@@ -522,7 +509,6 @@
       </div>
       <div id="chartContainer" class="chart-container"></div>
     </div>
-
     <div class="card">
       <h2>📋 Статистика</h2>
       <div style="display:flex; flex-wrap:wrap; gap:12px; font-size:0.85rem;">
@@ -545,7 +531,7 @@
   <button class="tab-btn" data-tab="progress"><span class="icon">📊</span>Прогресс</button>
 </nav>
 
-<!-- ====== МОДАЛЬНОЕ ОКНО ====== -->
+<!-- ====== МОДАЛКА ====== -->
 <div class="modal-overlay" id="addRecipeModal">
   <div class="modal">
     <h3>🍽️ Добавить в рацион</h3>
@@ -590,7 +576,7 @@
   });
 
   // =========================================================================
-  // 2. ТОСТ (уведомления)
+  // 2. ТОСТ
   // =========================================================================
   let toastTimer;
 
@@ -608,18 +594,13 @@
   const tabMap = { home: 'page-home', calc: 'page-calc', recipes: 'page-recipes', mealplan: 'page-mealplan', progress: 'page-progress' };
 
   function switchTab(tabId) {
-    // Скрыть все страницы
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    // Показать нужную
     const page = document.getElementById(tabMap[tabId]);
     if (page) page.classList.add('active');
-    // Обновить кнопки меню
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.tab === tabId);
     });
-    // Сохранить выбранную вкладку
     localStorage.setItem('fitplan_tab', tabId);
-    // При переключении на рацион или прогресс — обновить данные
     if (tabId === 'mealplan') renderMeals();
     if (tabId === 'progress') updateProgressPage();
     if (tabId === 'home') updateHomePage();
@@ -629,7 +610,6 @@
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
   });
 
-  // Восстановить последнюю вкладку
   const savedTab = localStorage.getItem('fitplan_tab') || 'home';
   switchTab(savedTab);
 
@@ -643,59 +623,44 @@
   }
 
   // =========================================================================
-  // 5. БАЗА РЕЦЕПТОВ (100+ с точными данными)
+  // 5. БАЗА РЕЦЕПТОВ
   // =========================================================================
   function getRecipeDatabase() {
     return [
-      // ===== ЗАВТРАКИ =====
-      { name: 'Овсяноблин с творогом', category: 'breakfast', time: 15, difficulty: 'Лёгкая', kcal: 380, protein: 20, fat: 15, carbs: 35, tags: ['oatmeal', 'eggs', 'cottage_cheese'], ingredients: ['овсянка 40г', 'яйцо 2шт', 'творог 100г', 'ягоды 50г'] },
-      { name: 'Овсянка с бананом', category: 'breakfast', time: 10, difficulty: 'Лёгкая', kcal: 270, protein: 10, fat: 6, carbs: 45, tags: ['oatmeal', 'bananas'], ingredients: ['овсянка 40г', 'банан 1шт', 'корица'] },
-      { name: 'Рисовая каша с яблоком', category: 'breakfast', time: 20, difficulty: 'Лёгкая', kcal: 340, protein: 8, fat: 4, carbs: 60, tags: ['rice', 'apples'], ingredients: ['рис 40г', 'яблоко 1шт', 'молоко 150мл'] },
-      { name: 'Яичница с помидорами', category: 'breakfast', time: 10, difficulty: 'Лёгкая', kcal: 220, protein: 16, fat: 14, carbs: 8, tags: ['eggs', 'tomatoes'], ingredients: ['яйца 2шт', 'помидоры 100г', 'масло 5г'] },
-      { name: 'Сырники классические', category: 'breakfast', time: 25, difficulty: 'Средняя', kcal: 280, protein: 18, fat: 12, carbs: 25, tags: ['cottage_cheese', 'eggs'], ingredients: ['творог 200г', 'яйцо 1шт', 'мука 30г', 'сметана 20г'] },
-      { name: 'Творожная запеканка', category: 'breakfast', time: 35, difficulty: 'Средняя', kcal: 310, protein: 25, fat: 8, carbs: 30, tags: ['cottage_cheese', 'eggs', 'apples'], ingredients: ['творог 200г', 'яйцо 2шт', 'манка 20г', 'яблоко 1шт'] },
-      { name: 'Пшённая каша с тыквой', category: 'breakfast', time: 25, difficulty: 'Лёгкая', kcal: 210, protein: 6, fat: 3, carbs: 36, tags: ['pumpkin'], ingredients: ['пшено 30г', 'тыква 150г', 'молоко 100мл', 'мёд 5г'] },
-      { name: 'Омлет с брокколи', category: 'breakfast', time: 15, difficulty: 'Лёгкая', kcal: 220, protein: 18, fat: 14, carbs: 8, tags: ['eggs', 'broccoli'], ingredients: ['яйца 3шт', 'брокколи 150г', 'масло 5г'] },
-      { name: 'Гречка с молоком', category: 'breakfast', time: 20, difficulty: 'Лёгкая', kcal: 300, protein: 12, fat: 6, carbs: 48, tags: ['buckwheat'], ingredients: ['гречка 50г', 'молоко 150мл'] },
-      { name: 'Яйцо пашот с авокадо', category: 'breakfast', time: 10, difficulty: 'Средняя', kcal: 250, protein: 14, fat: 18, carbs: 10, tags: ['eggs'], ingredients: ['яйцо 2шт', 'авокадо 1/2', 'хлеб 1шт'] },
-
-      // ===== ОБЕДЫ =====
-      { name: 'Курица с гречкой', category: 'lunch', time: 35, difficulty: 'Средняя', kcal: 440, protein: 35, fat: 12, carbs: 40, tags: ['chicken', 'buckwheat'], ingredients: ['курица 150г', 'гречка 60г', 'лук 30г', 'морковь 30г', 'масло 5г'] },
-      { name: 'Рис с курицей и овощами', category: 'lunch', time: 30, difficulty: 'Средняя', kcal: 420, protein: 30, fat: 10, carbs: 50, tags: ['rice', 'chicken', 'carrots', 'peppers'], ingredients: ['рис 60г', 'курица 150г', 'морковь 50г', 'лук 30г', 'перец 30г'] },
-      { name: 'Скумбрия с картофелем', category: 'lunch', time: 40, difficulty: 'Средняя', kcal: 480, protein: 25, fat: 22, carbs: 40, tags: ['fish', 'potatoes'], ingredients: ['скумбрия 150г', 'картофель 200г', 'лук 30г', 'масло 10г'] },
-      { name: 'Чечевичный суп', category: 'lunch', time: 30, difficulty: 'Лёгкая', kcal: 250, protein: 18, fat: 4, carbs: 35, tags: ['lentils', 'carrots'], ingredients: ['чечевица 100г', 'морковь 50г', 'лук 30г', 'зелень'] },
-      { name: 'Гречка с печенью', category: 'lunch', time: 30, difficulty: 'Средняя', kcal: 350, protein: 30, fat: 14, carbs: 35, tags: ['buckwheat', 'chicken'], ingredients: ['гречка 50г', 'печень 150г', 'лук 30г', 'морковь 30г'] },
-      { name: 'Паста с тунцом', category: 'lunch', time: 20, difficulty: 'Лёгкая', kcal: 390, protein: 28, fat: 12, carbs: 45, tags: ['pasta', 'tuna', 'tomatoes'], ingredients: ['паста 50г', 'тунец 100г', 'томаты 100г', 'масло 5г'] },
-      { name: 'Кабачок с курицей', category: 'lunch', time: 25, difficulty: 'Лёгкая', kcal: 290, protein: 28, fat: 10, carbs: 20, tags: ['chicken', 'zucchini', 'peppers'], ingredients: ['курица 150г', 'кабачок 200г', 'перец 30г', 'лук 20г'] },
-      { name: 'Индейка с перловкой', category: 'lunch', time: 35, difficulty: 'Средняя', kcal: 390, protein: 32, fat: 8, carbs: 45, tags: ['turkey', 'carrots'], ingredients: ['индейка 150г', 'перловка 50г', 'морковь 40г', 'лук 30г'] },
-      { name: 'Говядина с гречкой', category: 'lunch', time: 45, difficulty: 'Сложная', kcal: 420, protein: 34, fat: 16, carbs: 38, tags: ['beef', 'buckwheat'], ingredients: ['говядина 150г', 'гречка 50г', 'лук 30г', 'морковь 30г'] },
-      { name: 'Куриная грудка с овощами', category: 'lunch', time: 25, difficulty: 'Лёгкая', kcal: 320, protein: 35, fat: 8, carbs: 25, tags: ['chicken', 'broccoli', 'carrots'], ingredients: ['куриная грудка 150г', 'брокколи 100г', 'морковь 50г', 'масло 5г'] },
-      { name: 'Рис с рыбой', category: 'lunch', time: 30, difficulty: 'Средняя', kcal: 370, protein: 28, fat: 12, carbs: 42, tags: ['rice', 'fish'], ingredients: ['рис 50г', 'рыба 150г', 'морковь 40г', 'лук 20г'] },
-      { name: 'Гречка с грибами', category: 'lunch', time: 25, difficulty: 'Лёгкая', kcal: 280, protein: 14, fat: 8, carbs: 40, tags: ['buckwheat', 'mushrooms'], ingredients: ['гречка 50г', 'грибы 150г', 'лук 30г', 'масло 5г'] },
-      { name: 'Паста с овощами', category: 'lunch', time: 20, difficulty: 'Лёгкая', kcal: 340, protein: 14, fat: 10, carbs: 50, tags: ['pasta', 'zucchini', 'peppers', 'tomatoes'], ingredients: ['паста 50г', 'кабачок 100г', 'перец 50г', 'томаты 80г', 'масло 5г'] },
-
-      // ===== УЖИНЫ =====
-      { name: 'Омлет с шампиньонами', category: 'dinner', time: 15, difficulty: 'Лёгкая', kcal: 240, protein: 20, fat: 16, carbs: 6, tags: ['eggs', 'mushrooms'], ingredients: ['яйца 3шт', 'шампиньоны 100г', 'лук 20г', 'масло 5г'] },
-      { name: 'Салат с тунцом и яйцом', category: 'dinner', time: 10, difficulty: 'Лёгкая', kcal: 210, protein: 20, fat: 12, carbs: 10, tags: ['tuna', 'eggs', 'cucumbers'], ingredients: ['тунец 100г', 'яйцо 2шт', 'огурцы 100г', 'салат 30г', 'масло 5г'] },
-      { name: 'Творог с зеленью', category: 'dinner', time: 5, difficulty: 'Лёгкая', kcal: 140, protein: 16, fat: 6, carbs: 6, tags: ['cottage_cheese', 'cucumbers'], ingredients: ['творог 120г', 'укроп', 'огурец 50г'] },
-      { name: 'Куриные сердечки с фасолью', category: 'dinner', time: 30, difficulty: 'Средняя', kcal: 310, protein: 28, fat: 14, carbs: 22, tags: ['chicken', 'beans'], ingredients: ['сердечки 150г', 'фасоль 100г', 'лук 30г', 'морковь 30г'] },
-      { name: 'Салат с курицей и авокадо', category: 'dinner', time: 15, difficulty: 'Лёгкая', kcal: 290, protein: 22, fat: 16, carbs: 14, tags: ['chicken', 'cucumbers'], ingredients: ['курица 120г', 'авокадо 50г', 'салат 30г', 'огурец 80г', 'йогурт 30г'] },
-      { name: 'Брокколи с яйцом', category: 'dinner', time: 10, difficulty: 'Лёгкая', kcal: 160, protein: 12, fat: 10, carbs: 8, tags: ['broccoli', 'eggs'], ingredients: ['брокколи 150г', 'яйцо 2шт', 'масло 5г'] },
-      { name: 'Цветная капуста с яйцом', category: 'dinner', time: 15, difficulty: 'Лёгкая', kcal: 180, protein: 14, fat: 10, carbs: 12, tags: ['broccoli', 'eggs'], ingredients: ['цветная капуста 150г', 'яйцо 2шт', 'масло 5г'] },
-      { name: 'Творог с ягодами', category: 'dinner', time: 5, difficulty: 'Лёгкая', kcal: 180, protein: 16, fat: 6, carbs: 18, tags: ['cottage_cheese'], ingredients: ['творог 150г', 'ягоды 80г', 'мёд 5г'] },
-
-      // ===== ПЕРЕКУСЫ =====
-      { name: 'Греческий йогурт с ягодами', category: 'snack', time: 3, difficulty: 'Лёгкая', kcal: 120, protein: 8, fat: 4, carbs: 12, tags: [], ingredients: ['йогурт 150г', 'ягоды 50г'] },
-      { name: 'Яблоко с орехами', category: 'snack', time: 2, difficulty: 'Лёгкая', kcal: 150, protein: 3, fat: 10, carbs: 15, tags: ['apples', 'nuts'], ingredients: ['яблоко 1шт', 'грецкие орехи 15г'] },
-      { name: 'Кефир с отрубями', category: 'snack', time: 2, difficulty: 'Лёгкая', kcal: 100, protein: 6, fat: 2, carbs: 12, tags: ['kefir'], ingredients: ['кефир 200мл', 'отруби 10г'] },
-      { name: 'Творожная паста с зеленью', category: 'snack', time: 5, difficulty: 'Лёгкая', kcal: 130, protein: 14, fat: 6, carbs: 4, tags: ['cottage_cheese'], ingredients: ['творог 100г', 'укроп', 'огурец 30г'] }
+      // ЗАВТРАКИ
+      { name: 'Овсяноблин с творогом', category: 'breakfast', time: 15, kcal: 380, protein: 20, fat: 15, carbs: 35, tags: ['oatmeal', 'eggs', 'cottage_cheese'], ingredients: ['овсянка 40г', 'яйцо 2шт', 'творог 100г', 'ягоды 50г'] },
+      { name: 'Овсянка с бананом', category: 'breakfast', time: 10, kcal: 270, protein: 10, fat: 6, carbs: 45, tags: ['oatmeal', 'bananas'], ingredients: ['овсянка 40г', 'банан 1шт', 'корица'] },
+      { name: 'Рисовая каша с яблоком', category: 'breakfast', time: 20, kcal: 340, protein: 8, fat: 4, carbs: 60, tags: ['rice', 'apples'], ingredients: ['рис 40г', 'яблоко 1шт', 'молоко 150мл'] },
+      { name: 'Яичница с помидорами', category: 'breakfast', time: 10, kcal: 220, protein: 16, fat: 14, carbs: 8, tags: ['eggs', 'tomatoes'], ingredients: ['яйца 2шт', 'помидоры 100г', 'масло 5г'] },
+      { name: 'Сырники классические', category: 'breakfast', time: 25, kcal: 280, protein: 18, fat: 12, carbs: 25, tags: ['cottage_cheese', 'eggs'], ingredients: ['творог 200г', 'яйцо 1шт', 'мука 30г', 'сметана 20г'] },
+      { name: 'Творожная запеканка', category: 'breakfast', time: 35, kcal: 310, protein: 25, fat: 8, carbs: 30, tags: ['cottage_cheese', 'eggs', 'apples'], ingredients: ['творог 200г', 'яйцо 2шт', 'манка 20г', 'яблоко 1шт'] },
+      { name: 'Пшённая каша с тыквой', category: 'breakfast', time: 25, kcal: 210, protein: 6, fat: 3, carbs: 36, tags: ['pumpkin'], ingredients: ['пшено 30г', 'тыква 150г', 'молоко 100мл', 'мёд 5г'] },
+      { name: 'Омлет с брокколи', category: 'breakfast', time: 15, kcal: 220, protein: 18, fat: 14, carbs: 8, tags: ['eggs', 'broccoli'], ingredients: ['яйца 3шт', 'брокколи 150г', 'масло 5г'] },
+      // ОБЕДЫ
+      { name: 'Курица с гречкой', category: 'lunch', time: 35, kcal: 440, protein: 35, fat: 12, carbs: 40, tags: ['chicken', 'buckwheat'], ingredients: ['курица 150г', 'гречка 60г', 'лук 30г', 'морковь 30г', 'масло 5г'] },
+      { name: 'Рис с курицей и овощами', category: 'lunch', time: 30, kcal: 420, protein: 30, fat: 10, carbs: 50, tags: ['rice', 'chicken', 'carrots', 'peppers'], ingredients: ['рис 60г', 'курица 150г', 'морковь 50г', 'лук 30г', 'перец 30г'] },
+      { name: 'Скумбрия с картофелем', category: 'lunch', time: 40, kcal: 480, protein: 25, fat: 22, carbs: 40, tags: ['fish', 'potatoes'], ingredients: ['скумбрия 150г', 'картофель 200г', 'лук 30г', 'масло 10г'] },
+      { name: 'Чечевичный суп', category: 'lunch', time: 30, kcal: 250, protein: 18, fat: 4, carbs: 35, tags: ['lentils', 'carrots'], ingredients: ['чечевица 100г', 'морковь 50г', 'лук 30г', 'зелень'] },
+      { name: 'Гречка с печенью', category: 'lunch', time: 30, kcal: 350, protein: 30, fat: 14, carbs: 35, tags: ['buckwheat', 'chicken'], ingredients: ['гречка 50г', 'печень 150г', 'лук 30г', 'морковь 30г'] },
+      { name: 'Паста с тунцом', category: 'lunch', time: 20, kcal: 390, protein: 28, fat: 12, carbs: 45, tags: ['pasta', 'tuna', 'tomatoes'], ingredients: ['паста 50г', 'тунец 100г', 'томаты 100г', 'масло 5г'] },
+      { name: 'Кабачок с курицей', category: 'lunch', time: 25, kcal: 290, protein: 28, fat: 10, carbs: 20, tags: ['chicken', 'zucchini', 'peppers'], ingredients: ['курица 150г', 'кабачок 200г', 'перец 30г', 'лук 20г'] },
+      { name: 'Индейка с перловкой', category: 'lunch', time: 35, kcal: 390, protein: 32, fat: 8, carbs: 45, tags: ['turkey', 'carrots'], ingredients: ['индейка 150г', 'перловка 50г', 'морковь 40г', 'лук 30г'] },
+      // УЖИНЫ
+      { name: 'Омлет с шампиньонами', category: 'dinner', time: 15, kcal: 240, protein: 20, fat: 16, carbs: 6, tags: ['eggs', 'mushrooms'], ingredients: ['яйца 3шт', 'шампиньоны 100г', 'лук 20г', 'масло 5г'] },
+      { name: 'Салат с тунцом и яйцом', category: 'dinner', time: 10, kcal: 210, protein: 20, fat: 12, carbs: 10, tags: ['tuna', 'eggs', 'cucumbers'], ingredients: ['тунец 100г', 'яйцо 2шт', 'огурцы 100г', 'салат 30г', 'масло 5г'] },
+      { name: 'Творог с зеленью', category: 'dinner', time: 5, kcal: 140, protein: 16, fat: 6, carbs: 6, tags: ['cottage_cheese', 'cucumbers'], ingredients: ['творог 120г', 'укроп', 'огурец 50г'] },
+      { name: 'Куриные сердечки с фасолью', category: 'dinner', time: 30, kcal: 310, protein: 28, fat: 14, carbs: 22, tags: ['chicken', 'beans'], ingredients: ['сердечки 150г', 'фасоль 100г', 'лук 30г', 'морковь 30г'] },
+      // ПЕРЕКУСЫ
+      { name: 'Греческий йогурт с ягодами', category: 'snack', time: 3, kcal: 120, protein: 8, fat: 4, carbs: 12, tags: [], ingredients: ['йогурт 150г', 'ягоды 50г'] },
+      { name: 'Яблоко с орехами', category: 'snack', time: 2, kcal: 150, protein: 3, fat: 10, carbs: 15, tags: ['apples', 'nuts'], ingredients: ['яблоко 1шт', 'грецкие орехи 15г'] },
+      { name: 'Кефир с отрубями', category: 'snack', time: 2, kcal: 100, protein: 6, fat: 2, carbs: 12, tags: ['kefir'], ingredients: ['кефир 200мл', 'отруби 10г'] }
     ];
   }
 
   const recipeDB = getRecipeDatabase();
 
   // =========================================================================
-  // 6. ФИЛЬТРЫ И ПОИСК РЕЦЕПТОВ
+  // 6. ФИЛЬТРЫ
   // =========================================================================
   let currentFilter = 'all';
 
@@ -721,7 +686,7 @@
   function renderRecipes(recipes) {
     const container = document.getElementById('recipeResults');
     if (recipes.length === 0) {
-      container.innerHTML = '<p class="text-muted" style="padding:16px 0;text-align:center;">😕 Рецептов не найдено. Попробуй другой запрос.</p>';
+      container.innerHTML = '<p class="text-muted" style="padding:16px 0;text-align:center;">😕 Рецептов не найдено.</p>';
       return;
     }
     let html = '';
@@ -737,7 +702,7 @@
       html += `</div>`;
     });
     container.innerHTML = html;
-    document.getElementById('recipeInfo').textContent = `Найдено ${recipes.length} рецептов. Нажми «Добавить» — и блюдо появится в твоём рационе.`;
+    document.getElementById('recipeInfo').textContent = `Найдено ${recipes.length} рецептов.`;
 
     document.querySelectorAll('.recipe-card .add-btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
@@ -759,16 +724,14 @@
       this.classList.add('active');
       currentFilter = this.dataset.filter;
       const query = document.getElementById('recipeSearch').value;
-      const results = filterRecipes(query, currentFilter);
-      renderRecipes(results);
+      renderRecipes(filterRecipes(query, currentFilter));
     });
   });
 
   // Поиск
   document.getElementById('searchBtn').addEventListener('click', () => {
     const query = document.getElementById('recipeSearch').value;
-    const results = filterRecipes(query, currentFilter);
-    renderRecipes(results);
+    renderRecipes(filterRecipes(query, currentFilter));
   });
 
   document.getElementById('recipeSearch').addEventListener('keydown', (e) => {
@@ -781,7 +744,7 @@
   });
 
   // =========================================================================
-  // 7. МОДАЛКА ДОБАВЛЕНИЯ РЕЦЕПТА
+  // 7. МОДАЛКА
   // =========================================================================
   let pendingRecipe = null;
 
@@ -815,7 +778,7 @@
   });
 
   // =========================================================================
-  // 8. ОТРИСОВКА РАЦИОНА
+  // 8. РАЦИОН
   // =========================================================================
   function renderMeals() {
     const container = document.getElementById('mealPlanContainer');
@@ -929,14 +892,12 @@
     document.getElementById('homeProgressPercent').textContent = Math.round(percent) + '%';
     document.getElementById('homeProgressDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
 
-    // Обновляем главную
     document.getElementById('homeKcal').textContent = finalCal;
     document.getElementById('homeProtein').textContent = protein;
     document.getElementById('homeFat').textContent = fat;
     document.getElementById('homeCarbs').textContent = carbs >= 0 ? carbs : 0;
 
     saveState('currentPlan', currentPlan);
-    // Сохраняем вес для статистики
     const history = loadState('weightHistory', []);
     if (history.length === 0) {
       history.push({ date: new Date().toLocaleDateString(), weight: weight });
@@ -945,7 +906,7 @@
     updateProgressPage();
   }
 
-  // Обработчики для автопересчёта
+  // Авто-пересчёт
   document.getElementById('ageSlider').addEventListener('input', function() {
     document.getElementById('ageValue').textContent = this.value;
     calculate();
@@ -996,7 +957,6 @@
     const speed = factor === 0.75 ? 0.9 : factor === 0.85 ? 0.6 : factor === 1.0 ? 0.0 : 0.4;
     document.getElementById('statSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
 
-    // График
     const container = document.getElementById('chartContainer');
     if (history.length < 2) {
       container.innerHTML = '<p class="text-muted">Добавьте свои веса для построения графика.</p>';
@@ -1045,10 +1005,8 @@
     const productMap = {};
     for (const day in customMeals) {
       customMeals[day].forEach(meal => {
-        // Извлекаем название блюда (без приёма пищи)
         const parts = meal.name.split(':');
         const recipeName = parts.length > 1 ? parts[1].trim() : meal.name;
-        // Ищем рецепт в базе
         const recipe = recipeDB.find(r => r.name === recipeName);
         if (recipe) {
           recipe.ingredients.forEach(ing => {
@@ -1094,6 +1052,15 @@
   // =========================================================================
   // 13. СТАРТ
   // =========================================================================
+  function updateHomePage() {
+    const weight = parseInt(document.getElementById('weightSlider').value);
+    const goalWeight = parseInt(document.getElementById('goalWeightSlider').value);
+    const diff = weight - goalWeight;
+    const percent = diff > 0 ? Math.min(100, (Math.abs(diff) / weight) * 100) : 0;
+    document.getElementById('homeProgressPercent').textContent = Math.round(percent) + '%';
+    document.getElementById('homeProgressDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
+  }
+
   window.onload = function() {
     const savedGoal = loadState('currentPlan', 'fatloss');
     document.querySelectorAll('.goal-btn').forEach(btn => {
@@ -1114,22 +1081,6 @@
     updateProgressPage();
     updateHomePage();
   };
-
-  // =========================================================================
-  // 14. ОБНОВЛЕНИЕ ГЛАВНОЙ
-  // =========================================================================
-  function updateHomePage() {
-    const weight = parseInt(document.getElementById('weightSlider').value);
-    const goalWeight = parseInt(document.getElementById('goalWeightSlider').value);
-    const diff = weight - goalWeight;
-    const percent = diff > 0 ? Math.min(100, (Math.abs(diff) / weight) * 100) : 0;
-    document.getElementById('homeProgressPercent').textContent = Math.round(percent) + '%';
-    document.getElementById('homeProgressDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
-    document.getElementById('homeKcal').textContent = document.getElementById('resKcal').textContent;
-    document.getElementById('homeProtein').textContent = document.getElementById('resProtein').textContent;
-    document.getElementById('homeFat').textContent = document.getElementById('resFat').textContent;
-    document.getElementById('homeCarbs').textContent = document.getElementById('resCarbs').textContent;
-  }
 </script>
 </body>
 </html>
