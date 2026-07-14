@@ -1,160 +1,477 @@
-{
-  "recipes": [
-    {
-      "id": 1,
-      "name": "Белковый омлет с овощами и сыром",
-      "category": "breakfast",
-      "time": 15,
-      "weight": 380,
-      "kcal": 410,
-      "protein": 38,
-      "fat": 24,
-      "carbs": 12,
-      "ingredients": ["Яйца 2 шт (100г)", "Белки яичные 100г", "Помидор 120г", "Шпинат 50г", "Сыр лёгкий 30г", "Оливковое масло 5г"],
-      "instructions": "1. Взбить яйца с белками.\n2. Обжарить шпинат и помидор на масле.\n3. Залить яйцами.\n4. Добавить сыр сверху и готовить под крышкой 5–7 минут."
-    },
-    {
-      "id": 2,
-      "name": "Овсянка с бананом и протеином",
-      "category": "breakfast",
-      "time": 10,
-      "weight": 400,
-      "kcal": 470,
-      "protein": 35,
-      "fat": 12,
-      "carbs": 58,
-      "ingredients": ["Овсяные хлопья 60г", "Молоко 1,5% 200мл", "Банан 100г", "Протеин 25г", "Орехи грецкие 10г", "Корица по вкусу"],
-      "instructions": "1. Варить овсянку на молоке 5 минут.\n2. Добавить протеин после снятия с огня.\n3. Добавить банан и орехи."
-    },
-    {
-      "id": 3,
-      "name": "Творожная запеканка без сахара",
-      "category": "breakfast",
-      "time": 35,
-      "weight": 350,
-      "kcal": 390,
-      "protein": 42,
-      "fat": 12,
-      "carbs": 32,
-      "ingredients": ["Творог 5% 250г", "Яйцо 1 шт (50г)", "Манка 20г", "Йогурт натуральный 50г", "Ягоды 80г", "Подсластитель по желанию"],
-      "instructions": "1. Смешать творог, яйцо, манку и йогурт.\n2. Добавить ягоды.\n3. Запекать 35 минут при 180°C."
-    },
-    {
-      "id": 4,
-      "name": "Гречка с яйцом и авокадо",
-      "category": "breakfast",
-      "time": 20,
-      "weight": 430,
-      "kcal": 520,
-      "protein": 27,
-      "fat": 25,
-      "carbs": 52,
-      "ingredients": ["Гречка сухая 70г", "Яйца 2 шт", "Авокадо 70г", "Огурец 100г", "Зелень 10г"],
-      "instructions": "1. Отварить гречку.\n2. Приготовить яйца.\n3. Добавить авокадо и овощи."
-    },
-    {
-      "id": 5,
-      "name": "Йогуртовый боул с ягодами",
-      "category": "breakfast",
-      "time": 5,
-      "weight": 420,
-      "kcal": 360,
-      "protein": 32,
-      "fat": 10,
-      "carbs": 42,
-      "ingredients": ["Греческий йогурт 2% 300г", "Ягоды 100г", "Овсяные хлопья 30г", "Чиа 10г", "Мёд 5г"],
-      "instructions": "1. Выложить йогурт в миску.\n2. Добавить ягоды, овсянку и семена.\n3. Оставить на 10 минут."
-    },
-    {
-      "id": 6,
-      "name": "Лаваш с курицей и овощами",
-      "category": "breakfast",
-      "time": 15,
-      "weight": 450,
-      "kcal": 490,
-      "protein": 45,
-      "fat": 15,
-      "carbs": 50,
-      "ingredients": ["Лаваш цельнозерновой 60г", "Куриная грудка 150г", "Огурец 80г", "Помидор 100г", "Йогурт натуральный 50г", "Салат 30г"],
-      "instructions": "1. Приготовить курицу.\n2. Нарезать овощи.\n3. Завернуть всё в лаваш."
-    },
-    {
-      "id": 7,
-      "name": "Сырники протеиновые",
-      "category": "breakfast",
-      "time": 20,
-      "weight": 300,
-      "kcal": 430,
-      "protein": 45,
-      "fat": 14,
-      "carbs": 34,
-      "ingredients": ["Творог 5% 250г", "Яйцо 1 шт", "Рисовая мука 30г", "Протеин ванильный 20г", "Ягоды 50г"],
-      "instructions": "1. Смешать массу.\n2. Сформировать сырники.\n3. Запечь или приготовить на сухой сковороде."
-    },
-    {
-      "id": 8,
-      "name": "Тост с лососем и творожным сыром",
-      "category": "breakfast",
-      "time": 10,
-      "weight": 300,
-      "kcal": 450,
-      "protein": 32,
-      "fat": 22,
-      "carbs": 35,
-      "ingredients": ["Хлеб цельнозерновой 80г", "Лосось слабосолёный 70г", "Творожный сыр лёгкий 40г", "Огурец 80г", "Зелень"],
-      "instructions": "1. Поджарить хлеб.\n2. Намазать сыр.\n3. Выложить лосось и овощи."
-    },
-    {
-      "id": 9,
-      "name": "Овсяноблин с курицей",
-      "category": "breakfast",
-      "time": 15,
-      "weight": 380,
-      "kcal": 500,
-      "protein": 43,
-      "fat": 20,
-      "carbs": 42,
-      "ingredients": ["Овсянка 50г", "Яйца 2 шт", "Молоко 50мл", "Куриная грудка 120г", "Сыр 20г", "Овощи 100г"],
-      "instructions": "1. Сделать блин из овсянки, яйца и молока.\n2. Добавить начинку.\n3. Обжарить с двух сторон."
-    },
-    {
-      "id": 10,
-      "name": "Рисовая каша с творогом и ягодами",
-      "category": "breakfast",
-      "time": 25,
-      "weight": 450,
-      "kcal": 460,
-      "protein": 35,
-      "fat": 10,
-      "carbs": 65,
-      "ingredients": ["Рис сухой 60г", "Молоко 1,5% 200мл", "Творог 5% 150г", "Ягоды 80г", "Корица"],
-      "instructions": "1. Сварить рисовую кашу.\n2. Добавить творог.\n3. Сверху ягоды."
-    },
-    {
-      "id": 11,
-      "name": "Белковый омлет со шпинатом",
-      "category": "breakfast",
-      "time": 15,
-      "weight": 350,
-      "kcal": 395,
-      "protein": 35,
-      "fat": 21,
-      "carbs": 11,
-      "ingredients": ["Яйца 3 шт (150г)", "Шпинат 100г", "Сыр лёгкий 30г", "Оливковое масло 5г", "Соль, перец по вкусу"],
-      "instructions": "1. Взбить яйца.\n2. Обжарить шпинат на масле.\n3. Залить яйцами и жарить до готовности.\n4. Посыпать сыром и накрыть крышкой на 2 минуты."
-    },
-    {
-      "id": 12,
-      "name": "Овсяная каша с бананом",
-      "category": "breakfast",
-      "time": 10,
-      "weight": 360,
-      "kcal": 430,
-      "protein": 17,
-      "fat": 10,
-      "carbs": 68,
-      "ingredients": ["Овсяные хлопья 60г", "Молоко 1,5% 200мл", "Банан 100г", "Мёд 5г", "Корица по вкусу"],
-      "instructions": "1. Варить овсянку на молоке 5 минут.\n2. Добавить нарезанный банан.\n3. Посыпать корицей и полить мёдом."
-    }
-  ]
+/* ====== 1. ПЕРЕМЕННЫЕ ====== */
+:root {
+  --primary: #1a7a64;
+  --primary-light: rgba(26, 122, 100, 0.12);
+  --primary-glow: rgba(26, 122, 100, 0.25);
+  --accent: #f5a623;
+  --bg: #f2f6fa;
+  --bg-card: rgba(255, 255, 255, 0.72);
+  --bg-card-solid: #ffffff;
+  --text: #1a2a3a;
+  --text-muted: #6c8a9a;
+  --border: rgba(0, 0, 0, 0.05);
+  --shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 16px 56px rgba(0, 0, 0, 0.10);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --nav-height: 68px;
+  --header-height: 60px;
+  --transition: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
+
+[data-theme="dark"] {
+  --bg: #0e1620;
+  --bg-card: rgba(26, 38, 50, 0.82);
+  --bg-card-solid: #1a2632;
+  --text: #eaf0f5;
+  --text-muted: #8aa0b0;
+  --border: rgba(255, 255, 255, 0.05);
+  --shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 16px 56px rgba(0, 0, 0, 0.5);
+  --primary-light: rgba(43, 155, 130, 0.18);
+  --primary-glow: rgba(43, 155, 130, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+  min-height: 100vh;
+  padding-top: var(--header-height);
+  padding-bottom: calc(var(--nav-height) + 24px);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.text-muted {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* ====== 3. ШАПКА ====== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background: var(--bg-card);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+  transition: all var(--transition);
+}
+
+.header h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: -0.02em;
+}
+
+.header h1 span {
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.5rem;
+  font-weight: 600;
+  padding: 2px 12px;
+  border-radius: 40px;
+  text-transform: uppercase;
+}
+
+.theme-toggle {
+  padding: 8px 16px;
+  border-radius: 60px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--primary-light);
+  color: var(--text);
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+  cursor: pointer;
+  font-family: var(--font);
+}
+
+.theme-toggle:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ====== 4. НИЖНЯЯ НАВИГАЦИЯ ====== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  background: var(--bg-card);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  padding: 4px 0 8px;
+  z-index: 100;
+  transition: all var(--transition);
+}
+
+.bottom-nav .tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 0.5rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+  min-width: 44px;
+  position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font);
+}
+
+.bottom-nav .tab-btn .icon {
+  font-size: 1.4rem;
+  line-height: 1.2;
+  transition: transform var(--transition);
+}
+
+.bottom-nav .tab-btn.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.bottom-nav .tab-btn.active .icon {
+  transform: scale(1.1);
+}
+
+.bottom-nav .tab-btn.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 30%;
+  right: 30%;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 0 0 4px 4px;
+}
+
+.bottom-nav .tab-btn:hover {
+  color: var(--text);
+  background: var(--primary-light);
+}
+
+/* ====== 5. СТРАНИЦЫ ====== */
+.page {
+  display: none;
+  animation: fadeSlide 0.4s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== 6. КАРТОЧКИ ====== */
+.card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.01em;
+}
+
+/* ====== 7. КНОПКИ ====== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 60px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  font-family: var(--font);
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 20px var(--primary-glow);
+  cursor: pointer;
+  transition: all var(--transition);
+  letter-spacing: -0.01em;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px var(--primary-glow);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  box-shadow: none;
+  border: 2px solid var(--primary);
+}
+
+.btn-outline:hover {
+  background: var(--primary-light);
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.7rem;
+}
+
+.btn-danger {
+  background: #e74c3c;
+  box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
+}
+
+/* ====== 8. HERO ====== */
+.hero {
+  background: linear-gradient(145deg, var(--primary-light), var(--bg-card));
+  border: 1px solid var(--border);
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, var(--primary-glow), transparent 70%);
+  border-radius: 50%;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.hero h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.hero p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 420px;
+  margin: 0 auto 16px;
+  position: relative;
+}
+
+.hero .btn {
+  font-size: 0.95rem;
+  padding: 12px 32px;
+  position: relative;
+}
+
+/* ====== 9. ПРОГРЕСС-КОЛЬЦО ====== */
+.progress-ring-wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.progress-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.progress-ring svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+}
+
+.progress-ring svg circle {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.progress-ring .bg-circle {
+  stroke: var(--border);
+}
+
+.progress-ring .progress-circle {
+  stroke: var(--primary);
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.progress-ring .center-text {
+  z-index: 1;
+  font-size: 1rem;
+}
+
+.progress-stats strong {
+  font-size: 1.2rem;
+}
+
+/* ====== 10. СТАТИСТИКА ====== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.stats-grid .stat-item {
+  text-align: center;
+  padding: 10px 6px;
+  background: var(--bg-card-solid);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+}
+
+.stats-grid .stat-item .value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: block;
+  letter-spacing: -0.02em;
+}
+
+.stats-grid .stat-item .label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ====== 11. КАЛЬКУЛЯТОР ====== */
+.slider-group {
+  margin: 12px 0 6px;
+}
+
+.slider-group label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.slider-group label .value {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.slider-group input[type="range"] {
+  width: 100%;
+  height: 4px;
+  border-radius: 10px;
+  background: var(--border);
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  transition: background var(--transition);
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: 3px solid var(--bg-card-solid);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  transition: all var(--transition);
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.calc-grid .result-card {
+  background: var(--bg-card-solid);
+  border-radius: var(--radius-sm);
+  padding: 10px 6px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+}
+
+.calc-grid .result-card .number {
+  font-size: 1.3rem;
