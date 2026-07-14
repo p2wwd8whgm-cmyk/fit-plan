@@ -4,81 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 
-  <!-- SEO -->
-  <title>FitPlan 2.0 — умный конструктор питания</title>
-  <meta name="description" content="FitPlan 2.0: персональный конструктор питания с реальными рецептами, калькулятором калорий, планом на неделю и прогрессом.">
-  <meta name="keywords" content="fitplan, питание, рецепты, кбжу, калории, похудение, рацион">
-  <link rel="canonical" href="https://p2wwd8whgm-cmyk.github.io/fit-plan/">
+  <!-- Google Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="FitPlan 2.0 — умный конструктор питания">
+  <title>FitPlan 2.0 — премиум конструктор питания</title>
+  <meta name="description" content="Персональный конструктор питания. 100+ рецептов, умный калькулятор, рацион на неделю.">
+  <meta property="og:title" content="FitPlan 2.0 — премиум конструктор питания">
   <meta property="og:description" content="Персональный конструктор питания с реальными рецептами на русском языке, калькулятором калорий и планом на неделю.">
-  <meta property="og:url" content="https://p2wwd8whgm-cmyk.github.io/fit-plan/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://p2wwd8whgm-cmyk.github.io/fit-plan/images/og-image.png">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="FitPlan 2.0 — умный конструктор питания">
-  <meta name="twitter:description" content="Персональный конструктор питания с реальными рецептами на русском языке, калькулятором калорий и планом на неделю.">
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1f7b66">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a7a64">
 
   <style>
-    /* ============================================================
-       1. ПЕРЕМЕННЫЕ И СБРОС
-       ============================================================ */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    }
+    /* ====== 1. ПЕРЕМЕННЫЕ ====== */
     :root {
-      --bg: #f0f4f8;
-      --bg-card: rgba(255, 255, 255, 0.75);
+      --primary: #1a7a64;
+      --primary-light: rgba(26, 122, 100, 0.12);
+      --primary-glow: rgba(26, 122, 100, 0.25);
+      --accent: #f5a623;
+      --secondary: #6c8a9a;
+      --bg: #f2f6fa;
+      --bg-card: rgba(255, 255, 255, 0.72);
       --bg-card-solid: #ffffff;
       --text: #1a2a3a;
-      --text-muted: #5a7a8a;
-      --border: rgba(0, 0, 0, 0.06);
-      --primary: #1f7b66;
-      --primary-light: rgba(31, 123, 102, 0.12);
-      --primary-glow: rgba(31, 123, 102, 0.25);
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+      --text-muted: #6c8a9a;
+      --border: rgba(0, 0, 0, 0.05);
+      --shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
+      --shadow-hover: 0 16px 56px rgba(0, 0, 0, 0.10);
       --radius: 20px;
       --radius-sm: 12px;
       --nav-height: 68px;
       --header-height: 60px;
-      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
+
     [data-theme="dark"] {
       --bg: #0e1620;
-      --bg-card: rgba(26, 38, 50, 0.85);
+      --bg-card: rgba(26, 38, 50, 0.82);
       --bg-card-solid: #1a2632;
       --text: #eaf0f5;
       --text-muted: #8aa0b0;
-      --border: rgba(255, 255, 255, 0.06);
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --border: rgba(255, 255, 255, 0.05);
+      --shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+      --shadow-hover: 0 16px 56px rgba(0, 0, 0, 0.5);
       --primary-light: rgba(43, 155, 130, 0.18);
       --primary-glow: rgba(43, 155, 130, 0.3);
     }
-    html {
-      scroll-behavior: smooth;
+
+    /* ====== 2. БАЗА ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+
     body {
+      font-family: var(--font);
       background: var(--bg);
       color: var(--text);
       transition: background var(--transition), color var(--transition);
       min-height: 100vh;
       padding-top: var(--header-height);
-      padding-bottom: calc(var(--nav-height) + 20px);
+      padding-bottom: calc(var(--nav-height) + 24px);
       font-size: 16px;
-      line-height: 1.5;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
+
     ::-webkit-scrollbar {
       width: 4px;
     }
@@ -89,106 +82,113 @@
       background: var(--primary);
       border-radius: 10px;
     }
-    a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-    button {
-      cursor: pointer;
-      font: inherit;
-      border: none;
-      background: none;
-      color: inherit;
-    }
-    input,
-    select {
-      font: inherit;
-      color: inherit;
-    }
 
-    /* ============================================================
-       2. ОБЩИЕ КОМПОНЕНТЫ
-       ============================================================ */
     .container {
-      max-width: 820px;
+      max-width: 780px;
       margin: 0 auto;
       padding: 0 16px;
     }
-    .text-muted {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
+
+    /* ====== 3. СТЕКЛЯННЫЕ КАРТОЧКИ ====== */
     .card {
       background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 20px 22px;
-      margin-bottom: 16px;
+      padding: 24px 26px;
+      margin-bottom: 18px;
       box-shadow: var(--shadow);
-      transition: background var(--transition), border var(--transition), box-shadow var(--transition);
+      transition: all var(--transition);
     }
+
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
     .card-solid {
       background: var(--bg-card-solid);
       backdrop-filter: none;
     }
+
     .card h2 {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 600;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      letter-spacing: -0.01em;
     }
+
+    .card .text-muted {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* ====== 4. КНОПКИ ====== */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 10px 22px;
+      gap: 8px;
+      padding: 12px 28px;
       border-radius: 60px;
       font-weight: 600;
-      font-size: 0.85rem;
-      transition: all var(--transition);
+      font-size: 0.9rem;
+      font-family: var(--font);
       border: none;
       background: var(--primary);
       color: #fff;
-      box-shadow: 0 4px 14px var(--primary-glow);
+      box-shadow: 0 4px 20px var(--primary-glow);
+      cursor: pointer;
+      transition: all var(--transition);
+      letter-spacing: -0.01em;
     }
+
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px var(--primary-glow);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 32px var(--primary-glow);
     }
+
     .btn:active {
       transform: scale(0.97);
     }
+
     .btn-outline {
       background: transparent;
       color: var(--primary);
       box-shadow: none;
       border: 2px solid var(--primary);
     }
+
     .btn-outline:hover {
       background: var(--primary-light);
       box-shadow: none;
-      transform: translateY(-2px);
-    }
-    .btn-sm {
-      padding: 6px 14px;
-      font-size: 0.75rem;
-    }
-    .btn-danger {
-      background: #e74c3c;
-      box-shadow: 0 4px 14px rgba(231, 76, 60, 0.25);
-    }
-    .btn-danger:hover {
-      box-shadow: 0 6px 24px rgba(231, 76, 60, 0.35);
+      transform: translateY(-3px);
     }
 
-    /* ============================================================
-       3. ШАПКА
-       ============================================================ */
+    .btn-sm {
+      padding: 6px 16px;
+      font-size: 0.75rem;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      box-shadow: 0 4px 20px rgba(245, 166, 35, 0.35);
+    }
+
+    .btn-accent:hover {
+      box-shadow: 0 8px 32px rgba(245, 166, 35, 0.45);
+    }
+
+    .btn-danger {
+      background: #e74c3c;
+      box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
+    }
+
+    /* ====== 5. ШАПКА ====== */
     .header {
       position: fixed;
       top: 0;
@@ -196,35 +196,39 @@
       right: 0;
       height: var(--header-height);
       background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
+      padding: 0 24px;
       z-index: 100;
-      transition: background var(--transition), border var(--transition);
+      transition: all var(--transition);
     }
+
     .header h1 {
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      letter-spacing: -0.02em;
     }
+
     .header h1 span {
       background: var(--primary);
       color: #fff;
       font-size: 0.5rem;
       font-weight: 600;
-      padding: 2px 10px;
+      padding: 2px 12px;
       border-radius: 40px;
-      letter-spacing: 0.5px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
+
     .theme-toggle {
-      padding: 8px 16px;
+      padding: 8px 18px;
       border-radius: 60px;
       font-size: 0.8rem;
       font-weight: 500;
@@ -232,15 +236,16 @@
       color: var(--text);
       border: 1px solid var(--border);
       transition: all var(--transition);
+      cursor: pointer;
+      font-family: var(--font);
     }
+
     .theme-toggle:hover {
       background: var(--primary);
       color: #fff;
     }
 
-    /* ============================================================
-       4. НИЖНЯЯ НАВИГАЦИЯ
-       ============================================================ */
+    /* ====== 6. НИЖНЯЯ НАВИГАЦИЯ ====== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -248,16 +253,17 @@
       right: 0;
       height: var(--nav-height);
       background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
       border-top: 1px solid var(--border);
       display: flex;
       align-items: stretch;
       justify-content: space-around;
       padding: 4px 0 8px;
       z-index: 100;
-      transition: background var(--transition), border var(--transition);
+      transition: all var(--transition);
     }
+
     .bottom-nav .tab-btn {
       display: flex;
       flex-direction: column;
@@ -272,15 +278,27 @@
       transition: all var(--transition);
       min-width: 52px;
       position: relative;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font);
     }
+
     .bottom-nav .tab-btn .icon {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       line-height: 1.2;
+      transition: transform var(--transition);
     }
+
     .bottom-nav .tab-btn.active {
       color: var(--primary);
       font-weight: 600;
     }
+
+    .bottom-nav .tab-btn.active .icon {
+      transform: scale(1.1);
+    }
+
     .bottom-nav .tab-btn.active::after {
       content: '';
       position: absolute;
@@ -291,25 +309,26 @@
       background: var(--primary);
       border-radius: 0 0 4px 4px;
     }
+
     .bottom-nav .tab-btn:hover {
       color: var(--text);
       background: var(--primary-light);
     }
 
-    /* ============================================================
-       5. СТРАНИЦЫ
-       ============================================================ */
+    /* ====== 7. СТРАНИЦЫ ====== */
     .page {
       display: none;
-      animation: fadeUp 0.4s ease;
+      animation: fadeSlide 0.5s ease;
     }
+
     .page.active {
       display: block;
     }
-    @keyframes fadeUp {
+
+    @keyframes fadeSlide {
       from {
         opacity: 0;
-        transform: translateY(16px);
+        transform: translateY(20px);
       }
       to {
         opacity: 1;
@@ -317,81 +336,146 @@
       }
     }
 
-    /* ============================================================
-       6. ГЛАВНАЯ
-       ============================================================ */
-    .home-hero {
-      background: linear-gradient(135deg, var(--primary-light), var(--bg-card));
+    /* ====== 8. HERO-БЛОК ====== */
+    .hero {
+      background: linear-gradient(145deg, var(--primary-light), var(--bg-card));
       border: 1px solid var(--border);
+      padding: 32px 28px;
+      border-radius: var(--radius);
+      margin-bottom: 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    .home-hero h2 {
-      font-size: 1.6rem;
-      margin-bottom: 4px;
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--primary-glow), transparent 70%);
+      border-radius: 50%;
+      opacity: 0.3;
+      pointer-events: none;
     }
-    .home-stats {
+
+    .hero h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 480px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+
+    .hero .btn {
+      font-size: 1.05rem;
+      padding: 14px 40px;
+      position: relative;
+    }
+
+    /* ====== 9. СТАТИСТИКА НА ГЛАВНОЙ ====== */
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 12px;
     }
-    .home-stats .stat-item {
+
+    .stats-grid .stat-item {
       text-align: center;
-      padding: 8px 0;
+      padding: 12px 8px;
+      background: var(--bg-card-solid);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      transition: all var(--transition);
     }
-    .home-stats .stat-item .value {
-      font-size: 1.5rem;
+
+    .stats-grid .stat-item:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .stats-grid .stat-item .value {
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--primary);
+      display: block;
+      letter-spacing: -0.02em;
     }
-    .home-stats .stat-item .label {
+
+    .stats-grid .stat-item .label {
       font-size: 0.7rem;
       color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
+
+    /* ====== 10. ПРОГРЕСС-КОЛЬЦО ====== */
     .progress-ring-wrap {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 24px;
       flex-wrap: wrap;
     }
+
     .progress-ring {
-      width: 80px;
-      height: 80px;
+      width: 88px;
+      height: 88px;
       border-radius: 50%;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       flex-shrink: 0;
     }
+
     .progress-ring svg {
       position: absolute;
       top: 0;
       left: 0;
       transform: rotate(-90deg);
     }
+
     .progress-ring svg circle {
       fill: none;
       stroke-width: 6;
       stroke-linecap: round;
     }
+
     .progress-ring .bg-circle {
       stroke: var(--border);
     }
+
     .progress-ring .progress-circle {
       stroke: var(--primary);
-      transition: stroke-dashoffset 0.8s ease;
-    }
-    .progress-ring .center-text {
-      z-index: 1;
+      transition: stroke-dashoffset 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    /* ============================================================
-       7. КАЛЬКУЛЯТОР
-       ============================================================ */
-    .slider-group {
-      margin: 12px 0 8px;
+    .progress-ring .center-text {
+      z-index: 1;
+      font-size: 1.1rem;
     }
+
+    .progress-stats strong {
+      font-size: 1.3rem;
+    }
+
+    /* ====== 11. КАЛЬКУЛЯТОР ====== */
+    .slider-group {
+      margin: 14px 0 8px;
+    }
+
     .slider-group label {
       display: flex;
       justify-content: space-between;
@@ -399,6 +483,12 @@
       font-weight: 500;
       margin-bottom: 4px;
     }
+
+    .slider-group label .value {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
     .slider-group input[type="range"] {
       width: 100%;
       height: 4px;
@@ -409,101 +499,129 @@
       outline: none;
       transition: background var(--transition);
     }
+
     .slider-group input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       background: var(--primary);
       cursor: pointer;
       border: 3px solid var(--bg-card-solid);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+      transition: all var(--transition);
     }
+
+    .slider-group input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+
     .slider-group input[type="range"]::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       background: var(--primary);
       cursor: pointer;
       border: 3px solid var(--bg-card-solid);
     }
-    .calc-result {
+
+    .calc-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
     }
-    .calc-result .result-card {
+
+    .calc-grid .result-card {
       background: var(--bg-card-solid);
       border-radius: var(--radius-sm);
-      padding: 12px 16px;
+      padding: 12px 8px;
       text-align: center;
       border: 1px solid var(--border);
       transition: all var(--transition);
     }
-    .calc-result .result-card .number {
-      font-size: 1.6rem;
+
+    .calc-grid .result-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .calc-grid .result-card .number {
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--primary);
+      letter-spacing: -0.02em;
     }
-    .calc-result .result-card .label {
-      font-size: 0.7rem;
+
+    .calc-grid .result-card .label {
+      font-size: 0.65rem;
       color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
+
     .bju-chart {
       display: flex;
-      gap: 8px;
-      margin: 12px 0;
-      height: 20px;
+      gap: 4px;
+      margin: 14px 0 8px;
+      height: 24px;
       border-radius: 60px;
       overflow: hidden;
       background: var(--border);
     }
+
     .bju-chart .segment {
       height: 100%;
-      transition: width 0.6s ease;
+      transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+
     .bju-chart .segment-protein {
       background: #4CAF50;
     }
     .bju-chart .segment-fat {
-      background: #FFC107;
+      background: var(--accent);
     }
     .bju-chart .segment-carbs {
-      background: #2196F3;
+      background: #42A5F5;
     }
+
     .bju-legend {
       display: flex;
-      gap: 16px;
+      gap: 18px;
       flex-wrap: wrap;
       font-size: 0.75rem;
       color: var(--text-muted);
     }
+
     .bju-legend .dot {
       display: inline-block;
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      margin-right: 4px;
+      margin-right: 6px;
+      vertical-align: middle;
     }
+
     .dot-protein {
       background: #4CAF50;
     }
     .dot-fat {
-      background: #FFC107;
+      background: var(--accent);
     }
     .dot-carbs {
-      background: #2196F3;
+      background: #42A5F5;
     }
+
     .goal-btns {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin: 6px 0 4px;
+      margin: 8px 0 4px;
     }
+
     .goal-btn {
-      padding: 6px 14px;
+      padding: 8px 16px;
       border-radius: 60px;
       border: 2px solid var(--border);
       font-weight: 500;
@@ -513,65 +631,81 @@
       color: var(--text);
       flex: 1 0 auto;
       text-align: center;
+      cursor: pointer;
+      font-family: var(--font);
     }
+
     .goal-btn:hover {
       border-color: var(--primary);
       background: var(--primary-light);
+      transform: translateY(-2px);
     }
+
     .goal-btn.active {
       border-color: var(--primary);
       background: var(--primary);
       color: #fff;
+      box-shadow: 0 4px 16px var(--primary-glow);
     }
+
     .calc-select {
-      padding: 8px 14px;
+      padding: 10px 16px;
       border-radius: 60px;
       border: 1px solid var(--border);
       background: var(--bg-card-solid);
       color: var(--text);
       font-size: 0.85rem;
       width: 100%;
+      font-family: var(--font);
       transition: all var(--transition);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236c8a9a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
     }
+
     .calc-select:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-light);
+      box-shadow: 0 0 0 4px var(--primary-light);
     }
 
-    /* ============================================================
-       8. РЕЦЕПТЫ
-       ============================================================ */
+    /* ====== 12. РЕЦЕПТЫ ====== */
     .search-box {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin: 8px 0;
+      margin: 10px 0;
     }
+
     .search-box input {
       flex: 1;
-      padding: 10px 16px;
+      padding: 12px 18px;
       border-radius: 60px;
       border: 1px solid var(--border);
       background: var(--bg-card-solid);
       color: var(--text);
       font-size: 0.9rem;
+      font-family: var(--font);
       min-width: 140px;
       transition: all var(--transition);
     }
+
     .search-box input:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-light);
+      box-shadow: 0 0 0 4px var(--primary-light);
     }
+
     .filter-group {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin: 6px 0;
     }
+
     .filter-group .filter-btn {
-      padding: 4px 12px;
+      padding: 5px 14px;
       border-radius: 40px;
       border: 1px solid var(--border);
       font-size: 0.7rem;
@@ -579,16 +713,23 @@
       background: transparent;
       color: var(--text);
       transition: all var(--transition);
+      cursor: pointer;
+      font-family: var(--font);
     }
+
     .filter-group .filter-btn:hover {
       background: var(--primary-light);
       border-color: var(--primary);
+      transform: translateY(-2px);
     }
+
     .filter-group .filter-btn.active {
       background: var(--primary);
       border-color: var(--primary);
       color: #fff;
+      box-shadow: 0 2px 12px var(--primary-glow);
     }
+
     .filter-label {
       font-size: 0.7rem;
       font-weight: 600;
@@ -596,65 +737,78 @@
       margin-right: 4px;
       display: flex;
       align-items: center;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
+
     .recipe-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
-      max-height: 420px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+      max-height: 440px;
       overflow-y: auto;
       padding-right: 4px;
     }
+
     .recipe-card {
       background: var(--bg-card-solid);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 12px;
+      padding: 14px 14px 12px;
       transition: all var(--transition);
       position: relative;
     }
+
     .recipe-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
       border-color: var(--primary);
     }
+
     .recipe-card .favorite-btn {
       position: absolute;
-      top: 6px;
-      right: 6px;
+      top: 8px;
+      right: 8px;
       background: none;
       border: none;
-      font-size: 1rem;
+      font-size: 1.1rem;
       cursor: pointer;
       transition: all var(--transition);
+      padding: 4px;
+      border-radius: 50%;
     }
+
     .recipe-card .favorite-btn:hover {
       transform: scale(1.2);
     }
+
     .recipe-card .title {
       font-weight: 600;
       font-size: 0.85rem;
       margin-bottom: 4px;
-      padding-right: 24px;
+      padding-right: 28px;
     }
+
     .recipe-card .meta {
       font-size: 0.65rem;
       color: var(--text-muted);
       display: flex;
-      gap: 6px;
       flex-wrap: wrap;
-      margin: 4px 0;
+      gap: 4px;
+      margin: 4px 0 6px;
     }
+
     .recipe-card .meta span {
       background: var(--primary-light);
-      padding: 1px 8px;
+      padding: 1px 10px;
       border-radius: 40px;
     }
+
     .recipe-card .add-btn {
       width: 100%;
       margin-top: 8px;
-      padding: 5px 0;
+      padding: 6px 0;
       border-radius: 40px;
       font-size: 0.7rem;
       font-weight: 600;
@@ -662,54 +816,68 @@
       color: #fff;
       border: none;
       transition: all var(--transition);
+      cursor: pointer;
+      font-family: var(--font);
     }
+
     .recipe-card .add-btn:hover {
-      background: var(--primary-hover);
+      background: #146b58;
+      transform: scale(1.02);
     }
+
     .search-history {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin: 6px 0;
     }
+
     .search-history .history-item {
       background: var(--primary-light);
-      padding: 2px 12px;
+      padding: 3px 14px;
       border-radius: 40px;
       font-size: 0.7rem;
       cursor: pointer;
       color: var(--primary);
       border: 1px solid var(--border);
       transition: all var(--transition);
+      font-weight: 500;
     }
+
     .search-history .history-item:hover {
       background: var(--primary);
       color: #fff;
-    }
-    .empty-msg {
-      text-align: center;
-      padding: 30px 0;
-      color: var(--text-muted);
-    }
-    .empty-msg .big-icon {
-      font-size: 3.5rem;
-      display: block;
-      margin-bottom: 8px;
+      transform: translateY(-2px);
     }
 
-    /* ============================================================
-       9. РАЦИОН
-       ============================================================ */
+    .empty-msg {
+      text-align: center;
+      padding: 36px 0;
+      color: var(--text-muted);
+    }
+
+    .empty-msg .big-icon {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* ====== 13. РАЦИОН ====== */
     .day-block {
       background: var(--bg-card-solid);
       border-left: 4px solid var(--primary);
       border-radius: var(--radius-sm);
-      padding: 12px 16px;
+      padding: 14px 18px;
       margin-bottom: 10px;
       border: 1px solid var(--border);
       border-left-width: 4px;
       transition: all var(--transition);
     }
+
+    .day-block:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
     .day-block .day-title {
       font-weight: 600;
       font-size: 0.95rem;
@@ -718,170 +886,217 @@
       align-items: center;
       margin-bottom: 4px;
     }
+
     .day-block .day-title .badge {
       background: var(--primary-light);
       color: var(--primary);
-      padding: 1px 12px;
+      padding: 2px 14px;
       border-radius: 40px;
       font-size: 0.7rem;
       font-weight: 600;
     }
+
     .day-block .meal {
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 4px 0;
+      padding: 5px 0;
       border-bottom: 1px dashed var(--border);
       font-size: 0.85rem;
     }
+
     .day-block .meal:last-child {
       border-bottom: none;
     }
+
     .day-block .meal .meal-name {
       flex: 1;
       font-weight: 500;
     }
+
     .day-block .meal .meal-kcal {
       font-weight: 600;
       color: var(--primary);
       font-size: 0.8rem;
     }
+
     .day-block .meal .meal-actions {
       display: flex;
       gap: 4px;
     }
+
     .day-block .meal .meal-actions button {
       background: none;
       border: none;
       font-size: 0.7rem;
       cursor: pointer;
-      padding: 0 2px;
+      padding: 2px 4px;
       color: var(--text-muted);
       transition: all var(--transition);
+      border-radius: 4px;
     }
+
     .day-block .meal .meal-actions button:hover {
       color: var(--primary);
+      background: var(--primary-light);
     }
+
     .day-block .meal .meal-actions .replace-btn {
-      color: #f39c12;
+      color: var(--accent);
     }
+
+    .day-block .meal .meal-actions .replace-btn:hover {
+      background: rgba(245, 166, 35, 0.15);
+    }
+
     .day-block .meal .meal-actions .remove-btn {
       color: #e74c3c;
     }
+
+    .day-block .meal .meal-actions .remove-btn:hover {
+      background: rgba(231, 76, 60, 0.1);
+    }
+
     .day-block .total-day {
       margin-top: 6px;
       font-weight: 700;
       font-size: 0.85rem;
+      padding-top: 4px;
+      border-top: 1px solid var(--border);
     }
 
-    /* ============================================================
-       10. КАЛЕНДАРЬ
-       ============================================================ */
+    /* ====== 14. КАЛЕНДАРЬ ====== */
     .calendar-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 14px;
     }
+
     .calendar-header .month-nav {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
+
     .calendar-header .month-nav strong {
       font-size: 1.1rem;
-      min-width: 120px;
+      font-weight: 600;
+      min-width: 130px;
       text-align: center;
     }
+
     .calendar-header .month-change {
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
+
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 4px;
       font-size: 0.8rem;
     }
+
     .calendar-grid .day-header {
       font-weight: 600;
       color: var(--text-muted);
-      padding: 4px;
+      padding: 4px 0;
       text-align: center;
       font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
+
     .calendar-grid .calendar-day {
-      padding: 4px 2px;
+      padding: 6px 2px;
       border-radius: var(--radius-sm);
       background: var(--bg-card-solid);
       border: 1px solid var(--border);
       cursor: pointer;
       transition: all var(--transition);
       text-align: center;
-      min-height: 44px;
+      min-height: 48px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
+
     .calendar-grid .calendar-day:hover {
-      transform: scale(1.04);
-      box-shadow: var(--shadow);
+      transform: scale(1.05);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary);
     }
+
     .calendar-grid .calendar-day .day-number {
       font-weight: 500;
+      font-size: 0.85rem;
     }
+
     .calendar-grid .calendar-day .day-weight {
       font-size: 0.55rem;
       font-weight: 600;
     }
+
     .calendar-grid .calendar-day.empty {
       opacity: 0.3;
       cursor: default;
       background: transparent;
       border-color: transparent;
     }
+
     .calendar-grid .calendar-day.empty:hover {
       transform: none;
       box-shadow: none;
+      border-color: transparent;
     }
+
     .calendar-grid .calendar-day.today {
       border-color: var(--primary);
       border-width: 2px;
+      box-shadow: 0 0 0 3px var(--primary-light);
     }
+
     .calendar-grid .calendar-day.low {
-      background: rgba(76, 175, 80, 0.12);
+      background: rgba(76, 175, 80, 0.10);
       border-color: rgba(76, 175, 80, 0.2);
     }
+
     .calendar-grid .calendar-day.low .day-weight {
       color: #4CAF50;
     }
+
     .calendar-grid .calendar-day.high {
-      background: rgba(231, 76, 60, 0.12);
+      background: rgba(231, 76, 60, 0.10);
       border-color: rgba(231, 76, 60, 0.2);
     }
+
     .calendar-grid .calendar-day.high .day-weight {
       color: #e74c3c;
     }
 
     .calendar-legend {
       display: flex;
-      gap: 12px;
+      gap: 16px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 12px;
+      margin-top: 14px;
       font-size: 0.7rem;
       color: var(--text-muted);
     }
+
     .calendar-legend .dot {
       display: inline-block;
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      margin-right: 4px;
+      margin-right: 6px;
+      vertical-align: middle;
     }
+
     .dot-low {
       background: #4CAF50;
     }
@@ -892,112 +1107,127 @@
       background: var(--border);
     }
 
-    /* ============================================================
-       11. МОДАЛЬНЫЕ ОКНА
-       ============================================================ */
+    /* ====== 15. МОДАЛЬНЫЕ ОКНА ====== */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       justify-content: center;
       align-items: center;
       z-index: 200;
       padding: 16px;
     }
+
     .modal-overlay.active {
       display: flex;
     }
+
     .modal {
       background: var(--bg-card-solid);
       border-radius: var(--radius);
-      padding: 24px;
+      padding: 28px 30px;
       max-width: 440px;
       width: 100%;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
-      animation: modalIn 0.3s ease;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
+      animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+
     @keyframes modalIn {
       from {
         opacity: 0;
-        transform: scale(0.95) translateY(20px);
+        transform: scale(0.92) translateY(30px);
       }
       to {
         opacity: 1;
         transform: scale(1) translateY(0);
       }
     }
+
     .modal h3 {
       font-size: 1.2rem;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
+
     .modal label {
       display: block;
       font-weight: 500;
       font-size: 0.85rem;
-      margin: 8px 0 4px;
+      margin: 10px 0 4px;
     }
+
     .modal select {
       width: 100%;
-      padding: 10px 14px;
+      padding: 10px 16px;
       border-radius: 60px;
       border: 1px solid var(--border);
       background: var(--bg-card-solid);
       color: var(--text);
       font-size: 0.9rem;
+      font-family: var(--font);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236c8a9a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
     }
+
     .modal .btn-row {
       display: flex;
-      gap: 8px;
-      margin-top: 16px;
+      gap: 10px;
+      margin-top: 18px;
       justify-content: flex-end;
     }
+
     .modal .btn-row .btn {
       padding: 8px 24px;
     }
+
     .replace-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
+      gap: 8px;
       max-height: 200px;
       overflow-y: auto;
-      margin-top: 8px;
+      margin-top: 10px;
     }
+
     .replace-grid .replace-item {
       background: var(--bg-card-solid);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 8px 10px;
+      padding: 10px 12px;
       font-size: 0.8rem;
       cursor: pointer;
       transition: all var(--transition);
       text-align: center;
     }
+
     .replace-grid .replace-item:hover {
       border-color: var(--primary);
       background: var(--primary-light);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
     }
+
     .replace-grid .replace-item .kcal {
       font-size: 0.6rem;
       color: var(--text-muted);
     }
 
-    /* ============================================================
-       12. TOAST
-       ============================================================ */
+    /* ====== 16. TOAST ====== */
     .toast {
       position: fixed;
-      bottom: calc(var(--nav-height) + 20px);
+      bottom: calc(var(--nav-height) + 24px);
       left: 50%;
       transform: translateX(-50%) translateY(20px);
       background: var(--bg-card-solid);
       border: 1px solid var(--border);
       border-radius: 60px;
-      padding: 10px 24px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      padding: 12px 28px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
       font-size: 0.85rem;
       z-index: 300;
       opacity: 0;
@@ -1005,106 +1235,177 @@
       transition: all 0.4s ease;
       color: var(--text);
       max-width: 90%;
-      white-space: nowrap;
+      font-family: var(--font);
+      font-weight: 500;
+      backdrop-filter: blur(12px);
     }
+
     .toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
       pointer-events: auto;
     }
 
-    /* ============================================================
-       13. АДАПТИВНОСТЬ
-       ============================================================ */
+    /* ====== 17. АДАПТИВНОСТЬ ====== */
     @media (max-width: 640px) {
       body {
         padding-top: 56px;
-        padding-bottom: calc(var(--nav-height) + 12px);
+        padding-bottom: calc(var(--nav-height) + 16px);
         font-size: 15px;
       }
+
       .header {
         padding: 0 14px;
         height: 56px;
       }
+
       .header h1 {
         font-size: 1.1rem;
       }
+
       .bottom-nav {
-        height: 60px;
+        height: 62px;
         padding: 2px 0 6px;
       }
+
       .bottom-nav .tab-btn {
-        min-width: 40px;
+        min-width: 36px;
         padding: 2px 6px;
         font-size: 0.5rem;
       }
+
       .bottom-nav .tab-btn .icon {
         font-size: 1.2rem;
       }
+
       .card {
-        padding: 14px 16px;
+        padding: 16px 16px;
         border-radius: 16px;
       }
-      .calc-result {
+
+      .hero {
+        padding: 24px 18px;
+      }
+
+      .hero h2 {
+        font-size: 1.6rem;
+      }
+
+      .hero p {
+        font-size: 0.95rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .stats-grid .stat-item .value {
+        font-size: 1.3rem;
+      }
+
+      .calc-grid {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
       }
-      .calc-result .result-card .number {
-        font-size: 1.3rem;
+
+      .calc-grid .result-card .number {
+        font-size: 1.2rem;
       }
+
       .recipe-grid {
         grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
         max-height: 320px;
       }
+
       .calendar-grid .calendar-day {
-        min-height: 36px;
+        min-height: 38px;
         font-size: 0.7rem;
+        padding: 4px 1px;
       }
+
       .calendar-grid .calendar-day .day-weight {
         font-size: 0.5rem;
       }
-      .home-stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .home-stats .stat-item .value {
-        font-size: 1.2rem;
-      }
+
       .modal {
-        padding: 18px;
+        padding: 20px;
         margin: 0 8px;
       }
+
       .replace-grid {
         grid-template-columns: 1fr;
       }
+
+      .progress-ring {
+        width: 72px;
+        height: 72px;
+      }
+
+      .progress-ring .center-text {
+        font-size: 0.95rem;
+      }
+
+      .btn {
+        font-size: 0.8rem;
+        padding: 10px 20px;
+      }
+
+      .hero .btn {
+        font-size: 0.95rem;
+        padding: 12px 32px;
+      }
     }
+
     @media (max-width: 400px) {
       .container {
         padding: 0 10px;
       }
+
       .card {
         padding: 12px 12px;
         border-radius: 14px;
       }
+
       .recipe-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       }
+
       .goal-btn {
         font-size: 0.65rem;
-        padding: 4px 10px;
+        padding: 6px 12px;
       }
-      .btn {
-        font-size: 0.75rem;
-        padding: 8px 16px;
+
+      .stats-grid {
+        gap: 6px;
       }
+
+      .stats-grid .stat-item {
+        padding: 8px 4px;
+      }
+    }
+
+    /* ====== 18. УТИЛИТЫ ====== */
+    .mt-1 {
+      margin-top: 8px;
+    }
+    .mt-2 {
+      margin-top: 14px;
+    }
+    .gap-2 {
+      gap: 10px;
+    }
+    .flex-wrap {
+      display: flex;
+      flex-wrap: wrap;
     }
   </style>
 </head>
-
 <body>
 
   <!-- ШАПКА -->
   <header class="header">
-    <h1>🥗 FitPlan <span>2.0</span></h1>
+    <h1>🥗 FitPlan <span>PRO</span></h1>
     <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙 Тёмная</button>
   </header>
 
@@ -1117,23 +1418,24 @@
     СТРАНИЦА 1: ГЛАВНАЯ
     ============================================================ -->
     <section class="page active" id="page-home">
-      <div class="card home-hero">
-        <h2>👋 Добро пожаловать!</h2>
-        <p class="text-muted">Твой персональный конструктор питания. Реальные рецепты, точный КБЖУ и умный рацион.</p>
+      <div class="hero">
+        <h2>🏆 Твой идеальный рацион</h2>
+        <p>За 60 секунд получи персональный план питания с реальными рецептами и точным КБЖУ.</p>
+        <button class="btn btn-accent" id="heroStartBtn">🚀 Начать</button>
       </div>
 
       <div class="card">
         <h2>🎯 Прогресс к цели</h2>
         <div class="progress-ring-wrap">
           <div class="progress-ring" id="homeProgressRing">
-            <svg width="80" height="80" viewBox="0 0 80 80">
-              <circle class="bg-circle" cx="40" cy="40" r="34"/>
-              <circle class="progress-circle" id="homeProgressCircle" cx="40" cy="40" r="34"
-              stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+            <svg width="88" height="88" viewBox="0 0 88 88">
+              <circle class="bg-circle" cx="44" cy="44" r="38"/>
+              <circle class="progress-circle" id="homeProgressCircle" cx="44" cy="44" r="38"
+              stroke-dasharray="238.76" stroke-dashoffset="238.76"/>
             </svg>
             <span class="center-text" id="homeProgressPercent">0%</span>
           </div>
-          <div>
+          <div class="progress-stats">
             <strong id="homeProgressDiff">0 кг</strong>
             <span class="text-muted"> осталось до цели</span>
             <div><span class="text-muted">ИМТ: </span><strong id="homeBMI">—</strong></div>
@@ -1143,20 +1445,11 @@
 
       <div class="card">
         <h2>📊 Сегодня</h2>
-        <div class="home-stats">
-          <div class="stat-item"><div class="value" id="homeKcal">—</div><div class="label">ккал</div></div>
-          <div class="stat-item"><div class="value" id="homeProtein">—</div><div class="label">белки, г</div></div>
-          <div class="stat-item"><div class="value" id="homeFat">—</div><div class="label">жиры, г</div></div>
-          <div class="stat-item"><div class="value" id="homeCarbs">—</div><div class="label">углеводы, г</div></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>⚡ Быстрый старт</h2>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="btn" onclick="switchTab('recipes')">🍽️ Рецепты</button>
-          <button class="btn btn-outline" onclick="switchTab('mealplan')">📅 Мой рацион</button>
-          <button class="btn btn-outline" onclick="switchTab('calc')">🧮 Калькулятор</button>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="value" id="homeKcal">—</span><span class="label">ккал</span></div>
+          <div class="stat-item"><span class="value" id="homeProtein">—</span><span class="label">белки, г</span></div>
+          <div class="stat-item"><span class="value" id="homeFat">—</span><span class="label">жиры, г</span></div>
+          <div class="stat-item"><span class="value" id="homeCarbs">—</span><span class="label">углеводы, г</span></div>
         </div>
       </div>
     </section>
@@ -1167,9 +1460,9 @@
     <section class="page" id="page-calc">
       <div class="card">
         <h2>🧮 Калькулятор нормы</h2>
-        <p class="text-muted" style="margin-bottom:12px;">Введи свои параметры и получи точную дневную норму.</p>
+        <p class="text-muted" style="margin-bottom:14px;">Введи свои параметры и получи точную дневную норму калорий и БЖУ.</p>
 
-        <div style="margin-bottom:12px;">
+        <div style="margin-bottom:14px;">
           <label style="font-weight:500; font-size:0.85rem; display:block; margin-bottom:4px;">Пол</label>
           <select class="calc-select" id="gender">
             <option value="female">Женский</option>
@@ -1178,29 +1471,32 @@
         </div>
 
         <div class="slider-group">
-          <label><span>Возраст</span><span id="ageValue">30</span></label>
+          <label><span>Возраст</span><span class="value" id="ageValue">30</span></label>
           <input type="range" id="ageSlider" min="10" max="80" value="30">
         </div>
+
         <div class="slider-group">
-          <label><span>Рост (см)</span><span id="heightValue">170</span></label>
+          <label><span>Рост (см)</span><span class="value" id="heightValue">170</span></label>
           <input type="range" id="heightSlider" min="120" max="220" value="170">
         </div>
+
         <div class="slider-group">
-          <label><span>Вес (кг)</span><span id="weightValue">70</span></label>
+          <label><span>Вес (кг)</span><span class="value" id="weightValue">70</span></label>
           <input type="range" id="weightSlider" min="30" max="200" value="70">
         </div>
+
         <div class="slider-group">
-          <label><span>🎯 Желаемый вес</span><span id="goalWeightValue">65</span></label>
+          <label><span>🎯 Желаемый вес</span><span class="value" id="goalWeightValue">65</span></label>
           <input type="range" id="goalWeightSlider" min="30" max="200" value="65">
         </div>
 
-        <div style="margin-bottom:12px;">
+        <div style="margin-bottom:14px;">
           <label style="font-weight:500; font-size:0.85rem; display:block; margin-bottom:4px;">Активность</label>
           <select class="calc-select" id="activity">
-            <option value="1.2">Сидячий образ жизни</option>
-            <option value="1.375" selected>Лёгкая (1–3 тренировки)</option>
-            <option value="1.55">Умеренная (3–5 тренировок)</option>
-            <option value="1.725">Высокая (6–7 тренировок)</option>
+            <option value="1.2">🪑 Сидячий образ жизни</option>
+            <option value="1.375" selected>🚶 Лёгкая (1–3 тренировки)</option>
+            <option value="1.55">🏃 Умеренная (3–5 тренировок)</option>
+            <option value="1.725">🏋️ Высокая (6–7 тренировок)</option>
           </select>
         </div>
 
@@ -1215,30 +1511,28 @@
           <div id="goalDesc" style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Интенсивный дефицит 25% — до 1 кг в неделю</div>
         </div>
 
-        <div style="margin-top:12px;">
-          <div class="bju-chart" id="bjuChart">
-            <div class="segment segment-protein" id="bjuProtein" style="width:33%"></div>
-            <div class="segment segment-fat" id="bjuFat" style="width:33%"></div>
-            <div class="segment segment-carbs" id="bjuCarbs" style="width:34%"></div>
-          </div>
-          <div class="bju-legend">
-            <span><span class="dot dot-protein"></span> Белки</span>
-            <span><span class="dot dot-fat"></span> Жиры</span>
-            <span><span class="dot dot-carbs"></span> Углеводы</span>
-          </div>
+        <div class="bju-chart" id="bjuChart">
+          <div class="segment segment-protein" id="bjuProtein" style="width:33%"></div>
+          <div class="segment segment-fat" id="bjuFat" style="width:33%"></div>
+          <div class="segment segment-carbs" id="bjuCarbs" style="width:34%"></div>
+        </div>
+        <div class="bju-legend">
+          <span><span class="dot dot-protein"></span> Белки</span>
+          <span><span class="dot dot-fat"></span> Жиры</span>
+          <span><span class="dot dot-carbs"></span> Углеводы</span>
         </div>
 
-        <div class="calc-result">
-          <div class="result-card"><div class="number" id="resKcal">—</div><div class="label">ккал/день</div></div>
-          <div class="result-card"><div class="number" id="resProtein">—</div><div class="label">белки, г</div></div>
-          <div class="result-card"><div class="number" id="resFat">—</div><div class="label">жиры, г</div></div>
-          <div class="result-card"><div class="number" id="resCarbs">—</div><div class="label">углеводы, г</div></div>
+        <div class="calc-grid">
+          <div class="result-card"><span class="number" id="resKcal">—</span><span class="label">ккал/день</span></div>
+          <div class="result-card"><span class="number" id="resProtein">—</span><span class="label">белки, г</span></div>
+          <div class="result-card"><span class="number" id="resFat">—</span><span class="label">жиры, г</span></div>
+          <div class="result-card"><span class="number" id="resCarbs">—</span><span class="label">углеводы, г</span></div>
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px;">
-          <div class="result-card" style="padding:8px 12px;"><div class="number" id="resDiff" style="font-size:1.1rem;">—</div><div class="label">разница</div></div>
-          <div class="result-card" style="padding:8px 12px;"><div class="number" id="resWeeks" style="font-size:1.1rem;">—</div><div class="label">срок, нед</div></div>
-          <div class="result-card" style="padding:8px 12px;"><div class="number" id="resSpeed" style="font-size:1.1rem;">—</div><div class="label">скорость</div></div>
+          <div class="result-card" style="padding:10px 8px;"><span class="number" id="resDiff" style="font-size:1.1rem;">—</span><span class="label">разница</span></div>
+          <div class="result-card" style="padding:10px 8px;"><span class="number" id="resWeeks" style="font-size:1.1rem;">—</span><span class="label">срок, нед</span></div>
+          <div class="result-card" style="padding:10px 8px;"><span class="number" id="resSpeed" style="font-size:1.1rem;">—</span><span class="label">скорость</span></div>
         </div>
       </div>
     </section>
@@ -1249,7 +1543,7 @@
     <section class="page" id="page-recipes">
       <div class="card">
         <h2>🔍 Поиск рецептов</h2>
-        <p class="text-muted">100+ реальных блюд на русском языке.</p>
+        <p class="text-muted">100+ реальных блюд на русском языке с точным КБЖУ.</p>
 
         <div class="search-box">
           <input type="text" id="recipeSearch" placeholder="Например: курица, паста, салат" autocomplete="off">
@@ -1260,7 +1554,7 @@
         <div class="search-history" id="searchHistory"></div>
 
         <div class="filter-group" id="categoryFilterGroup">
-          <span class="filter-label">📂 Категория:</span>
+          <span class="filter-label">📂 Категория</span>
           <button class="filter-btn active" data-filter="all">Все</button>
           <button class="filter-btn" data-filter="breakfast">🍳 Завтрак</button>
           <button class="filter-btn" data-filter="lunch">🥗 Обед</button>
@@ -1270,14 +1564,14 @@
         </div>
 
         <div class="filter-group" id="dietFilterGroup">
-          <span class="filter-label">🍽️ Диета:</span>
+          <span class="filter-label">🍽️ Диета</span>
           <button class="filter-btn active" data-filter="all">Все</button>
           <button class="filter-btn" data-filter="vegetarian">🌱 Вегетарианское</button>
           <button class="filter-btn" data-filter="lowcarb">🥑 Низкоуглеводное</button>
         </div>
 
         <div class="filter-group">
-          <span class="filter-label">⏱️ Время:</span>
+          <span class="filter-label">⏱️ Время</span>
           <button class="filter-btn active" data-filter="all">Все</button>
           <button class="filter-btn" data-filter="fast">⚡ До 20 мин</button>
           <button class="filter-btn" data-filter="medium">⏱️ До 40 мин</button>
@@ -1285,7 +1579,7 @@
         </div>
 
         <div id="recipeResults" class="recipe-grid"></div>
-        <div id="recipeInfo" style="font-size:0.75rem; color:var(--text-muted); margin-top:8px;">Введите запрос для поиска рецептов.</div>
+        <div id="recipeInfo" style="font-size:0.75rem; color:var(--text-muted); margin-top:10px;">Введите запрос для поиска рецептов.</div>
       </div>
     </section>
 
@@ -1294,12 +1588,12 @@
     ============================================================ -->
     <section class="page" id="page-mealplan">
       <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
           <h2 style="margin:0;">📅 Мой рацион</h2>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button class="btn btn-sm" id="autoPlanBtn">🧠 Собрать</button>
             <button class="btn btn-outline btn-sm" id="exportShopListBtn">📋 Список</button>
-            <button class="btn btn-outline btn-sm btn-danger" id="clearPlanBtn">🗑️ Очистить</button>
+            <button class="btn btn-sm btn-danger" id="clearPlanBtn">🗑️ Очистить</button>
           </div>
         </div>
         <p class="text-muted" id="planDesc">Добавь блюда из раздела «Рецепты» или нажми «Собрать».</p>
@@ -1307,7 +1601,7 @@
           <div class="empty-msg">
             <span class="big-icon">🍽️</span>
             <p>Рацион пуст. Начни с поиска рецептов!</p>
-            <button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:8px;">🍽️ Перейти к рецептам</button>
+            <button class="btn btn-sm" id="emptyPlanBtn">🍽️ Перейти к рецептам</button>
           </div>
         </div>
       </div>
@@ -1321,14 +1615,14 @@
         <h2>📈 Прогресс к цели</h2>
         <div class="progress-ring-wrap">
           <div class="progress-ring" id="progressRing">
-            <svg width="80" height="80" viewBox="0 0 80 80">
-              <circle class="bg-circle" cx="40" cy="40" r="34"/>
-              <circle class="progress-circle" id="progressCircle" cx="40" cy="40" r="34"
-              stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+            <svg width="88" height="88" viewBox="0 0 88 88">
+              <circle class="bg-circle" cx="44" cy="44" r="38"/>
+              <circle class="progress-circle" id="progressCircle" cx="44" cy="44" r="38"
+              stroke-dasharray="238.76" stroke-dashoffset="238.76"/>
             </svg>
             <span class="center-text" id="progressPercent">0%</span>
           </div>
-          <div>
+          <div class="progress-stats">
             <strong id="progressWeightDiff">0 кг</strong>
             <span class="text-muted"> осталось до цели</span>
             <div><span class="text-muted">ИМТ: </span><strong id="progressBMI">—</strong></div>
@@ -1360,12 +1654,12 @@
           <span><span class="dot dot-high"></span> Набор</span>
           <span><span class="dot dot-empty"></span> Нет данных</span>
         </div>
-        <p class="text-muted" style="margin-top:8px; font-size:0.75rem;">Нажми на день, чтобы добавить или изменить вес.</p>
+        <p class="text-muted" style="margin-top:10px; font-size:0.75rem;">Нажми на день, чтобы добавить или изменить вес.</p>
       </div>
 
       <div class="card">
         <h2>📋 Статистика</h2>
-        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(100px,1fr)); gap:12px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(100px,1fr)); gap:14px;">
           <div><span class="text-muted">Старт</span><br><strong id="statStart">—</strong> кг</div>
           <div><span class="text-muted">Текущий</span><br><strong id="statCurrent">—</strong> кг</div>
           <div><span class="text-muted">Потеряно</span><br><strong id="statLost">—</strong> кг</div>
@@ -1435,7 +1729,7 @@
     const Storage = {
       save(key, value) { try { localStorage.setItem('fp2_' + key, JSON.stringify(value)); } catch (e) {} },
       load(key, fallback) { try { const v = localStorage.getItem('fp2_' + key); return v ? JSON.parse(v) : fallback; } catch (
-        e) { return fallback; } }
+          e) { return fallback; } }
     };
 
     // ============================================================
@@ -1485,6 +1779,16 @@
     const savedTab = Storage.load('tab', 'home');
     switchTab(savedTab);
 
+    // Кнопка "Начать" на главной
+    document.getElementById('heroStartBtn').addEventListener('click', () => {
+      const currentTab = Storage.load('tab', 'home');
+      if (currentTab === 'home') switchTab('calc');
+      else switchTab('home');
+    });
+
+    // Кнопка "Перейти к рецептам" в пустом рационе
+    document.getElementById('emptyPlanBtn').addEventListener('click', () => switchTab('recipes'));
+
     // ============================================================
     // 5. CALCULATOR
     // ============================================================
@@ -1517,12 +1821,14 @@
       const factor = parseFloat(activeGoal.dataset.factor);
       const plan = activeGoal.dataset.plan;
 
+      // BMR
       const bmr = gender === 'female' ? 10 * weight + 6.25 * height - 5 * age - 161 : 10 * weight + 6.25 * height - 5 * age +
-      5;
+        5;
       const maintenance = Math.round(bmr * activity);
       let finalCal = Math.round(maintenance * factor);
       if (finalCal < 1200) finalCal = 1200;
 
+      // БЖУ по цели
       let proteinFactor, fatFactor;
       if (plan === 'fatloss') { proteinFactor = 2.2;
         fatFactor = 0.8; } else if (plan === 'moderate') { proteinFactor = 2.0;
@@ -1534,6 +1840,7 @@
       const fat = Math.round(weight * fatFactor);
       const carbs = Math.round((finalCal - (protein * 4) - (fat * 9)) / 4);
 
+      // Обновление UI
       document.getElementById('resKcal').textContent = finalCal;
       document.getElementById('resProtein').textContent = protein;
       document.getElementById('resFat').textContent = fat;
@@ -1553,15 +1860,19 @@
       document.getElementById('resSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
       document.getElementById('resWeeks').textContent = weeks + ' нед.';
 
+      // ИМТ
       const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
       document.getElementById('homeBMI').textContent = bmi;
 
+      // Прогресс
       const startWeight = Storage.load('startWeight', weight);
       const progress = diff > 0 ? Math.min(100, ((startWeight - weight) / (startWeight - goalWeight)) * 100) : 0;
-      const circumference = 213.6;
-      document.getElementById('homeProgressCircle').style.strokeDashoffset = circumference - (progress / 100) * circumference;
+      const circumference = 238.76;
+      const offset = circumference - (progress / 100) * circumference;
+
+      document.getElementById('homeProgressCircle').style.strokeDashoffset = offset;
       document.getElementById('homeProgressPercent').textContent = Math.round(progress) + '%';
-      document.getElementById('progressCircle').style.strokeDashoffset = circumference - (progress / 100) * circumference;
+      document.getElementById('progressCircle').style.strokeDashoffset = offset;
       document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
       document.getElementById('homeProgressDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
       document.getElementById('progressWeightDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
@@ -1574,6 +1885,7 @@
 
       Storage.save('currentPlan', currentPlan);
 
+      // История веса
       const history = Storage.load('weightHistory', []);
       if (history.length === 0 || history[history.length - 1].weight !== weight) {
         history.push({ date: new Date().toLocaleDateString(), weight: weight });
@@ -1605,6 +1917,7 @@
     document.getElementById('gender').addEventListener('change', calculate);
     document.getElementById('activity').addEventListener('change', calculate);
 
+    // Восстановление сохранённой цели
     const savedGoal = Storage.load('currentPlan', 'fatloss');
     goalBtns.forEach(btn => {
       if (btn.dataset.plan === savedGoal) {
@@ -1755,7 +2068,7 @@
           e.stopPropagation();
           toggleFavorite(r.name);
         });
-        card.querySelector('.add-btn').addEventListener('click', e => {
+        card.querySelector('.add-btn').addEventListener('click', function(e) {
           e.stopPropagation();
           openAddModal(this.dataset.name, parseInt(this.dataset.kcal), parseFloat(this.dataset.p), parseFloat(this
             .dataset.f), parseFloat(this.dataset.c));
@@ -1886,8 +2199,9 @@
       const container = document.getElementById('mealPlanContainer');
       if (!has) {
         container.innerHTML =
-          `<div class="empty-msg"><span class="big-icon">🍽️</span><p>Рацион пуст.</p><button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:8px;">🍽️ Перейти к рецептам</button></div>`;
+          `<div class="empty-msg"><span class="big-icon">🍽️</span><p>Рацион пуст.</p><button class="btn btn-sm" id="emptyPlanBtn">🍽️ Перейти к рецептам</button></div>`;
         document.getElementById('planDesc').textContent = 'Добавь блюда из раздела «Рецепты» или нажми «Собрать».';
+        document.getElementById('emptyPlanBtn').addEventListener('click', () => switchTab('recipes'));
         return;
       }
       container.innerHTML = html;
@@ -2014,7 +2328,8 @@
       if (!Object.keys(map).length) { showToast('📭 Рацион пуст'); return; }
       let list = '<div class="card"><h2>🛍️ Список покупок</h2><ul class="shop-list" style="list-style:none;padding:0;columns:2 160px;column-gap:16px;">';
       for (const [name, count] of Object.entries(map)) {
-        list += `<li style="padding:4px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;break-inside:avoid;font-size:0.85rem;"><span>${name}</span> <span style="font-weight:500;color:var(--primary);">×${count}</span></li>`;
+        list +=
+          `<li style="padding:4px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;break-inside:avoid;font-size:0.85rem;"><span>${name}</span> <span style="font-weight:500;color:var(--primary);">×${count}</span></li>`;
       }
       list += '</ul><button class="btn btn-sm" onclick="this.closest(\'.card\').style.display=\'none\'">✖ Закрыть</button></div>';
       const div = document.createElement('div');
@@ -2164,7 +2479,7 @@
       const d = w - g;
       const start = Storage.load('startWeight', w);
       const progress = d > 0 ? Math.min(100, ((start - w) / (start - g)) * 100) : 0;
-      const circ = 213.6;
+      const circ = 238.76;
       document.getElementById('homeProgressCircle').style.strokeDashoffset = circ - (progress / 100) * circ;
       document.getElementById('homeProgressPercent').textContent = Math.round(progress) + '%';
       document.getElementById('homeProgressDiff').textContent = (d > 0 ? '−' : '+') + Math.abs(d).toFixed(1) + ' кг';
@@ -2211,8 +2526,6 @@
           'active'));
       });
     };
-
-    console.log('🚀 FitPlan 2.0 загружен!');
   </script>
 </body>
 </html>
