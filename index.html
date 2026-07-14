@@ -11,7 +11,7 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://p2wwd8whgm-cmyk.github.io/fit-plan/">
 
-  <!-- ====== Open Graph (для соцсетей) ====== -->
+  <!-- ====== Open Graph ====== -->
   <meta property="og:title" content="FitPlan — конструктор питания">
   <meta property="og:description" content="Персональный конструктор питания с реальными рецептами на русском языке, калькулятором калорий и планом на неделю.">
   <meta property="og:url" content="https://p2wwd8whgm-cmyk.github.io/fit-plan/">
@@ -32,7 +32,6 @@
   <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="images/icons/favicon.png">
 
-  <!-- ====== CSS ====== -->
   <style>
     /* ====== 1. BASE.CSS ====== */
     :root {
@@ -215,13 +214,47 @@
     .progress-stats { font-size: 0.85rem; }
     .progress-stats strong { display: block; font-size: 1.2rem; }
 
-    .chart-container { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; align-items: flex-end; min-height: 60px; }
-    .chart-bar-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 24px; }
-    .chart-bar { width: 100%; height: 50px; background: var(--border); border-radius: 4px 4px 0 0; overflow: hidden; display: flex; flex-direction: column-reverse; min-height: 16px; }
-    .chart-bar .fill { height: 0%; background: var(--primary); border-radius: 4px 4px 0 0; transition: height 0.6s ease; }
-    .chart-label { font-size: 0.5rem; color: var(--text-muted); margin-top: 2px; }
+    /* ====== 12. CALENDAR ====== */
+    .calendar-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 4px; text-align: center; font-size: 0.8rem;
+      margin-top: 8px;
+    }
+    .calendar-grid .day-header {
+      font-weight: 600; color: var(--text-muted); padding: 4px;
+    }
+    .calendar-grid .calendar-day {
+      padding: 4px 2px; border-radius: 8px;
+      background: var(--bg); cursor: pointer;
+      transition: all var(--transition);
+      min-height: 40px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .calendar-grid .calendar-day:hover {
+      transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .calendar-grid .calendar-day .day-number { font-weight: 400; }
+    .calendar-grid .calendar-day .day-weight { font-size: 0.55rem; }
+    .calendar-grid .calendar-day.today {
+      border: 2px solid var(--primary);
+    }
+    .calendar-grid .calendar-day.has-weight-low {
+      background: var(--primary-light); color: var(--primary);
+    }
+    .calendar-grid .calendar-day.has-weight-high {
+      background: #fdedec; color: var(--danger);
+    }
+    .calendar-grid .calendar-day.empty {
+      opacity: 0.3; cursor: default;
+    }
+    .calendar-grid .calendar-day.empty:hover {
+      transform: none; box-shadow: none;
+    }
+    .calendar-grid .calendar-day .weight-change {
+      font-size: 0.5rem;
+    }
 
-    /* ====== 12. RESPONSIVE.CSS ====== */
+    /* ====== 13. RESPONSIVE.CSS ====== */
     @media (max-width: 600px) {
       body { padding: 0 8px; padding-bottom: calc(var(--bottom-nav-height) + 16px); padding-top: var(--header-height); }
       .container { padding: 0 8px; }
@@ -233,12 +266,14 @@
       .bottom-nav .tab-btn { font-size: 0.5rem; min-width: 36px; padding: 2px 4px; }
       .bottom-nav { height: 64px; padding: 4px 4px 10px; }
       .modal { padding: 18px; }
+      .calendar-grid { gap: 2px; font-size: 0.7rem; }
+      .calendar-grid .calendar-day { min-height: 32px; padding: 2px; }
     }
     @media (min-width: 601px) {
       body { padding: 0 24px; padding-bottom: calc(var(--bottom-nav-height) + 20px); padding-top: var(--header-height); }
     }
 
-    /* ====== 13. OTHER ====== */
+    /* ====== 14. OTHER ====== */
     .toast {
       position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
       background: var(--card); border: 1px solid var(--primary); border-radius: 60px;
@@ -269,22 +304,31 @@
     .shop-list { list-style: none; padding: 0; columns: 2 160px; column-gap: 16px; }
     .shop-list li { padding: 4px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; break-inside: avoid; font-size: 0.85rem; }
     .shop-list li span { font-weight: 500; color: var(--primary); }
+    .danger-box { background: #fdedec; border-left: 4px solid var(--danger); padding: 10px 14px; border-radius: 12px; margin-bottom: 8px; font-size: 0.8rem; }
+    [data-theme="dark"] .danger-box { background: #2d1a1a; }
+    .warning-box { background: #fef9e7; border-left: 4px solid var(--warning); padding: 10px 14px; border-radius: 12px; margin-top: 8px; font-size: 0.8rem; }
+    [data-theme="dark"] .warning-box { background: #2d2418; }
+    .replace-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; max-height: 200px; overflow-y: auto; }
+    .replace-grid .replace-item {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 8px 10px; font-size: 0.8rem; cursor: pointer; transition: all var(--transition);
+      text-align: center;
+    }
+    .replace-grid .replace-item:hover { border-color: var(--primary); background: var(--primary-light); }
+    .replace-grid .replace-item .kcal { font-size: 0.6rem; color: var(--text-muted); }
   </style>
 </head>
 <body>
 
-<!-- ====== HEADER ====== -->
-<header class="header" role="banner">
+<header class="header">
   <h1>🥗 FitPlan <span>PRO</span></h1>
   <div class="header-actions">
     <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙 Тёмная</button>
   </div>
 </header>
 
-<!-- ====== TOAST ====== -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<!-- ====== MAIN CONTENT ====== -->
 <main class="container">
 
   <!-- ======== PAGE 1: HOME ======== -->
@@ -328,9 +372,7 @@
   <section class="page" id="page-calc" role="tabpanel" aria-label="Калькулятор">
     <div class="card">
       <h2>🧮 Калькулятор нормы</h2>
-      <div class="danger-box" style="background:#fdedec; border-left:4px solid var(--danger); padding:10px 14px; border-radius:12px; margin-bottom:8px; font-size:0.8rem;">
-        ⚠️ <strong>Важно:</strong> Перед началом диеты проконсультируйтесь с врачом.
-      </div>
+      <div class="danger-box">⚠️ <strong>Важно:</strong> Перед началом диеты проконсультируйтесь с врачом.</div>
       <div class="calc-group">
         <div class="slider-item" style="display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:4px 0;">
           <label style="font-weight:500; min-width:100px; font-size:0.85rem;">Пол</label>
@@ -391,8 +433,8 @@
         <div class="result-item"><strong id="resWeeks" style="font-size:1.3rem; color:var(--text); display:block; font-weight:700;">—</strong> недель (срок)</div>
         <div class="result-item"><strong id="resSpeed" style="font-size:1.3rem; color:var(--text); display:block; font-weight:700;">—</strong> кг/нед.</div>
       </div>
-      <div id="calorieWarning" class="warning-box" style="display:none; background:#fef9e7; border-left:4px solid var(--warning); padding:10px 14px; border-radius:12px; margin-top:8px; font-size:0.8rem;">⚠️ <strong>Внимание:</strong> Ваша калорийность ниже 1200 ккал. Это опасно для здоровья.</div>
-      <div id="ageWarning" class="warning-box" style="display:none; background:#fef9e7; border-left:4px solid var(--warning); padding:10px 14px; border-radius:12px; margin-top:8px; font-size:0.8rem;">⚠️ <strong>Внимание:</strong> Указанный возраст (<span id="ageWarningText">0</span> лет) может быть небезопасным для диеты. Проконсультируйтесь с врачом.</div>
+      <div id="calorieWarning" class="warning-box" style="display:none;">⚠️ <strong>Внимание:</strong> Ваша калорийность ниже 1200 ккал. Это опасно для здоровья.</div>
+      <div id="ageWarning" class="warning-box" style="display:none;">⚠️ <strong>Внимание:</strong> Указанный возраст (<span id="ageWarningText">0</span> лет) может быть небезопасным для диеты. Проконсультируйтесь с врачом.</div>
     </div>
   </section>
 
@@ -471,16 +513,34 @@
         </div>
       </div>
     </div>
+
     <div class="card">
-      <h2>📊 История веса</h2>
-      <p class="text-muted">Введи свой вес за последние дни (через запятую).</p>
-      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
-        <input type="text" id="weightHistoryInput" placeholder="70, 69.5, 69, 68.5" style="flex:1; padding:8px 14px; border-radius:60px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:0.85rem; min-width:120px;" aria-label="Введите веса через запятую">
-        <button class="btn btn-sm" id="updateChartBtn" aria-label="Показать график">📊 Показать</button>
-        <button class="btn btn-sm btn-outline" id="addWeightBtn" aria-label="Добавить текущий вес">➕ Добавить</button>
+      <h2>📅 Календарь веса</h2>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="btn btn-sm btn-outline" id="prevMonthBtn" aria-label="Предыдущий месяц">◀</button>
+          <strong id="calendarMonthYear">Апрель 2025</strong>
+          <button class="btn btn-sm btn-outline" id="nextMonthBtn" aria-label="Следующий месяц">▶</button>
+        </div>
+        <div id="monthChange" style="font-size:0.85rem; font-weight:600; color:var(--primary);">0 кг</div>
       </div>
-      <div id="chartContainer" class="chart-container" role="img" aria-label="График изменения веса"></div>
+      <div id="calendarGrid" class="calendar-grid">
+        <div class="day-header">Пн</div>
+        <div class="day-header">Вт</div>
+        <div class="day-header">Ср</div>
+        <div class="day-header">Чт</div>
+        <div class="day-header">Пт</div>
+        <div class="day-header">Сб</div>
+        <div class="day-header">Вс</div>
+      </div>
+      <div style="margin-top:12px; display:flex; gap:12px; justify-content:center; font-size:0.7rem; color:var(--text-muted);">
+        <span>🟢 <span style="color:var(--primary);">Похудение</span></span>
+        <span>🔴 <span style="color:var(--danger);">Набор</span></span>
+        <span>⚪ <span style="color:var(--text-muted);">Нет данных</span></span>
+      </div>
+      <p class="text-muted" style="margin-top:12px;">Нажми на день, чтобы добавить или изменить вес.</p>
     </div>
+
     <div class="card">
       <h2>📋 Статистика</h2>
       <div style="display:flex; flex-wrap:wrap; gap:16px; font-size:0.85rem;">
@@ -538,31 +598,13 @@
   <div class="modal">
     <h3 id="replaceTitle">🔄 Заменить блюдо</h3>
     <p id="replaceInfo" style="font-size:0.9rem; margin-bottom:8px;">Выбери альтернативу:</p>
-    <div id="replaceOptions" class="replace-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:8px; max-height:200px; overflow-y:auto;"></div>
+    <div id="replaceOptions" class="replace-grid"></div>
     <div class="btn-row" style="display:flex; gap:8px; margin-top:16px; justify-content:flex-end;">
       <button class="btn btn-outline" id="replaceCancel" aria-label="Отмена">Отмена</button>
     </div>
   </div>
 </div>
 
-<!-- ====== MANIFEST ====== -->
-<script type="application/json" id="manifest-placeholder">
-{
-  "name": "FitPlan",
-  "short_name": "FitPlan",
-  "description": "Персональный конструктор питания с реальными рецептами",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#f4f8fa",
-  "theme_color": "#1f7b66",
-  "icons": [
-    { "src": "images/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "images/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
-  ]
-}
-</script>
-
-<!-- ====== JAVASCRIPT ====== -->
 <script>
   // ============================================================
   // 1. STORAGE.JS
@@ -571,17 +613,13 @@
     save(key, value) {
       try {
         localStorage.setItem('fp_' + key, JSON.stringify(value));
-      } catch (e) {
-        console.warn('Storage save error:', e);
-      }
+      } catch (e) { console.warn('Storage save error:', e); }
     },
     load(key, fallback) {
       try {
         const val = localStorage.getItem('fp_' + key);
         return val ? JSON.parse(val) : fallback;
-      } catch (e) {
-        return fallback;
-      }
+      } catch (e) { return fallback; }
     },
     remove(key) {
       localStorage.removeItem('fp_' + key);
@@ -638,12 +676,11 @@
   switchTab(savedTab);
 
   // ============================================================
-  // 5. CALCULATOR.JS (переработанный)
+  // 5. CALCULATOR.JS
   // ============================================================
   const goalBtns = document.querySelectorAll('.goal-btn');
   let currentPlan = Storage.load('currentPlan', 'fatloss');
 
-  // Обновление стилей кнопок целей
   goalBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       goalBtns.forEach(b => b.classList.remove('active'));
@@ -692,12 +729,10 @@
       return;
     }
 
-    // BMR
     const bmr = gender === 'female' ? 10 * weight + 6.25 * height - 5 * age - 161 : 10 * weight + 6.25 * height - 5 * age + 5;
     const maintenance = Math.round(bmr * activity);
     let finalCal = Math.round(maintenance * factor);
 
-    // Предупреждение о 1200 ккал
     const warning = document.getElementById('calorieWarning');
     if (finalCal < 1200) {
       warning.style.display = 'block';
@@ -706,13 +741,11 @@
       warning.style.display = 'none';
     }
 
-    // БЖУ в зависимости от цели
     let proteinFactor, fatFactor;
-    if (plan === 'fatloss') { proteinFactor = 2.2;
-      fatFactor = 0.8; } else if (plan === 'moderate') { proteinFactor = 2.0;
-      fatFactor = 0.9; } else if (plan === 'bulk') { proteinFactor = 1.8;
-      fatFactor = 1.0; } else { proteinFactor = 1.6;
-      fatFactor = 0.9; }
+    if (plan === 'fatloss') { proteinFactor = 2.2; fatFactor = 0.8; }
+    else if (plan === 'moderate') { proteinFactor = 2.0; fatFactor = 0.9; }
+    else if (plan === 'bulk') { proteinFactor = 1.8; fatFactor = 1.0; }
+    else { proteinFactor = 1.6; fatFactor = 0.9; }
 
     const protein = Math.round(weight * proteinFactor);
     const fat = Math.round(weight * fatFactor);
@@ -730,7 +763,6 @@
       document.getElementById('carbsPercent').textContent = Math.round((carbs * 4) / total * 100) + '%';
     }
 
-    // Прогноз по срокам
     const diff = weight - goalWeight;
     const speed = factor === 0.75 ? 0.9 : factor === 0.85 ? 0.6 : factor === 1.0 ? 0.0 : 0.4;
     const weeks = speed > 0 ? Math.round(Math.abs(diff) / speed) : 0;
@@ -738,11 +770,9 @@
     document.getElementById('resSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
     document.getElementById('resWeeks').textContent = weeks + ' нед.';
 
-    // Расчёт ИМТ
     const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
     document.getElementById('homeBMI').textContent = bmi;
 
-    // Прогресс
     const startWeight = Storage.load('startWeight', weight);
     const progressPercent = diff > 0 ? Math.min(100, ((startWeight - weight) / (startWeight - goalWeight)) * 100) : 0;
     document.getElementById('progressPercent').textContent = Math.round(progressPercent) + '%';
@@ -751,7 +781,6 @@
     document.getElementById('homeProgressPercent').textContent = Math.round(progressPercent) + '%';
     document.getElementById('homeProgressDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
 
-    // Статистика на главной
     document.getElementById('homeKcal').textContent = finalCal;
     document.getElementById('homeProtein').textContent = protein;
     document.getElementById('homeFat').textContent = fat;
@@ -759,7 +788,6 @@
 
     Storage.save('currentPlan', currentPlan);
 
-    // История веса
     const history = Storage.load('weightHistory', []);
     if (history.length === 0 || history[history.length - 1].weight !== weight) {
       history.push({ date: new Date().toLocaleDateString(), weight: weight });
@@ -768,7 +796,6 @@
     updateProgress();
   }
 
-  // События для автопересчёта
   document.getElementById('ageSlider').addEventListener('input', function() {
     document.getElementById('ageValue').textContent = this.value;
     calculate();
@@ -779,7 +806,6 @@
   });
   document.getElementById('weightSlider').addEventListener('input', function() {
     document.getElementById('weightValue').textContent = this.value;
-    // Обновляем стартовый вес при первом изменении
     if (!Storage.load('startWeight', null)) {
       Storage.save('startWeight', parseInt(this.value));
     }
@@ -792,7 +818,6 @@
   document.getElementById('gender').addEventListener('change', calculate);
   document.getElementById('activity').addEventListener('change', calculate);
 
-  // Восстановление сохранённой цели
   const savedGoal = Storage.load('currentPlan', 'fatloss');
   goalBtns.forEach(btn => {
     if (btn.dataset.plan === savedGoal) {
@@ -808,7 +833,7 @@
   });
 
   // ============================================================
-  // 6. RECIPES.JS (встроенная база + поиск + фильтры + избранное)
+  // 6. RECIPES.JS
   // ============================================================
   const recipeDB = [
     // ЗАВТРАКИ
@@ -862,7 +887,6 @@
   let searchHistory = Storage.load('searchHistory', []);
   let favorites = Storage.load('favorites', []);
 
-  // Сохранение истории поиска
   function addToHistory(query) {
     if (!query || query.trim().length < 2) return;
     const q = query.trim();
@@ -875,10 +899,7 @@
 
   function renderSearchHistory() {
     const container = document.getElementById('searchHistory');
-    if (!searchHistory.length) {
-      container.innerHTML = '';
-      return;
-    }
+    if (!searchHistory.length) { container.innerHTML = ''; return; }
     container.innerHTML = searchHistory.map(q =>
       `<span class="history-item" role="listitem" data-query="${q}">${q}</span>`
     ).join('');
@@ -890,19 +911,14 @@
     });
   }
 
-  // Тоггл избранного
   function toggleFavorite(name) {
     const index = favorites.indexOf(name);
-    if (index > -1) {
-      favorites.splice(index, 1);
-    } else {
-      favorites.push(name);
-    }
+    if (index > -1) favorites.splice(index, 1);
+    else favorites.push(name);
     Storage.save('favorites', favorites);
     renderRecipes(applyFilters());
   }
 
-  // Поиск и фильтры
   function applyFilters(query) {
     let res = recipeDB;
     if (query && query.trim()) {
@@ -917,36 +933,25 @@
     if (currentTime === 'fast') res = res.filter(r => r.time <= 20);
     else if (currentTime === 'medium') res = res.filter(r => r.time > 20 && r.time <= 40);
     else if (currentTime === 'long') res = res.filter(r => r.time > 40);
-
-    // Сортировка
     if (currentSort === 'kcal') res.sort((a, b) => a.kcal - b.kcal);
     else if (currentSort === 'protein') res.sort((a, b) => b.p - a.p);
     else res.sort((a, b) => a.name.localeCompare(b.name));
-
     return res;
   }
 
   function renderRecipes(results) {
     const container = document.getElementById('recipeResults');
     if (!results || results.length === 0) {
-      container.innerHTML = `
-        <div class="empty-msg">
-          <span class="big-icon">🍽️</span>
-          <p>Рецептов не найдено. Попробуй другой запрос или фильтры.</p>
-        </div>
-      `;
+      container.innerHTML = `<div class="empty-msg"><span class="big-icon">🍽️</span><p>Рецептов не найдено. Попробуй другой запрос или фильтры.</p></div>`;
       document.getElementById('recipeInfo').textContent = 'Рецептов не найдено.';
       return;
     }
-
     const fragment = document.createDocumentFragment();
     results.forEach(r => {
       const card = document.createElement('div');
       card.className = 'recipe-card';
       card.setAttribute('role', 'listitem');
-
       const isFavorite = favorites.includes(r.name);
-
       card.innerHTML = `
         <button class="favorite-btn" aria-label="${isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}">${isFavorite ? '❤️' : '🤍'}</button>
         <div class="title">${r.name} <span class="badge-time">${r.time}мин</span></div>
@@ -960,34 +965,24 @@
         <div style="font-size:0.7rem;color:var(--text-muted);">${r.ingredients.slice(0, 3).join(', ')}${r.ingredients.length > 3 ? '...' : ''}</div>
         <button class="add-btn" data-name="${r.name}" data-kcal="${r.kcal}" data-p="${r.p}" data-f="${r.f}" data-c="${r.c}">➕ Добавить в рацион</button>
       `;
-
-      // Обработчик для избранного
       card.querySelector('.favorite-btn').addEventListener('click', function(e) {
         e.stopPropagation();
         toggleFavorite(r.name);
       });
-
-      // Обработчик для добавления в рацион
       card.querySelector('.add-btn').addEventListener('click', function(e) {
         e.stopPropagation();
         openAddModal(this.dataset.name, parseInt(this.dataset.kcal), parseFloat(this.dataset.p), parseFloat(this.dataset.f), parseFloat(this.dataset.c));
       });
-
       fragment.appendChild(card);
     });
-
     container.innerHTML = '';
     container.appendChild(fragment);
     document.getElementById('recipeInfo').textContent = `Найдено ${results.length} рецептов. Нажми «Добавить» — и блюдо появится в твоём рационе.`;
   }
 
-  // Поиск
   document.getElementById('searchBtn').addEventListener('click', function() {
     const query = document.getElementById('recipeSearch').value;
-    if (!query || query.trim().length < 1) {
-      showToast('⚠️ Введите запрос для поиска');
-      return;
-    }
+    if (!query || query.trim().length < 1) { showToast('⚠️ Введите запрос для поиска'); return; }
     addToHistory(query);
     renderRecipes(applyFilters(query));
   });
@@ -1002,7 +997,6 @@
     document.getElementById('recipeInfo').textContent = 'Введите запрос для поиска рецептов.';
   });
 
-  // Фильтры
   document.querySelectorAll('#categoryFilterGroup .filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('#categoryFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
@@ -1028,22 +1022,18 @@
         parent.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         const filterType = parent.querySelector('.filter-label')?.textContent || '';
-        if (filterType.includes('Время')) {
-          currentTime = this.dataset.filter;
-        } else if (filterType.includes('Сортировка')) {
-          currentSort = this.dataset.filter;
-        }
+        if (filterType.includes('Время')) currentTime = this.dataset.filter;
+        else if (filterType.includes('Сортировка')) currentSort = this.dataset.filter;
         renderRecipes(applyFilters(document.getElementById('recipeSearch').value));
       }
     });
   });
 
-  // Инициализация рецептов
   renderSearchHistory();
   renderRecipes(applyFilters(''));
 
   // ============================================================
-  // 7. MEALPLAN.JS (автосбор + замена)
+  // 7. MEALPLAN.JS
   // ============================================================
   function openAddModal(name, kcal, p, f, c) {
     pendingRecipe = { name, kcal, p, f, c };
@@ -1084,7 +1074,6 @@
     const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
     let has = false;
     const container = document.getElementById('mealPlanContainer');
-
     let html = '';
     days.forEach(d => {
       const list = meals[d] || [];
@@ -1102,15 +1091,8 @@
       });
       html += `<div class="total-day">⭐ Итого: ${Math.round(total)} ккал</div></div>`;
     });
-
     if (!has) {
-      container.innerHTML = `
-        <div class="empty-msg">
-          <span class="big-icon">🍽️</span>
-          <p>Рацион пуст. Начни с поиска рецептов!</p>
-          <button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:10px;" aria-label="Перейти к поиску рецептов">🍽️ Найти рецепты</button>
-        </div>
-      `;
+      container.innerHTML = `<div class="empty-msg"><span class="big-icon">🍽️</span><p>Рацион пуст. Начни с поиска рецептов!</p><button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:10px;" aria-label="Перейти к поиску рецептов">🍽️ Найти рецепты</button></div>`;
       document.getElementById('planDesc').textContent = 'Добавь блюда из раздела «Рецепты» или нажми «Собрать».';
       return;
     }
@@ -1129,7 +1111,6 @@
     }
   }
 
-  // Автосбор рациона (умный)
   document.getElementById('autoPlanBtn').addEventListener('click', function() {
     const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
     const mealTypes = [
@@ -1140,14 +1121,11 @@
     ];
     const meals = {};
     const usedRecipes = new Set();
-
     days.forEach(d => {
       meals[d] = [];
       mealTypes.forEach(mt => {
         let available = recipeDB.filter(r => r.category === mt.category && !usedRecipes.has(r.name));
-        if (!available.length) {
-          available = recipeDB.filter(r => r.category === mt.category);
-        }
+        if (!available.length) available = recipeDB.filter(r => r.category === mt.category);
         if (available.length) {
           const pick = available[Math.floor(Math.random() * available.length)];
           usedRecipes.add(pick.name);
@@ -1162,7 +1140,6 @@
         }
       });
     });
-
     Storage.save('customMeals', meals);
     renderMeals();
     showToast('🧠 Рацион собран умно! Завтрак, обед, ужин, перекус — без повторов.');
@@ -1184,23 +1161,16 @@
     const list = meals[day] || [];
     const meal = list[index];
     if (!meal) return;
-
     let category = 'lunch';
     if (meal.name.includes('Завтрак')) category = 'breakfast';
     else if (meal.name.includes('Обед')) category = 'lunch';
     else if (meal.name.includes('Ужин')) category = 'dinner';
     else if (meal.name.includes('Перекус')) category = 'snack';
-
     let alts = recipeDB.filter(r => r.category === category && r.name !== meal.recipe);
     if (alts.length > 8) alts = alts.slice(0, 8);
-
     const container = document.getElementById('replaceOptions');
     container.innerHTML = '';
-    if (!alts.length) {
-      container.innerHTML = '<p class="text-muted">Нет альтернатив</p>';
-      return;
-    }
-
+    if (!alts.length) { container.innerHTML = '<p class="text-muted">Нет альтернатив</p>'; return; }
     alts.forEach(r => {
       const div = document.createElement('div');
       div.className = 'replace-item';
@@ -1235,8 +1205,148 @@
   });
 
   // ============================================================
-  // 9. PROGRESS.JS
+  // 9. PROGRESS.JS (С КАЛЕНДАРЁМ)
   // ============================================================
+  let calendarDate = new Date();
+
+  function buildCalendar(year, month) {
+    const container = document.getElementById('calendarGrid');
+    const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+    document.getElementById('calendarMonthYear').textContent = `${monthNames[month]} ${year}`;
+
+    // Очищаем контейнер, оставляя только заголовки дней недели
+    const headers = container.querySelectorAll('.day-header');
+    container.innerHTML = '';
+    headers.forEach(h => container.appendChild(h));
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startOffset = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+
+    // Получаем веса за месяц
+    const history = Storage.load('weightHistory', []);
+    const weights = {};
+    const dates = [];
+    history.forEach(item => {
+      const parts = item.date.split('.');
+      if (parts.length === 3) {
+        const d = parseInt(parts[0]);
+        const m = parseInt(parts[1]) - 1;
+        const y = parseInt(parts[2]);
+        if (y === year && m === month) {
+          weights[d] = item.weight;
+          dates.push(d);
+        }
+      }
+    });
+    dates.sort((a, b) => a - b);
+
+    // Изменение за месяц
+    let monthChange = 0;
+    if (dates.length >= 2) {
+      const firstWeight = weights[dates[0]];
+      const lastWeight = weights[dates[dates.length - 1]];
+      monthChange = lastWeight - firstWeight;
+    }
+    const changeText = monthChange > 0 ? `+${monthChange.toFixed(1)} кг ↑` :
+                       monthChange < 0 ? `${monthChange.toFixed(1)} кг ↓` :
+                       '0 кг —';
+    document.getElementById('monthChange').textContent = changeText;
+    document.getElementById('monthChange').style.color = monthChange > 0 ? 'var(--danger)' :
+                                                        monthChange < 0 ? 'var(--primary)' :
+                                                        'var(--text-muted)';
+
+    // Пустые ячейки
+    for (let i = 0; i < startOffset; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'calendar-day empty';
+      empty.textContent = '—';
+      container.appendChild(empty);
+    }
+
+    // Дни месяца
+    const today = new Date();
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dayDiv = document.createElement('div');
+      dayDiv.className = 'calendar-day';
+      dayDiv.dataset.day = d;
+      dayDiv.dataset.month = month;
+      dayDiv.dataset.year = year;
+
+      const hasWeight = weights[d] !== undefined;
+      const weight = weights[d] || null;
+
+      if (d === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+        dayDiv.classList.add('today');
+      }
+
+      if (hasWeight) {
+        // Определяем цвет
+        if (dates.length >= 2 && weight < weights[dates[0]]) {
+          dayDiv.classList.add('has-weight-low');
+        } else if (dates.length >= 2 && weight > weights[dates[0]]) {
+          dayDiv.classList.add('has-weight-high');
+        } else {
+          dayDiv.style.background = 'var(--bg)';
+        }
+      }
+
+      const numberSpan = document.createElement('div');
+      numberSpan.className = 'day-number';
+      numberSpan.textContent = d;
+      dayDiv.appendChild(numberSpan);
+
+      if (hasWeight) {
+        const weightSpan = document.createElement('div');
+        weightSpan.className = 'day-weight';
+        weightSpan.textContent = weight.toFixed(1);
+        dayDiv.appendChild(weightSpan);
+      }
+
+      // Клик для добавления/изменения веса
+      dayDiv.addEventListener('click', function() {
+        const dayNum = parseInt(this.dataset.day);
+        const monthNum = parseInt(this.dataset.month);
+        const yearNum = parseInt(this.dataset.year);
+        const hasWeightNow = weights[dayNum] !== undefined;
+        const currentWeightNow = weights[dayNum] || null;
+
+        const promptMsg = hasWeightNow ?
+          `Изменить вес на ${dayNum}.${monthNum + 1}.${yearNum} (текущий: ${currentWeightNow.toFixed(1)} кг):` :
+          `Введите вес на ${dayNum}.${monthNum + 1}.${yearNum}:`;
+        const input = prompt(promptMsg);
+        if (input === null) return;
+        const newWeight = parseFloat(input.trim());
+        if (isNaN(newWeight) || newWeight < 20 || newWeight > 300) {
+          showToast('⚠️ Введите корректный вес (20–300 кг)');
+          return;
+        }
+
+        const history2 = Storage.load('weightHistory', []);
+        const dateStr = `${String(dayNum).padStart(2, '0')}.${String(monthNum + 1).padStart(2, '0')}.${yearNum}`;
+        const existingIndex = history2.findIndex(item => item.date === dateStr);
+        if (existingIndex > -1) {
+          history2[existingIndex].weight = newWeight;
+        } else {
+          history2.push({ date: dateStr, weight: newWeight });
+        }
+        Storage.save('weightHistory', history2);
+
+        // Обновляем текущий вес в калькуляторе
+        document.getElementById('weightSlider').value = newWeight;
+        document.getElementById('weightValue').textContent = newWeight;
+        Storage.save('startWeight', newWeight);
+
+        buildCalendar(yearNum, monthNum);
+        calculate();
+        showToast('✅ Вес сохранён!');
+      });
+
+      container.appendChild(dayDiv);
+    }
+  }
+
   function updateProgress() {
     const history = Storage.load('weightHistory', []);
     const current = parseInt(document.getElementById('weightSlider').value);
@@ -1244,10 +1354,8 @@
     const goal = parseInt(document.getElementById('goalWeightSlider').value);
     const height = parseInt(document.getElementById('heightSlider').value);
 
-    // ИМТ
     const bmi = (current / ((height / 100) ** 2)).toFixed(1);
 
-    // Статистика
     document.getElementById('statStart').textContent = start.toFixed(1) + ' кг';
     document.getElementById('statCurrent').textContent = current.toFixed(1) + ' кг';
     document.getElementById('statLost').textContent = (start - current).toFixed(1) + ' кг';
@@ -1258,42 +1366,23 @@
     const speed = factor === 0.75 ? 0.9 : factor === 0.85 ? 0.6 : factor === 1.0 ? 0.0 : 0.4;
     document.getElementById('statSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
 
-    // График
-    const container = document.getElementById('chartContainer');
-    if (history.length < 2) {
-      container.innerHTML = '<p class="text-muted">Добавьте веса для графика.</p>';
-      return;
+    // Перестраиваем календарь
+    const now = new Date();
+    if (calendarDate.getFullYear() !== now.getFullYear() || calendarDate.getMonth() !== now.getMonth()) {
+      calendarDate = new Date(now.getFullYear(), now.getMonth(), 1);
     }
-    const weights = history.map(h => h.weight);
-    const min = Math.min(...weights);
-    const max = Math.max(...weights);
-    const range = max - min || 1;
-    let html = '';
-    weights.forEach(w => {
-      const h = ((w - min) / range) * 100;
-      html += `<div class="chart-bar-wrap"><div class="chart-bar"><div class="fill" style="height:${Math.max(5, h)}%"></div></div><div class="chart-label">${w.toFixed(1)}</div></div>`;
-    });
-    container.innerHTML = html;
+    buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
   }
 
-  document.getElementById('updateChartBtn').addEventListener('click', () => {
-    const input = document.getElementById('weightHistoryInput').value;
-    const weights = input.split(',').map(s => parseFloat(s.trim())).filter(v => !isNaN(v));
-    if (!weights.length) { showToast('⚠️ Введите хотя бы 2 значения через запятую'); return; }
-    const history = Storage.load('weightHistory', []);
-    weights.forEach(w => history.push({ date: new Date().toLocaleDateString(), weight: w }));
-    Storage.save('weightHistory', history);
-    updateProgress();
-    showToast('✅ График обновлён');
+  // Навигация по месяцам
+  document.getElementById('prevMonthBtn').addEventListener('click', function() {
+    calendarDate.setMonth(calendarDate.getMonth() - 1);
+    buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
   });
 
-  document.getElementById('addWeightBtn').addEventListener('click', () => {
-    const current = parseInt(document.getElementById('weightSlider').value);
-    const history = Storage.load('weightHistory', []);
-    history.push({ date: new Date().toLocaleDateString(), weight: current });
-    Storage.save('weightHistory', history);
-    updateProgress();
-    showToast('✅ Вес добавлен');
+  document.getElementById('nextMonthBtn').addEventListener('click', function() {
+    calendarDate.setMonth(calendarDate.getMonth() + 1);
+    buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
   });
 
   // ============================================================
@@ -1359,13 +1448,16 @@
     updateProgress();
     updateHome();
 
-    // При первом запуске сохраняем стартовый вес
+    // Инициализация календаря
+    const now = new Date();
+    calendarDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
+
     if (!Storage.load('startWeight', null)) {
       const w = parseInt(document.getElementById('weightSlider').value);
       Storage.save('startWeight', w);
     }
 
-    // Автоподсказка
     setTimeout(() => {
       if (document.getElementById('recipeResults').children.length === 0) {
         document.getElementById('recipeInfo').textContent = 'Введите запрос для поиска рецептов.';
@@ -1377,7 +1469,6 @@
   // 14. KEYBOARD ACCESSIBILITY
   // ============================================================
   document.addEventListener('keydown', function(e) {
-    // Закрытие модальных окон по ESC
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-overlay.active').forEach(modal => {
         modal.classList.remove('active');
@@ -1385,7 +1476,7 @@
     }
   });
 
-  console.log('✅ FitPlan загружен! Версия 2.0 (финальная)');
+  console.log('✅ FitPlan загружен! Версия 3.0 (с календарём)');
 </script>
 </body>
 </html>
