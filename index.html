@@ -3,17 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>FitPlan — интуитивный конструктор питания</title>
-
-  <!-- Google Fonts -->
+  <title>FitPlan — конструктор питания</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-
   <style>
-    /* ============================================================
-       1. ПЕРЕМЕННЫЕ
-       ============================================================ */
+    /* ====== 1. ПЕРЕМЕННЫЕ ====== */
     :root {
       --primary: #1a7a64;
       --primary-light: rgba(26, 122, 100, 0.12);
@@ -31,7 +26,7 @@
       --radius-sm: 12px;
       --nav-height: 68px;
       --header-height: 60px;
-      --transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      --transition: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
@@ -48,9 +43,6 @@
       --primary-glow: rgba(43, 155, 130, 0.3);
     }
 
-    /* ============================================================
-       2. БАЗА
-       ============================================================ */
     * {
       margin: 0;
       padding: 0;
@@ -72,26 +64,17 @@
       overflow-x: hidden;
     }
 
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 10px;
-    }
-
     .container {
       max-width: 780px;
       margin: 0 auto;
       padding: 0 16px;
     }
 
-    /* ============================================================
-       3. ШАПКА
-       ============================================================ */
+    .text-muted {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
     .header {
       position: fixed;
       top: 0;
@@ -127,7 +110,6 @@
       padding: 2px 12px;
       border-radius: 40px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
     .theme-toggle {
@@ -148,9 +130,6 @@
       color: #fff;
     }
 
-    /* ============================================================
-       4. НИЖНЯЯ НАВИГАЦИЯ
-       ============================================================ */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -220,9 +199,6 @@
       background: var(--primary-light);
     }
 
-    /* ============================================================
-       5. СТРАНИЦЫ
-       ============================================================ */
     .page {
       display: none;
       animation: fadeSlide 0.4s ease;
@@ -243,9 +219,6 @@
       }
     }
 
-    /* ============================================================
-       6. КАРТОЧКИ
-       ============================================================ */
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(20px) saturate(1.2);
@@ -258,10 +231,6 @@
       transition: all var(--transition);
     }
 
-    .card:active {
-      transform: scale(0.99);
-    }
-
     .card h2 {
       font-size: 1.1rem;
       font-weight: 600;
@@ -272,14 +241,6 @@
       letter-spacing: -0.01em;
     }
 
-    .text-muted {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    /* ============================================================
-       7. КНОПКИ
-       ============================================================ */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -297,21 +258,6 @@
       cursor: pointer;
       transition: all var(--transition);
       letter-spacing: -0.01em;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .btn:active::after {
-      opacity: 1;
     }
 
     .btn:hover {
@@ -341,19 +287,11 @@
       font-size: 0.7rem;
     }
 
-    .btn-accent {
-      background: var(--accent);
-      box-shadow: 0 4px 20px rgba(245, 166, 35, 0.35);
-    }
-
     .btn-danger {
       background: #e74c3c;
       box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
     }
 
-    /* ============================================================
-       8. HERO
-       ============================================================ */
     .hero {
       background: linear-gradient(145deg, var(--primary-light), var(--bg-card));
       border: 1px solid var(--border);
@@ -400,9 +338,6 @@
       position: relative;
     }
 
-    /* ============================================================
-       9. ПРОГРЕСС-КОЛЬЦО
-       ============================================================ */
     .progress-ring-wrap {
       display: flex;
       align-items: center;
@@ -454,9 +389,6 @@
       font-size: 1.2rem;
     }
 
-    /* ============================================================
-       10. СТАТИСТИКА
-       ============================================================ */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -487,9 +419,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* ============================================================
-       11. КАЛЬКУЛЯТОР
-       ============================================================ */
     .slider-group {
       margin: 12px 0 6px;
     }
@@ -529,10 +458,6 @@
       border: 3px solid var(--bg-card-solid);
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
       transition: all var(--transition);
-    }
-
-    .slider-group input[type="range"]::-webkit-slider-thumb:hover {
-      transform: scale(1.1);
     }
 
     .calc-grid {
@@ -661,9 +586,6 @@
       box-shadow: 0 0 0 4px var(--primary-light);
     }
 
-    /* ============================================================
-       12. РЕЦЕПТЫ — КАРТОЧКИ С КРУГЛЫМИ УГЛАМИ
-       ============================================================ */
     .search-box {
       display: flex;
       gap: 8px;
@@ -873,9 +795,6 @@
       }
     }
 
-    /* ============================================================
-       13. РАЦИОН (АККОРДЕОН + СВАЙП)
-       ============================================================ */
     .day-block {
       background: var(--bg-card-solid);
       border-left: 4px solid var(--primary);
@@ -919,6 +838,8 @@
       transition: transform 0.3s ease;
       font-size: 0.8rem;
       color: var(--text-muted);
+      display: inline-block;
+      margin-left: 6px;
     }
 
     .day-block .day-header .arrow.open {
@@ -945,7 +866,6 @@
       border-bottom: 1px dashed var(--border);
       font-size: 0.82rem;
       transition: all var(--transition);
-      position: relative;
     }
 
     .day-block .meal:last-child {
@@ -991,10 +911,6 @@
       color: #e74c3c;
     }
 
-    .day-block .meal .meal-actions .remove-btn:active {
-      background: rgba(231, 76, 60, 0.1);
-    }
-
     .day-block .total-day {
       margin-top: 6px;
       font-weight: 700;
@@ -1003,16 +919,6 @@
       border-top: 1px solid var(--border);
     }
 
-    /* Свайп-эффект для удаления */
-    .meal.swipe {
-      transform: translateX(-60px);
-      opacity: 0.5;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    /* ============================================================
-       14. КАЛЕНДАРЬ
-       ============================================================ */
     .calendar-header {
       display: flex;
       justify-content: space-between;
@@ -1150,9 +1056,6 @@
       background: var(--border);
     }
 
-    /* ============================================================
-       15. BOTTOM SHEET (ШТОРКА)
-       ============================================================ */
     .bottom-sheet {
       position: fixed;
       bottom: 0;
@@ -1241,9 +1144,6 @@
       pointer-events: auto;
     }
 
-    /* ============================================================
-       16. ПЛАВАЮЩАЯ КНОПКА
-       ============================================================ */
     .fab {
       position: fixed;
       bottom: calc(var(--nav-height) + 24px);
@@ -1273,9 +1173,6 @@
       box-shadow: 0 8px 36px var(--primary-glow);
     }
 
-    /* ============================================================
-       17. TOAST
-       ============================================================ */
     .toast {
       position: fixed;
       bottom: calc(var(--nav-height) + 24px);
@@ -1304,9 +1201,6 @@
       pointer-events: auto;
     }
 
-    /* ============================================================
-       18. ЗАМЕНА (СЕТКА)
-       ============================================================ */
     .replace-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1341,9 +1235,57 @@
       color: var(--text-muted);
     }
 
-    /* ============================================================
-       19. АДАПТИВ
-       ============================================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--bg-card-solid);
+      border-radius: var(--radius);
+      padding: 24px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 16px 64px rgba(0, 0, 0, 0.2);
+      animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .modal .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      justify-content: flex-end;
+    }
+
     @media (max-width: 640px) {
       body {
         padding-top: 54px;
@@ -1460,19 +1402,14 @@
 </head>
 <body>
 
-  <!-- ====== ШАПКА ====== -->
   <header class="header">
     <h1>🥗 FitPlan <span>PRO</span></h1>
-    <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙 Тёмная</button>
+    <button class="theme-toggle" id="themeToggle">🌙 Тёмная</button>
   </header>
 
-  <!-- ====== TOAST ====== -->
   <div class="toast" id="toast"></div>
-
-  <!-- ====== ОВЕРЛЕЙ ДЛЯ ШТОРКИ ====== -->
   <div class="overlay" id="sheetOverlay"></div>
 
-  <!-- ====== BOTTOM SHEET (ШТОРКА) ====== -->
   <div class="bottom-sheet" id="bottomSheet">
     <div class="sheet-handle" id="sheetHandle"></div>
     <h3 id="sheetTitle">🍽️ Добавить в рацион</h3>
@@ -1500,17 +1437,26 @@
     </div>
   </div>
 
-  <!-- ====== ПЛАВАЮЩАЯ КНОПКА ====== -->
-  <button class="fab" id="fabBtn" aria-label="Добавить рецепт">➕</button>
+  <button class="fab" id="fabBtn">➕</button>
+
+  <div class="modal-overlay" id="replaceModal">
+    <div class="modal">
+      <h3>🔄 Заменить блюдо</h3>
+      <p id="replaceInfo" style="font-size:0.9rem; margin-bottom:8px;">Выбери альтернативу:</p>
+      <div id="replaceOptions" class="replace-grid"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="replaceCancel">Отмена</button>
+      </div>
+    </div>
+  </div>
 
   <main class="container">
 
-    <!-- ====== СТРАНИЦА 1: ГЛАВНАЯ ====== -->
     <section class="page active" id="page-home">
       <div class="hero">
         <h2>🏆 Твой идеальный рацион</h2>
         <p>За 60 секунд получи персональный план питания с реальными рецептами и точным КБЖУ.</p>
-        <button class="btn btn-accent" id="heroStartBtn">🚀 Начать</button>
+        <button class="btn" id="heroStartBtn">🚀 Начать</button>
       </div>
 
       <div class="card">
@@ -1519,8 +1465,7 @@
           <div class="progress-ring" id="homeProgressRing">
             <svg width="80" height="80" viewBox="0 0 80 80">
               <circle class="bg-circle" cx="40" cy="40" r="36"/>
-              <circle class="progress-circle" id="homeProgressCircle" cx="40" cy="40" r="36"
-              stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
+              <circle class="progress-circle" id="homeProgressCircle" cx="40" cy="40" r="36" stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
             </svg>
             <span class="center-text" id="homeProgressPercent">0%</span>
           </div>
@@ -1543,7 +1488,6 @@
       </div>
     </section>
 
-    <!-- ====== СТРАНИЦА 2: КАЛЬКУЛЯТОР ====== -->
     <section class="page" id="page-calc">
       <div class="card">
         <h2>🧮 Калькулятор нормы</h2>
@@ -1624,11 +1568,10 @@
       </div>
     </section>
 
-    <!-- ====== СТРАНИЦА 3: РЕЦЕПТЫ ====== -->
     <section class="page" id="page-recipes">
       <div class="card">
         <h2>🔍 Поиск рецептов</h2>
-        <p class="text-muted">12+ реальных блюд на русском языке с точным КБЖУ.</p>
+        <p class="text-muted">Реальные блюда с точным КБЖУ.</p>
 
         <div class="search-box">
           <input type="text" id="recipeSearch" placeholder="Например: курица, омлет, каша" autocomplete="off">
@@ -1668,7 +1611,6 @@
       </div>
     </section>
 
-    <!-- ====== СТРАНИЦА 4: РАЦИОН ====== -->
     <section class="page" id="page-mealplan">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
@@ -1690,7 +1632,6 @@
       </div>
     </section>
 
-    <!-- ====== СТРАНИЦА 5: ПРОГРЕСС ====== -->
     <section class="page" id="page-progress">
       <div class="card">
         <h2>📈 Прогресс к цели</h2>
@@ -1698,8 +1639,7 @@
           <div class="progress-ring" id="progressRing">
             <svg width="80" height="80" viewBox="0 0 80 80">
               <circle class="bg-circle" cx="40" cy="40" r="36"/>
-              <circle class="progress-circle" id="progressCircle" cx="40" cy="40" r="36"
-              stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
+              <circle class="progress-circle" id="progressCircle" cx="40" cy="40" r="36" stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
             </svg>
             <span class="center-text" id="progressPercent">0%</span>
           </div>
@@ -1753,7 +1693,6 @@
 
   </main>
 
-  <!-- ====== НИЖНЯЯ НАВИГАЦИЯ ====== -->
   <nav class="bottom-nav" role="navigation">
     <button class="tab-btn active" data-tab="home"><span class="icon">🏠</span>Главная</button>
     <button class="tab-btn" data-tab="calc"><span class="icon">🧮</span>Кальк</button>
@@ -1767,8 +1706,8 @@
     // 1. STORAGE
     // ============================================================
     const Storage = {
-      save(key, value) { try { localStorage.setItem('fp3_' + key, JSON.stringify(value)); } catch (e) {} },
-      load(key, fallback) { try { const v = localStorage.getItem('fp3_' + key); return v ? JSON.parse(v) : fallback; } catch (
+      save(key, value) { try { localStorage.setItem('fp_' + key, JSON.stringify(value)); } catch (e) {} },
+      load(key, fallback) { try { const v = localStorage.getItem('fp_' + key); return v ? JSON.parse(v) : fallback; } catch (
           e) { return fallback; } }
     };
 
@@ -2038,173 +1977,7 @@
     // ============================================================
     // 8. RECIPES
     // ============================================================
-    const recipeDB = [{
-        name: 'Белковый омлет с овощами и сыром',
-        category: 'breakfast',
-        time: 15,
-        weight: 380,
-        kcal: 410,
-        p: 38,
-        f: 24,
-        c: 12,
-        diet: 'vegetarian',
-        ingredients: ['Яйца 2 шт (100г)', 'Белки яичные 100г', 'Помидор 120г', 'Шпинат 50г', 'Сыр лёгкий 30г',
-          'Оливковое масло 5г'
-        ],
-        instructions: '1. Взбить яйца с белками.\n2. Обжарить шпинат и помидор на масле.\n3. Залить яйцами.\n4. Добавить сыр сверху и готовить под крышкой 5–7 минут.'
-      },
-      {
-        name: 'Овсянка с бананом и протеином',
-        category: 'breakfast',
-        time: 10,
-        weight: 400,
-        kcal: 470,
-        p: 35,
-        f: 12,
-        c: 58,
-        diet: 'vegetarian',
-        ingredients: ['Овсяные хлопья 60г', 'Молоко 1,5% 200мл', 'Банан 100г', 'Протеин 25г', 'Орехи грецкие 10г',
-          'Корица по вкусу'
-        ],
-        instructions: '1. Варить овсянку на молоке 5 минут.\n2. Добавить протеин после снятия с огня.\n3. Добавить банан и орехи.'
-      },
-      {
-        name: 'Творожная запеканка без сахара',
-        category: 'breakfast',
-        time: 35,
-        weight: 350,
-        kcal: 390,
-        p: 42,
-        f: 12,
-        c: 32,
-        diet: 'vegetarian',
-        ingredients: ['Творог 5% 250г', 'Яйцо 1 шт (50г)', 'Манка 20г', 'Йогурт натуральный 50г', 'Ягоды 80г',
-          'Подсластитель по желанию'
-        ],
-        instructions: '1. Смешать творог, яйцо, манку и йогурт.\n2. Добавить ягоды.\n3. Запекать 35 минут при 180°C.'
-      },
-      {
-        name: 'Гречка с яйцом и авокадо',
-        category: 'breakfast',
-        time: 20,
-        weight: 430,
-        kcal: 520,
-        p: 27,
-        f: 25,
-        c: 52,
-        diet: 'vegetarian',
-        ingredients: ['Гречка сухая 70г', 'Яйца 2 шт', 'Авокадо 70г', 'Огурец 100г', 'Зелень 10г'],
-        instructions: '1. Отварить гречку.\n2. Приготовить яйца.\n3. Добавить авокадо и овощи.'
-      },
-      {
-        name: 'Йогуртовый боул с ягодами',
-        category: 'breakfast',
-        time: 5,
-        weight: 420,
-        kcal: 360,
-        p: 32,
-        f: 10,
-        c: 42,
-        diet: 'vegetarian',
-        ingredients: ['Греческий йогурт 2% 300г', 'Ягоды 100г', 'Овсяные хлопья 30г', 'Чиа 10г', 'Мёд 5г'],
-        instructions: '1. Выложить йогурт в миску.\n2. Добавить ягоды, овсянку и семена.\n3. Оставить на 10 минут.'
-      },
-      {
-        name: 'Лаваш с курицей и овощами',
-        category: 'breakfast',
-        time: 15,
-        weight: 450,
-        kcal: 490,
-        p: 45,
-        f: 15,
-        c: 50,
-        diet: 'all',
-        ingredients: ['Лаваш цельнозерновой 60г', 'Куриная грудка 150г', 'Огурец 80г', 'Помидор 100г',
-          'Йогурт натуральный 50г', 'Салат 30г'
-        ],
-        instructions: '1. Приготовить курицу.\n2. Нарезать овощи.\n3. Завернуть всё в лаваш.'
-      },
-      {
-        name: 'Сырники протеиновые',
-        category: 'breakfast',
-        time: 20,
-        weight: 300,
-        kcal: 430,
-        p: 45,
-        f: 14,
-        c: 34,
-        diet: 'vegetarian',
-        ingredients: ['Творог 5% 250г', 'Яйцо 1 шт', 'Рисовая мука 30г', 'Протеин ванильный 20г', 'Ягоды 50г'],
-        instructions: '1. Смешать массу.\n2. Сформировать сырники.\n3. Запечь или приготовить на сухой сковороде.'
-      },
-      {
-        name: 'Тост с лососем и творожным сыром',
-        category: 'breakfast',
-        time: 10,
-        weight: 300,
-        kcal: 450,
-        p: 32,
-        f: 22,
-        c: 35,
-        diet: 'all',
-        ingredients: ['Хлеб цельнозерновой 80г', 'Лосось слабосолёный 70г', 'Творожный сыр лёгкий 40г', 'Огурец 80г',
-          'Зелень'
-        ],
-        instructions: '1. Поджарить хлеб.\n2. Намазать сыр.\n3. Выложить лосось и овощи.'
-      },
-      {
-        name: 'Овсяноблин с курицей',
-        category: 'breakfast',
-        time: 15,
-        weight: 380,
-        kcal: 500,
-        p: 43,
-        f: 20,
-        c: 42,
-        diet: 'all',
-        ingredients: ['Овсянка 50г', 'Яйца 2 шт', 'Молоко 50мл', 'Куриная грудка 120г', 'Сыр 20г', 'Овощи 100г'],
-        instructions: '1. Сделать блин из овсянки, яйца и молока.\n2. Добавить начинку.\n3. Обжарить с двух сторон.'
-      },
-      {
-        name: 'Рисовая каша с творогом и ягодами',
-        category: 'breakfast',
-        time: 25,
-        weight: 450,
-        kcal: 460,
-        p: 35,
-        f: 10,
-        c: 65,
-        diet: 'vegetarian',
-        ingredients: ['Рис сухой 60г', 'Молоко 1,5% 200мл', 'Творог 5% 150г', 'Ягоды 80г', 'Корица'],
-        instructions: '1. Сварить рисовую кашу.\n2. Добавить творог.\n3. Сверху ягоды.'
-      },
-      {
-        name: 'Белковый омлет со шпинатом',
-        category: 'breakfast',
-        time: 15,
-        weight: 350,
-        kcal: 395,
-        p: 35,
-        f: 21,
-        c: 11,
-        diet: 'vegetarian',
-        ingredients: ['Яйца 3 шт (150г)', 'Шпинат 100г', 'Сыр лёгкий 30г', 'Оливковое масло 5г', 'Соль, перец по вкусу'],
-        instructions: '1. Взбить яйца.\n2. Обжарить шпинат на масле.\n3. Залить яйцами и жарить до готовности.\n4. Посыпать сыром и накрыть крышкой на 2 минуты.'
-      },
-      {
-        name: 'Овсяная каша с бананом',
-        category: 'breakfast',
-        time: 10,
-        weight: 360,
-        kcal: 430,
-        p: 17,
-        f: 10,
-        c: 68,
-        diet: 'vegetarian',
-        ingredients: ['Овсяные хлопья 60г', 'Молоко 1,5% 200мл', 'Банан 100г', 'Мёд 5г', 'Корица по вкусу'],
-        instructions: '1. Варить овсянку на молоке 5 минут.\n2. Добавить нарезанный банан.\n3. Посыпать корицей и полить мёдом.'
-      }
-    ];
+    const recipeDB = [];
 
     let currentCategory = 'all',
       currentDiet = 'all',
@@ -2348,7 +2121,7 @@
     renderRecipes(applyFilters(''));
 
     // ============================================================
-    // 9. MEAL PLAN (АККОРДЕОН)
+    // 9. MEAL PLAN
     // ============================================================
     function renderMeals() {
       const meals = Storage.load('customMeals', {});
@@ -2400,7 +2173,6 @@
       container.innerHTML = html;
       document.getElementById('planDesc').textContent = 'Твой рацион на неделю. Нажми на день, чтобы раскрыть.';
 
-      // Аккордеон
       document.querySelectorAll('.day-block .day-header').forEach(header => {
         header.addEventListener('click', function() {
           const body = this.parentElement.querySelector('.day-body');
