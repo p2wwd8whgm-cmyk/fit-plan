@@ -3,1480 +3,2216 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  
-  <!-- ====== SEO ====== -->
-  <title>FitPlan — конструктор питания с реальными рецептами</title>
-  <meta name="description" content="FitPlan: персональный конструктор питания с 100+ реальными рецептами на русском языке, калькулятором калорий, планом на неделю и прогрессом.">
-  <meta name="keywords" content="fitplan, питание, рецепты, кбжу, калории, похудение, рацион, планирование меню">
-  <meta name="robots" content="index, follow">
+
+  <!-- SEO -->
+  <title>FitPlan 2.0 — умный конструктор питания</title>
+  <meta name="description" content="FitPlan 2.0: персональный конструктор питания с реальными рецептами, калькулятором калорий, планом на неделю и прогрессом.">
+  <meta name="keywords" content="fitplan, питание, рецепты, кбжу, калории, похудение, рацион">
   <link rel="canonical" href="https://p2wwd8whgm-cmyk.github.io/fit-plan/">
 
-  <!-- ====== Open Graph ====== -->
-  <meta property="og:title" content="FitPlan — конструктор питания">
+  <!-- Open Graph -->
+  <meta property="og:title" content="FitPlan 2.0 — умный конструктор питания">
   <meta property="og:description" content="Персональный конструктор питания с реальными рецептами на русском языке, калькулятором калорий и планом на неделю.">
   <meta property="og:url" content="https://p2wwd8whgm-cmyk.github.io/fit-plan/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://p2wwd8whgm-cmyk.github.io/fit-plan/images/og-image.png">
 
-  <!-- ====== Twitter Card ====== -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="FitPlan — конструктор питания">
+  <meta name="twitter:title" content="FitPlan 2.0 — умный конструктор питания">
   <meta name="twitter:description" content="Персональный конструктор питания с реальными рецептами на русском языке, калькулятором калорий и планом на неделю.">
-  <meta name="twitter:image" content="https://p2wwd8whgm-cmyk.github.io/fit-plan/images/og-image.png">
 
-  <!-- ====== PWA / Manifest ====== -->
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1f7b66">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="images/icons/favicon.png">
 
   <style>
-    /* ====== 1. BASE.CSS ====== */
+    /* ============================================================
+       1. ПЕРЕМЕННЫЕ И СБРОС
+       ============================================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
     :root {
-      --bg: #f4f8fa;
-      --card: #ffffff;
+      --bg: #f0f4f8;
+      --bg-card: rgba(255, 255, 255, 0.75);
+      --bg-card-solid: #ffffff;
       --text: #1a2a3a;
-      --text-muted: #4a6a7a;
-      --border: #d0dce6;
+      --text-muted: #5a7a8a;
+      --border: rgba(0, 0, 0, 0.06);
       --primary: #1f7b66;
-      --primary-hover: #16634f;
-      --primary-light: #eaf3f0;
-      --shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-      --radius: 24px;
-      --bottom-nav-height: 72px;
+      --primary-light: rgba(31, 123, 102, 0.12);
+      --primary-glow: rgba(31, 123, 102, 0.25);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --nav-height: 68px;
       --header-height: 60px;
-      --danger: #e74c3c;
-      --warning: #f39c12;
-      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
     [data-theme="dark"] {
-      --bg: #121a22;
-      --card: #1e2a34;
+      --bg: #0e1620;
+      --bg-card: rgba(26, 38, 50, 0.85);
+      --bg-card-solid: #1a2632;
       --text: #eaf0f5;
       --text-muted: #8aa0b0;
-      --border: #2d3f4e;
-      --primary: #2b9b82;
-      --primary-hover: #3ab094;
-      --primary-light: #1a2f2a;
-      --shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      --border: rgba(255, 255, 255, 0.06);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --primary-light: rgba(43, 155, 130, 0.18);
+      --primary-glow: rgba(43, 155, 130, 0.3);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       background: var(--bg);
       color: var(--text);
-      padding: 0;
-      transition: all var(--transition);
+      transition: background var(--transition), color var(--transition);
       min-height: 100vh;
-      padding-bottom: calc(var(--bottom-nav-height) + 20px);
       padding-top: var(--header-height);
+      padding-bottom: calc(var(--nav-height) + 20px);
+      font-size: 16px;
+      line-height: 1.5;
     }
-    .container { max-width: 1024px; margin: 0 auto; padding: 0 16px; }
-    .text-muted { color: var(--text-muted); font-size: 0.85rem; }
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    button {
+      cursor: pointer;
+      font: inherit;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+    input,
+    select {
+      font: inherit;
+      color: inherit;
+    }
 
-    /* ====== 2. HEADER ====== */
+    /* ============================================================
+       2. ОБЩИЕ КОМПОНЕНТЫ
+       ============================================================ */
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .text-muted {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      transition: background var(--transition), border var(--transition), box-shadow var(--transition);
+    }
+    .card-solid {
+      background: var(--bg-card-solid);
+      backdrop-filter: none;
+    }
+    .card h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 22px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all var(--transition);
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px var(--primary-glow);
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      box-shadow: none;
+      border: 2px solid var(--primary);
+    }
+    .btn-outline:hover {
+      background: var(--primary-light);
+      box-shadow: none;
+      transform: translateY(-2px);
+    }
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 0.75rem;
+    }
+    .btn-danger {
+      background: #e74c3c;
+      box-shadow: 0 4px 14px rgba(231, 76, 60, 0.25);
+    }
+    .btn-danger:hover {
+      box-shadow: 0 6px 24px rgba(231, 76, 60, 0.35);
+    }
+
+    /* ============================================================
+       3. ШАПКА
+       ============================================================ */
     .header {
-      position: fixed; top: 0; left: 0; right: 0; height: var(--header-height);
-      background: var(--card); border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 20px; z-index: 100; transition: all var(--transition);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+      transition: background var(--transition), border var(--transition);
     }
-    .header h1 { font-size: 1.3rem; display: flex; align-items: center; gap: 8px; }
-    .header h1 span { background: var(--primary); color: white; font-size: 0.55rem; padding: 2px 12px; border-radius: 40px; font-weight: 500; letter-spacing: 0.5px; }
+    .header h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header h1 span {
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.5rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 40px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
     .theme-toggle {
-      background: var(--primary-light); border: 1px solid var(--border); border-radius: 60px;
-      padding: 6px 16px; font-size: 0.8rem; cursor: pointer; color: var(--text);
-      transition: all var(--transition); font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: var(--primary-light);
+      color: var(--text);
+      border: 1px solid var(--border);
+      transition: all var(--transition);
     }
-    .theme-toggle:hover { opacity: 0.7; }
+    .theme-toggle:hover {
+      background: var(--primary);
+      color: #fff;
+    }
 
-    /* ====== 3. BOTTOM NAV ====== */
+    /* ============================================================
+       4. НИЖНЯЯ НАВИГАЦИЯ
+       ============================================================ */
     .bottom-nav {
-      position: fixed; bottom: 0; left: 0; right: 0; height: var(--bottom-nav-height);
-      background: var(--card); border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-around;
-      z-index: 100; padding: 6px 8px 12px; transition: all var(--transition);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: stretch;
+      justify-content: space-around;
+      padding: 4px 0 8px;
+      z-index: 100;
+      transition: background var(--transition), border var(--transition);
     }
     .bottom-nav .tab-btn {
-      background: none; border: none; display: flex; flex-direction: column;
-      align-items: center; gap: 2px; font-size: 0.6rem; color: var(--text-muted);
-      cursor: pointer; padding: 4px 8px; transition: all var(--transition);
-      position: relative; min-width: 48px; border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 0.55rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+      min-width: 52px;
+      position: relative;
     }
-    .bottom-nav .tab-btn .icon { font-size: 1.5rem; line-height: 1.2; }
-    .bottom-nav .tab-btn.active { color: var(--primary); font-weight: 600; }
+    .bottom-nav .tab-btn .icon {
+      font-size: 1.4rem;
+      line-height: 1.2;
+    }
+    .bottom-nav .tab-btn.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
     .bottom-nav .tab-btn.active::after {
-      content: ''; position: absolute; top: -1px; left: 30%; right: 30%;
-      height: 3px; background: var(--primary); border-radius: 0 0 4px 4px;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 30%;
+      right: 30%;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 0 0 4px 4px;
     }
-    .bottom-nav .tab-btn:hover { color: var(--text); background: var(--primary-light); }
+    .bottom-nav .tab-btn:hover {
+      color: var(--text);
+      background: var(--primary-light);
+    }
 
-    /* ====== 4. PAGES ====== */
-    .page { display: none; animation: fadeIn 0.35s ease; }
-    .page.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    /* ============================================================
+       5. СТРАНИЦЫ
+       ============================================================ */
+    .page {
+      display: none;
+      animation: fadeUp 0.4s ease;
+    }
+    .page.active {
+      display: block;
+    }
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-    /* ====== 5. CARDS.CSS ====== */
-    .card {
-      background: var(--card); border-radius: var(--radius); padding: 18px 20px;
-      margin-bottom: 16px; box-shadow: var(--shadow); border: 1px solid var(--border);
+    /* ============================================================
+       6. ГЛАВНАЯ
+       ============================================================ */
+    .home-hero {
+      background: linear-gradient(135deg, var(--primary-light), var(--bg-card));
+      border: 1px solid var(--border);
+    }
+    .home-hero h2 {
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+    }
+    .home-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 12px;
+    }
+    .home-stats .stat-item {
+      text-align: center;
+      padding: 8px 0;
+    }
+    .home-stats .stat-item .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .home-stats .stat-item .label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    .progress-ring-wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .progress-ring {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .progress-ring svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: rotate(-90deg);
+    }
+    .progress-ring svg circle {
+      fill: none;
+      stroke-width: 6;
+      stroke-linecap: round;
+    }
+    .progress-ring .bg-circle {
+      stroke: var(--border);
+    }
+    .progress-ring .progress-circle {
+      stroke: var(--primary);
+      transition: stroke-dashoffset 0.8s ease;
+    }
+    .progress-ring .center-text {
+      z-index: 1;
+    }
+
+    /* ============================================================
+       7. КАЛЬКУЛЯТОР
+       ============================================================ */
+    .slider-group {
+      margin: 12px 0 8px;
+    }
+    .slider-group label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .slider-group input[type="range"] {
+      width: 100%;
+      height: 4px;
+      border-radius: 10px;
+      background: var(--border);
+      -webkit-appearance: none;
+      appearance: none;
+      outline: none;
+      transition: background var(--transition);
+    }
+    .slider-group input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: 3px solid var(--bg-card-solid);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    .slider-group input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: 3px solid var(--bg-card-solid);
+    }
+    .calc-result {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .calc-result .result-card {
+      background: var(--bg-card-solid);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      text-align: center;
+      border: 1px solid var(--border);
       transition: all var(--transition);
     }
-    .card h2 { font-size: 1.15rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-weight: 600; }
-
-    /* ====== 6. BUTTONS.CSS ====== */
-    .btn {
-      background: var(--primary); border: none; color: white; font-weight: 600;
-      padding: 8px 20px; border-radius: 60px; font-size: 0.8rem; cursor: pointer;
-      transition: all var(--transition); display: inline-flex; align-items: center; gap: 6px;
+    .calc-result .result-card .number {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
     }
-    .btn:hover { background: var(--primary-hover); transform: scale(1.02); }
-    .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
-    .btn-outline:hover { background: var(--primary-light); transform: none; }
-    .btn-sm { padding: 5px 14px; font-size: 0.75rem; }
-
-    /* ====== 7. MODAL.CSS ====== */
-    .modal-overlay {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
-      justify-content: center; align-items: center; z-index: 1000; padding: 16px;
+    .calc-result .result-card .label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
     }
-    .modal-overlay.active { display: flex; }
-    .modal {
-      background: var(--card); border-radius: 24px; padding: 24px; max-width: 420px;
-      width: 100%; box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
-      animation: modalIn 0.25s ease;
+    .bju-chart {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      height: 20px;
+      border-radius: 60px;
+      overflow: hidden;
+      background: var(--border);
     }
-    @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-    .modal h3 { margin-bottom: 8px; font-weight: 600; }
-    .modal label { display: block; margin: 8px 0 4px; font-weight: 500; font-size: 0.85rem; }
-    .modal select { width: 100%; padding: 10px 14px; border-radius: 60px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.9rem; }
-    .modal .btn-row { display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end; }
+    .bju-chart .segment {
+      height: 100%;
+      transition: width 0.6s ease;
+    }
+    .bju-chart .segment-protein {
+      background: #4CAF50;
+    }
+    .bju-chart .segment-fat {
+      background: #FFC107;
+    }
+    .bju-chart .segment-carbs {
+      background: #2196F3;
+    }
+    .bju-legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .bju-legend .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 4px;
+    }
+    .dot-protein {
+      background: #4CAF50;
+    }
+    .dot-fat {
+      background: #FFC107;
+    }
+    .dot-carbs {
+      background: #2196F3;
+    }
+    .goal-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 6px 0 4px;
+    }
+    .goal-btn {
+      padding: 6px 14px;
+      border-radius: 60px;
+      border: 2px solid var(--border);
+      font-weight: 500;
+      font-size: 0.75rem;
+      background: transparent;
+      transition: all var(--transition);
+      color: var(--text);
+      flex: 1 0 auto;
+      text-align: center;
+    }
+    .goal-btn:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .goal-btn.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+    }
+    .calc-select {
+      padding: 8px 14px;
+      border-radius: 60px;
+      border: 1px solid var(--border);
+      background: var(--bg-card-solid);
+      color: var(--text);
+      font-size: 0.85rem;
+      width: 100%;
+      transition: all var(--transition);
+    }
+    .calc-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
 
-    /* ====== 8. RECIPES ====== */
+    /* ============================================================
+       8. РЕЦЕПТЫ
+       ============================================================ */
+    .search-box {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0;
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 60px;
+      border: 1px solid var(--border);
+      background: var(--bg-card-solid);
+      color: var(--text);
+      font-size: 0.9rem;
+      min-width: 140px;
+      transition: all var(--transition);
+    }
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 6px 0;
+    }
+    .filter-group .filter-btn {
+      padding: 4px 12px;
+      border-radius: 40px;
+      border: 1px solid var(--border);
+      font-size: 0.7rem;
+      font-weight: 500;
+      background: transparent;
+      color: var(--text);
+      transition: all var(--transition);
+    }
+    .filter-group .filter-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+    .filter-group .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .filter-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-right: 4px;
+      display: flex;
+      align-items: center;
+    }
     .recipe-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px; margin-top: 12px; max-height: 420px; overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+      max-height: 420px;
+      overflow-y: auto;
       padding-right: 4px;
     }
-    .recipe-grid::-webkit-scrollbar { width: 4px; }
-    .recipe-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
     .recipe-card {
-      background: var(--bg); border-radius: 16px; padding: 12px; border: 1px solid var(--border);
+      background: var(--bg-card-solid);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
       transition: all var(--transition);
       position: relative;
     }
-    .recipe-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06); border-color: var(--primary); }
-    .recipe-card .title { font-weight: 600; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; gap: 4px; }
-    .recipe-card .title .badge-time { font-size: 0.55rem; background: var(--primary-light); padding: 1px 8px; border-radius: 40px; font-weight: 400; white-space: nowrap; }
-    .recipe-card .info { font-size: 0.65rem; color: var(--text-muted); margin: 4px 0; display: flex; gap: 6px; flex-wrap: wrap; }
-    .recipe-card .info span { background: var(--primary-light); padding: 1px 8px; border-radius: 40px; }
-    .recipe-card .add-btn { margin-top: 8px; background: var(--primary); color: white; border: none; border-radius: 40px; padding: 5px 10px; font-size: 0.7rem; cursor: pointer; transition: all var(--transition); width: 100%; font-weight: 500; }
-    .recipe-card .add-btn:hover { background: var(--primary-hover); transform: scale(1.02); }
-    .recipe-card .favorite-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; font-size: 1.1rem; cursor: pointer; transition: all var(--transition); }
-    .recipe-card .favorite-btn:hover { transform: scale(1.2); }
-    .empty-msg { text-align: center; padding: 30px 0; color: var(--text-muted); }
-    .empty-msg .big-icon { font-size: 3.5rem; display: block; margin-bottom: 10px; }
-
-    /* ====== 9. SKELETON ====== */
-    .skeleton {
-      background: linear-gradient(90deg, var(--border) 25%, var(--bg) 50%, var(--border) 75%);
-      background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px;
+    .recipe-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: var(--primary);
     }
-    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-    .skeleton-card { height: 160px; width: 100%; border-radius: 16px; background: var(--border); }
-
-    /* ====== 10. MEALPLAN ====== */
-    .day-block { background: var(--bg); border-radius: 14px; padding: 12px 16px; margin-bottom: 10px; border-left: 4px solid var(--primary); transition: all var(--transition); }
-    .day-title { font-weight: 700; font-size: 0.95rem; display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 4px; }
-    .day-title .badge { background: var(--primary-light); color: var(--primary); padding: 2px 12px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; }
-    .meal { display: flex; flex-wrap: wrap; gap: 2px 10px; padding: 4px 0; border-bottom: 1px dashed var(--border); font-size: 0.85rem; align-items: center; }
-    .meal:last-child { border-bottom: none; }
-    .meal-name { font-weight: 500; min-width: 80px; }
-    .meal-kcal { margin-left: auto; font-weight: 600; color: var(--primary); font-size: 0.8rem; }
-    .meal-actions { display: flex; gap: 4px; margin-left: 4px; }
-    .meal-actions button { background: none; border: none; font-size: 0.7rem; cursor: pointer; padding: 0 4px; color: var(--text-muted); transition: all var(--transition); }
-    .meal-actions button:hover { color: var(--primary); }
-    .meal-actions .replace-btn { color: var(--warning); }
-    .meal-actions .remove-btn { color: var(--danger); }
-    .total-day { margin-top: 6px; font-weight: 700; font-size: 0.85rem; }
-
-    /* ====== 11. PROGRESS ====== */
-    .progress-ring-wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin: 8px 0; }
-    .progress-ring { width: 80px; height: 80px; border-radius: 50%; background: conic-gradient(var(--primary) 0%, var(--border) 0%); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: var(--text); position: relative; flex-shrink: 0; }
-    .progress-ring::after { content: ''; position: absolute; width: 62px; height: 62px; border-radius: 50%; background: var(--card); }
-    .progress-ring span { z-index: 1; }
-    .progress-stats { font-size: 0.85rem; }
-    .progress-stats strong { display: block; font-size: 1.2rem; }
-
-    /* ====== 12. CALENDAR ====== */
-    .calendar-grid {
-      display: grid; grid-template-columns: repeat(7, 1fr);
-      gap: 4px; text-align: center; font-size: 0.8rem;
+    .recipe-card .favorite-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .recipe-card .favorite-btn:hover {
+      transform: scale(1.2);
+    }
+    .recipe-card .title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      padding-right: 24px;
+    }
+    .recipe-card .meta {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 4px 0;
+    }
+    .recipe-card .meta span {
+      background: var(--primary-light);
+      padding: 1px 8px;
+      border-radius: 40px;
+    }
+    .recipe-card .add-btn {
+      width: 100%;
       margin-top: 8px;
-    }
-    .calendar-grid .day-header {
-      font-weight: 600; color: var(--text-muted); padding: 4px;
-    }
-    .calendar-grid .calendar-day {
-      padding: 4px 2px; border-radius: 8px;
-      background: var(--bg); cursor: pointer;
-      transition: all var(--transition);
-      min-height: 40px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-    }
-    .calendar-grid .calendar-day:hover {
-      transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .calendar-grid .calendar-day .day-number { font-weight: 400; }
-    .calendar-grid .calendar-day .day-weight { font-size: 0.55rem; }
-    .calendar-grid .calendar-day.today {
-      border: 2px solid var(--primary);
-    }
-    .calendar-grid .calendar-day.has-weight-low {
-      background: var(--primary-light); color: var(--primary);
-    }
-    .calendar-grid .calendar-day.has-weight-high {
-      background: #fdedec; color: var(--danger);
-    }
-    .calendar-grid .calendar-day.empty {
-      opacity: 0.3; cursor: default;
-    }
-    .calendar-grid .calendar-day.empty:hover {
-      transform: none; box-shadow: none;
-    }
-    .calendar-grid .calendar-day .weight-change {
-      font-size: 0.5rem;
-    }
-
-    /* ====== 13. RESPONSIVE.CSS ====== */
-    @media (max-width: 600px) {
-      body { padding: 0 8px; padding-bottom: calc(var(--bottom-nav-height) + 16px); padding-top: var(--header-height); }
-      .container { padding: 0 8px; }
-      .card { padding: 14px 16px; }
-      h1 { font-size: 1.1rem; }
-      .header { padding: 0 12px; height: 54px; }
-      .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); max-height: 300px; }
-      .bottom-nav .tab-btn .icon { font-size: 1.3rem; }
-      .bottom-nav .tab-btn { font-size: 0.5rem; min-width: 36px; padding: 2px 4px; }
-      .bottom-nav { height: 64px; padding: 4px 4px 10px; }
-      .modal { padding: 18px; }
-      .calendar-grid { gap: 2px; font-size: 0.7rem; }
-      .calendar-grid .calendar-day { min-height: 32px; padding: 2px; }
-    }
-    @media (min-width: 601px) {
-      body { padding: 0 24px; padding-bottom: calc(var(--bottom-nav-height) + 20px); padding-top: var(--header-height); }
-    }
-
-    /* ====== 14. OTHER ====== */
-    .toast {
-      position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: var(--card); border: 1px solid var(--primary); border-radius: 60px;
-      padding: 10px 24px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      font-size: 0.85rem; z-index: 200; opacity: 0; transition: all 0.4s ease;
-      pointer-events: none; color: var(--text); max-width: 90%; white-space: nowrap;
-    }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
-    .filter-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
-    .filter-group .filter-btn {
-      padding: 5px 14px; border-radius: 40px; border: 1px solid var(--border);
-      background: var(--bg); font-size: 0.75rem; cursor: pointer; color: var(--text);
-      transition: all var(--transition); font-weight: 500;
-    }
-    .filter-group .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 2px 8px rgba(31, 123, 102, 0.15); }
-    .filter-group .filter-btn:hover { background: var(--primary-light); }
-    .filter-label { font-size: 0.75rem; color: var(--text-muted); margin-right: 4px; font-weight: 600; }
-    .search-box { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
-    .search-box input {
-      flex: 1; padding: 10px 16px; border-radius: 60px; border: 1px solid var(--border);
-      background: var(--card); color: var(--text); font-size: 0.9rem; min-width: 140px;
+      padding: 5px 0;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: var(--primary);
+      color: #fff;
+      border: none;
       transition: all var(--transition);
     }
-    .search-box input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(31, 123, 102, 0.12); }
-    .search-history { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
-    .search-history .history-item { background: var(--primary-light); padding: 2px 12px; border-radius: 40px; font-size: 0.7rem; cursor: pointer; color: var(--primary); border: 1px solid var(--border); transition: all var(--transition); }
-    .search-history .history-item:hover { background: var(--primary); color: white; }
-    .shop-list { list-style: none; padding: 0; columns: 2 160px; column-gap: 16px; }
-    .shop-list li { padding: 4px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; break-inside: avoid; font-size: 0.85rem; }
-    .shop-list li span { font-weight: 500; color: var(--primary); }
-    .danger-box { background: #fdedec; border-left: 4px solid var(--danger); padding: 10px 14px; border-radius: 12px; margin-bottom: 8px; font-size: 0.8rem; }
-    [data-theme="dark"] .danger-box { background: #2d1a1a; }
-    .warning-box { background: #fef9e7; border-left: 4px solid var(--warning); padding: 10px 14px; border-radius: 12px; margin-top: 8px; font-size: 0.8rem; }
-    [data-theme="dark"] .warning-box { background: #2d2418; }
-    .replace-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; max-height: 200px; overflow-y: auto; }
-    .replace-grid .replace-item {
-      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
-      padding: 8px 10px; font-size: 0.8rem; cursor: pointer; transition: all var(--transition);
+    .recipe-card .add-btn:hover {
+      background: var(--primary-hover);
+    }
+    .search-history {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 6px 0;
+    }
+    .search-history .history-item {
+      background: var(--primary-light);
+      padding: 2px 12px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      color: var(--primary);
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+    .search-history .history-item:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .empty-msg {
+      text-align: center;
+      padding: 30px 0;
+      color: var(--text-muted);
+    }
+    .empty-msg .big-icon {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* ============================================================
+       9. РАЦИОН
+       ============================================================ */
+    .day-block {
+      background: var(--bg-card-solid);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      border-left-width: 4px;
+      transition: all var(--transition);
+    }
+    .day-block .day-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .day-block .day-title .badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 1px 12px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .day-block .meal {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 0.85rem;
+    }
+    .day-block .meal:last-child {
+      border-bottom: none;
+    }
+    .day-block .meal .meal-name {
+      flex: 1;
+      font-weight: 500;
+    }
+    .day-block .meal .meal-kcal {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 0.8rem;
+    }
+    .day-block .meal .meal-actions {
+      display: flex;
+      gap: 4px;
+    }
+    .day-block .meal .meal-actions button {
+      background: none;
+      border: none;
+      font-size: 0.7rem;
+      cursor: pointer;
+      padding: 0 2px;
+      color: var(--text-muted);
+      transition: all var(--transition);
+    }
+    .day-block .meal .meal-actions button:hover {
+      color: var(--primary);
+    }
+    .day-block .meal .meal-actions .replace-btn {
+      color: #f39c12;
+    }
+    .day-block .meal .meal-actions .remove-btn {
+      color: #e74c3c;
+    }
+    .day-block .total-day {
+      margin-top: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    /* ============================================================
+       10. КАЛЕНДАРЬ
+       ============================================================ */
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .calendar-header .month-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .calendar-header .month-nav strong {
+      font-size: 1.1rem;
+      min-width: 120px;
       text-align: center;
     }
-    .replace-grid .replace-item:hover { border-color: var(--primary); background: var(--primary-light); }
-    .replace-grid .replace-item .kcal { font-size: 0.6rem; color: var(--text-muted); }
+    .calendar-header .month-change {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      font-size: 0.8rem;
+    }
+    .calendar-grid .day-header {
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 4px;
+      text-align: center;
+      font-size: 0.7rem;
+    }
+    .calendar-grid .calendar-day {
+      padding: 4px 2px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card-solid);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all var(--transition);
+      text-align: center;
+      min-height: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .calendar-grid .calendar-day:hover {
+      transform: scale(1.04);
+      box-shadow: var(--shadow);
+    }
+    .calendar-grid .calendar-day .day-number {
+      font-weight: 500;
+    }
+    .calendar-grid .calendar-day .day-weight {
+      font-size: 0.55rem;
+      font-weight: 600;
+    }
+    .calendar-grid .calendar-day.empty {
+      opacity: 0.3;
+      cursor: default;
+      background: transparent;
+      border-color: transparent;
+    }
+    .calendar-grid .calendar-day.empty:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    .calendar-grid .calendar-day.today {
+      border-color: var(--primary);
+      border-width: 2px;
+    }
+    .calendar-grid .calendar-day.low {
+      background: rgba(76, 175, 80, 0.12);
+      border-color: rgba(76, 175, 80, 0.2);
+    }
+    .calendar-grid .calendar-day.low .day-weight {
+      color: #4CAF50;
+    }
+    .calendar-grid .calendar-day.high {
+      background: rgba(231, 76, 60, 0.12);
+      border-color: rgba(231, 76, 60, 0.2);
+    }
+    .calendar-grid .calendar-day.high .day-weight {
+      color: #e74c3c;
+    }
+
+    .calendar-legend {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    .calendar-legend .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 4px;
+    }
+    .dot-low {
+      background: #4CAF50;
+    }
+    .dot-high {
+      background: #e74c3c;
+    }
+    .dot-empty {
+      background: var(--border);
+    }
+
+    /* ============================================================
+       11. МОДАЛЬНЫЕ ОКНА
+       ============================================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      z-index: 200;
+      padding: 16px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal {
+      background: var(--bg-card-solid);
+      border-radius: var(--radius);
+      padding: 24px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+      animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .modal h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .modal label {
+      display: block;
+      font-weight: 500;
+      font-size: 0.85rem;
+      margin: 8px 0 4px;
+    }
+    .modal select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 60px;
+      border: 1px solid var(--border);
+      background: var(--bg-card-solid);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    .modal .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      justify-content: flex-end;
+    }
+    .modal .btn-row .btn {
+      padding: 8px 24px;
+    }
+    .replace-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 8px;
+    }
+    .replace-grid .replace-item {
+      background: var(--bg-card-solid);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-align: center;
+    }
+    .replace-grid .replace-item:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .replace-grid .replace-item .kcal {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       12. TOAST
+       ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: calc(var(--nav-height) + 20px);
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-card-solid);
+      border: 1px solid var(--border);
+      border-radius: 60px;
+      padding: 10px 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      font-size: 0.85rem;
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s ease;
+      color: var(--text);
+      max-width: 90%;
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ============================================================
+       13. АДАПТИВНОСТЬ
+       ============================================================ */
+    @media (max-width: 640px) {
+      body {
+        padding-top: 56px;
+        padding-bottom: calc(var(--nav-height) + 12px);
+        font-size: 15px;
+      }
+      .header {
+        padding: 0 14px;
+        height: 56px;
+      }
+      .header h1 {
+        font-size: 1.1rem;
+      }
+      .bottom-nav {
+        height: 60px;
+        padding: 2px 0 6px;
+      }
+      .bottom-nav .tab-btn {
+        min-width: 40px;
+        padding: 2px 6px;
+        font-size: 0.5rem;
+      }
+      .bottom-nav .tab-btn .icon {
+        font-size: 1.2rem;
+      }
+      .card {
+        padding: 14px 16px;
+        border-radius: 16px;
+      }
+      .calc-result {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .calc-result .result-card .number {
+        font-size: 1.3rem;
+      }
+      .recipe-grid {
+        grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+        max-height: 320px;
+      }
+      .calendar-grid .calendar-day {
+        min-height: 36px;
+        font-size: 0.7rem;
+      }
+      .calendar-grid .calendar-day .day-weight {
+        font-size: 0.5rem;
+      }
+      .home-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .home-stats .stat-item .value {
+        font-size: 1.2rem;
+      }
+      .modal {
+        padding: 18px;
+        margin: 0 8px;
+      }
+      .replace-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 400px) {
+      .container {
+        padding: 0 10px;
+      }
+      .card {
+        padding: 12px 12px;
+        border-radius: 14px;
+      }
+      .recipe-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+      .goal-btn {
+        font-size: 0.65rem;
+        padding: 4px 10px;
+      }
+      .btn {
+        font-size: 0.75rem;
+        padding: 8px 16px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-<header class="header">
-  <h1>🥗 FitPlan <span>PRO</span></h1>
-  <div class="header-actions">
+  <!-- ШАПКА -->
+  <header class="header">
+    <h1>🥗 FitPlan <span>2.0</span></h1>
     <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙 Тёмная</button>
-  </div>
-</header>
+  </header>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
-<main class="container">
+  <main class="container">
 
-  <!-- ======== PAGE 1: HOME ======== -->
-  <section class="page active" id="page-home" role="tabpanel" aria-label="Главная">
-    <div class="card" style="background: linear-gradient(135deg, var(--primary-light), var(--card));">
-      <h2>👋 Привет!</h2>
-      <p class="text-muted">100+ реальных рецептов на русском языке с точным КБЖУ. Достигай целей с удовольствием!</p>
-    </div>
-    <div class="card">
-      <h2>🎯 Прогресс к цели</h2>
-      <div class="progress-ring-wrap">
-        <div class="progress-ring" id="homeProgressRing" role="img" aria-label="Прогресс к цели">
-          <span id="homeProgressPercent">0%</span>
+    <!-- ============================================================
+    СТРАНИЦА 1: ГЛАВНАЯ
+    ============================================================ -->
+    <section class="page active" id="page-home">
+      <div class="card home-hero">
+        <h2>👋 Добро пожаловать!</h2>
+        <p class="text-muted">Твой персональный конструктор питания. Реальные рецепты, точный КБЖУ и умный рацион.</p>
+      </div>
+
+      <div class="card">
+        <h2>🎯 Прогресс к цели</h2>
+        <div class="progress-ring-wrap">
+          <div class="progress-ring" id="homeProgressRing">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle class="bg-circle" cx="40" cy="40" r="34"/>
+              <circle class="progress-circle" id="homeProgressCircle" cx="40" cy="40" r="34"
+              stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+            </svg>
+            <span class="center-text" id="homeProgressPercent">0%</span>
+          </div>
+          <div>
+            <strong id="homeProgressDiff">0 кг</strong>
+            <span class="text-muted"> осталось до цели</span>
+            <div><span class="text-muted">ИМТ: </span><strong id="homeBMI">—</strong></div>
+          </div>
         </div>
-        <div class="progress-stats">
-          <strong id="homeProgressDiff">0 кг</strong>
-          <span class="text-muted">осталось до цели</span>
+      </div>
+
+      <div class="card">
+        <h2>📊 Сегодня</h2>
+        <div class="home-stats">
+          <div class="stat-item"><div class="value" id="homeKcal">—</div><div class="label">ккал</div></div>
+          <div class="stat-item"><div class="value" id="homeProtein">—</div><div class="label">белки, г</div></div>
+          <div class="stat-item"><div class="value" id="homeFat">—</div><div class="label">жиры, г</div></div>
+          <div class="stat-item"><div class="value" id="homeCarbs">—</div><div class="label">углеводы, г</div></div>
         </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>⚡ Быстрый старт</h2>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn" onclick="switchTab('recipes')" aria-label="Перейти к поиску рецептов">🍽️ Найти рецепты</button>
-        <button class="btn btn-outline" onclick="switchTab('mealplan')" aria-label="Перейти к моему рациону">📅 Мой рацион</button>
-      </div>
-    </div>
-    <div class="card">
-      <h2>📊 Статистика</h2>
-      <div style="display:flex; flex-wrap:wrap; gap:16px;">
-        <div><span class="text-muted">Калории сегодня</span><br><strong id="homeKcal">—</strong> ккал</div>
-        <div><span class="text-muted">Белки</span><br><strong id="homeProtein">—</strong> г</div>
-        <div><span class="text-muted">Жиры</span><br><strong id="homeFat">—</strong> г</div>
-        <div><span class="text-muted">Углеводы</span><br><strong id="homeCarbs">—</strong> г</div>
-        <div><span class="text-muted">ИМТ</span><br><strong id="homeBMI">—</strong></div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ======== PAGE 2: CALCULATOR ======== -->
-  <section class="page" id="page-calc" role="tabpanel" aria-label="Калькулятор">
-    <div class="card">
-      <h2>🧮 Калькулятор нормы</h2>
-      <div class="danger-box">⚠️ <strong>Важно:</strong> Перед началом диеты проконсультируйтесь с врачом.</div>
-      <div class="calc-group">
-        <div class="slider-item" style="display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:4px 0;">
-          <label style="font-weight:500; min-width:100px; font-size:0.85rem;">Пол</label>
-          <select id="gender" style="padding:8px 14px; border-radius:60px; border:1px solid var(--border); font-size:0.9rem; background:var(--card); color:var(--text); min-width:120px;">
+      <div class="card">
+        <h2>⚡ Быстрый старт</h2>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn" onclick="switchTab('recipes')">🍽️ Рецепты</button>
+          <button class="btn btn-outline" onclick="switchTab('mealplan')">📅 Мой рацион</button>
+          <button class="btn btn-outline" onclick="switchTab('calc')">🧮 Калькулятор</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+    СТРАНИЦА 2: КАЛЬКУЛЯТОР
+    ============================================================ -->
+    <section class="page" id="page-calc">
+      <div class="card">
+        <h2>🧮 Калькулятор нормы</h2>
+        <p class="text-muted" style="margin-bottom:12px;">Введи свои параметры и получи точную дневную норму.</p>
+
+        <div style="margin-bottom:12px;">
+          <label style="font-weight:500; font-size:0.85rem; display:block; margin-bottom:4px;">Пол</label>
+          <select class="calc-select" id="gender">
             <option value="female">Женский</option>
             <option value="male">Мужской</option>
           </select>
         </div>
-        <div class="slider-item" style="display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:4px 0;">
-          <label style="font-weight:500; min-width:100px; font-size:0.85rem;">Возраст</label>
-          <input type="range" id="ageSlider" min="10" max="80" value="30" style="flex:1; min-width:120px; height:6px; border-radius:10px; background:var(--border); -webkit-appearance:none; appearance:none; outline:none;">
-          <span class="slider-value" id="ageValue" style="font-weight:700; font-size:0.95rem; min-width:36px; text-align:center;">30</span>
+
+        <div class="slider-group">
+          <label><span>Возраст</span><span id="ageValue">30</span></label>
+          <input type="range" id="ageSlider" min="10" max="80" value="30">
         </div>
-        <div class="slider-item" style="display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:4px 0;">
-          <label style="font-weight:500; min-width:100px; font-size:0.85rem;">Рост (см)</label>
-          <input type="range" id="heightSlider" min="120" max="220" value="170" style="flex:1; min-width:120px; height:6px; border-radius:10px; background:var(--border); -webkit-appearance:none; appearance:none; outline:none;">
-          <span class="slider-value" id="heightValue" style="font-weight:700; font-size:0.95rem; min-width:36px; text-align:center;">170</span>
+        <div class="slider-group">
+          <label><span>Рост (см)</span><span id="heightValue">170</span></label>
+          <input type="range" id="heightSlider" min="120" max="220" value="170">
         </div>
-        <div class="slider-item" style="display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:4px 0;">
-          <label style="font-weight:500; min-width:100px; font-size:0.85rem;">Вес (кг)</label>
-          <input type="range" id="weightSlider" min="30" max="200" value="70" style="flex:1; min-width:120px; height:6px; border-radius:10px; background:var(--border); -webkit-appearance:none; appearance:none; outline:none;">
-          <span class="slider-value" id="weightValue" style="font-weight:700; font-size:0.95rem; min-width:36px; text-align:center;">70</span>
+        <div class="slider-group">
+          <label><span>Вес (кг)</span><span id="weightValue">70</span></label>
+          <input type="range" id="weightSlider" min="30" max="200" value="70">
         </div>
-        <div class="slider-item" style="display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:4px 0;">
-          <label style="font-weight:500; min-width:100px; font-size:0.85rem;">🎯 Желаемый вес</label>
-          <input type="range" id="goalWeightSlider" min="30" max="200" value="65" style="flex:1; min-width:120px; height:6px; border-radius:10px; background:var(--border); -webkit-appearance:none; appearance:none; outline:none;">
-          <span class="slider-value" id="goalWeightValue" style="font-weight:700; font-size:0.95rem; min-width:36px; text-align:center;">65</span>
+        <div class="slider-group">
+          <label><span>🎯 Желаемый вес</span><span id="goalWeightValue">65</span></label>
+          <input type="range" id="goalWeightSlider" min="30" max="200" value="65">
         </div>
-        <div class="slider-item" style="display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:4px 0;">
-          <label style="font-weight:500; min-width:100px; font-size:0.85rem;">Активность</label>
-          <select id="activity" style="padding:8px 14px; border-radius:60px; border:1px solid var(--border); font-size:0.9rem; background:var(--card); color:var(--text); min-width:120px;">
-            <option value="1.2">Сидячий</option>
+
+        <div style="margin-bottom:12px;">
+          <label style="font-weight:500; font-size:0.85rem; display:block; margin-bottom:4px;">Активность</label>
+          <select class="calc-select" id="activity">
+            <option value="1.2">Сидячий образ жизни</option>
             <option value="1.375" selected>Лёгкая (1–3 тренировки)</option>
             <option value="1.55">Умеренная (3–5 тренировок)</option>
             <option value="1.725">Высокая (6–7 тренировок)</option>
           </select>
         </div>
+
         <div>
-          <label style="font-weight:500; display:block; margin:6px 0 4px;">🎯 Цель</label>
-          <div class="goal-selector" style="display:flex; flex-wrap:wrap; gap:6px;">
-            <button class="goal-btn active" data-factor="0.75" data-plan="fatloss" style="padding:8px 16px; border-radius:60px; border:2px solid var(--border); background:var(--card); color:var(--text); font-weight:500; font-size:0.8rem; cursor:pointer; transition:all var(--transition); flex:1 0 auto; text-align:center;">🔥 Жиросжигание</button>
-            <button class="goal-btn" data-factor="0.85" data-plan="moderate" style="padding:8px 16px; border-radius:60px; border:2px solid var(--border); background:var(--card); color:var(--text); font-weight:500; font-size:0.8rem; cursor:pointer; transition:all var(--transition); flex:1 0 auto; text-align:center;">⚖️ Умеренное</button>
-            <button class="goal-btn" data-factor="1.0" data-plan="maintain" style="padding:8px 16px; border-radius:60px; border:2px solid var(--border); background:var(--card); color:var(--text); font-weight:500; font-size:0.8rem; cursor:pointer; transition:all var(--transition); flex:1 0 auto; text-align:center;">🛡️ Поддержание</button>
-            <button class="goal-btn" data-factor="1.15" data-plan="bulk" style="padding:8px 16px; border-radius:60px; border:2px solid var(--border); background:var(--card); color:var(--text); font-weight:500; font-size:0.8rem; cursor:pointer; transition:all var(--transition); flex:1 0 auto; text-align:center;">💪 Набор массы</button>
+          <label style="font-weight:500; font-size:0.85rem; display:block; margin-bottom:4px;">🎯 Цель</label>
+          <div class="goal-btns">
+            <button class="goal-btn active" data-factor="0.75" data-plan="fatloss">🔥 Жиросжигание</button>
+            <button class="goal-btn" data-factor="0.85" data-plan="moderate">⚖️ Умеренное</button>
+            <button class="goal-btn" data-factor="1.0" data-plan="maintain">🛡️ Поддержание</button>
+            <button class="goal-btn" data-factor="1.15" data-plan="bulk">💪 Набор массы</button>
           </div>
-          <div id="goalDisplay" class="goal-tag" style="display:inline-block; background:var(--primary); color:white; padding:3px 16px; border-radius:40px; font-size:0.75rem; font-weight:500; margin-top:4px;">🔥 Жиросжигание</div>
-          <div id="goalDesc" class="goal-desc" style="color:var(--text-muted); font-size:0.75rem; margin-top:2px;">Интенсивный дефицит 25% — до 1 кг в неделю</div>
+          <div id="goalDesc" style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Интенсивный дефицит 25% — до 1 кг в неделю</div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <div class="bju-chart" id="bjuChart">
+            <div class="segment segment-protein" id="bjuProtein" style="width:33%"></div>
+            <div class="segment segment-fat" id="bjuFat" style="width:33%"></div>
+            <div class="segment segment-carbs" id="bjuCarbs" style="width:34%"></div>
+          </div>
+          <div class="bju-legend">
+            <span><span class="dot dot-protein"></span> Белки</span>
+            <span><span class="dot dot-fat"></span> Жиры</span>
+            <span><span class="dot dot-carbs"></span> Углеводы</span>
+          </div>
+        </div>
+
+        <div class="calc-result">
+          <div class="result-card"><div class="number" id="resKcal">—</div><div class="label">ккал/день</div></div>
+          <div class="result-card"><div class="number" id="resProtein">—</div><div class="label">белки, г</div></div>
+          <div class="result-card"><div class="number" id="resFat">—</div><div class="label">жиры, г</div></div>
+          <div class="result-card"><div class="number" id="resCarbs">—</div><div class="label">углеводы, г</div></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px;">
+          <div class="result-card" style="padding:8px 12px;"><div class="number" id="resDiff" style="font-size:1.1rem;">—</div><div class="label">разница</div></div>
+          <div class="result-card" style="padding:8px 12px;"><div class="number" id="resWeeks" style="font-size:1.1rem;">—</div><div class="label">срок, нед</div></div>
+          <div class="result-card" style="padding:8px 12px;"><div class="number" id="resSpeed" style="font-size:1.1rem;">—</div><div class="label">скорость</div></div>
         </div>
       </div>
-      <div class="result-box" style="background:var(--primary-light); border-radius:16px; padding:14px 18px; margin-top:12px; display:flex; flex-wrap:wrap; gap:8px 20px; transition:all var(--transition);">
-        <div class="result-item"><strong id="resKcal" style="font-size:1.3rem; color:var(--text); display:block; font-weight:700;">—</strong> ккал/день</div>
-        <div class="result-item"><strong id="resProtein" style="font-size:1.3rem; color:var(--text); display:block; font-weight:700;">—</strong> г белка <span class="bju-percent" id="proteinPercent" style="font-size:0.65rem; color:var(--text-muted); font-weight:400;"></span></div>
-        <div class="result-item"><strong id="resFat" style="font-size:1.3rem; color:var(--text); display:block; font-weight:700;">—</strong> г жиров <span class="bju-percent" id="fatPercent" style="font-size:0.65rem; color:var(--text-muted); font-weight:400;"></span></div>
-        <div class="result-item"><strong id="resCarbs" style="font-size:1.3rem; color:var(--text); display:block; font-weight:700;">—</strong> г углеводов <span class="bju-percent" id="carbsPercent" style="font-size:0.65rem; color:var(--text-muted); font-weight:400;"></span></div>
-      </div>
-      <div class="result-box" style="background:var(--primary-light); border-radius:16px; padding:14px 18px; margin-top:6px; display:flex; flex-wrap:wrap; gap:8px 20px; transition:all var(--transition);">
-        <div class="result-item"><strong id="resDiff" style="font-size:1.3rem; color:var(--text); display:block; font-weight:700;">—</strong> кг (разница)</div>
-        <div class="result-item"><strong id="resWeeks" style="font-size:1.3rem; color:var(--text); display:block; font-weight:700;">—</strong> недель (срок)</div>
-        <div class="result-item"><strong id="resSpeed" style="font-size:1.3rem; color:var(--text); display:block; font-weight:700;">—</strong> кг/нед.</div>
-      </div>
-      <div id="calorieWarning" class="warning-box" style="display:none;">⚠️ <strong>Внимание:</strong> Ваша калорийность ниже 1200 ккал. Это опасно для здоровья.</div>
-      <div id="ageWarning" class="warning-box" style="display:none;">⚠️ <strong>Внимание:</strong> Указанный возраст (<span id="ageWarningText">0</span> лет) может быть небезопасным для диеты. Проконсультируйтесь с врачом.</div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ======== PAGE 3: RECIPES ======== -->
-  <section class="page" id="page-recipes" role="tabpanel" aria-label="Рецепты">
-    <div class="card">
-      <h2>🔍 Поиск рецептов</h2>
-      <p class="text-muted">100+ реальных блюд на русском языке с точным КБЖУ.</p>
-      <div class="search-box">
-        <input type="text" id="recipeSearch" placeholder="Например: курица, паста, салат" aria-label="Поиск рецептов" autocomplete="off">
-        <button class="btn" id="searchBtn" aria-label="Найти рецепты">🔍 Найти</button>
-        <button class="btn btn-outline" id="clearSearchBtn" aria-label="Очистить поиск">✖</button>
-      </div>
-      <div class="search-history" id="searchHistory" role="list" aria-label="История поиска"></div>
-      <div class="filter-group" id="categoryFilterGroup">
-        <span class="filter-label">📂 Категория:</span>
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="breakfast">🍳 Завтрак</button>
-        <button class="filter-btn" data-filter="lunch">🥗 Обед</button>
-        <button class="filter-btn" data-filter="dinner">🍲 Ужин</button>
-        <button class="filter-btn" data-filter="snack">🍏 Перекус</button>
-        <button class="filter-btn" data-filter="dessert">🍰 Десерт</button>
-      </div>
-      <div class="filter-group" id="dietFilterGroup">
-        <span class="filter-label">🍽️ Диета:</span>
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="vegetarian">🌱 Вегетарианское</button>
-        <button class="filter-btn" data-filter="lowcarb">🥑 Низкоуглеводное</button>
-      </div>
-      <div class="filter-group">
-        <span class="filter-label">⏱️ Время:</span>
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="fast">⚡ До 20 мин</button>
-        <button class="filter-btn" data-filter="medium">⏱️ До 40 мин</button>
-        <button class="filter-btn" data-filter="long">🐢 40+ мин</button>
-      </div>
-      <div class="filter-group">
-        <span class="filter-label">📊 Сортировка:</span>
-        <button class="filter-btn active" data-filter="name">По названию</button>
-        <button class="filter-btn" data-filter="kcal">По калориям</button>
-        <button class="filter-btn" data-filter="protein">По белку</button>
-      </div>
-      <div id="recipeResults" class="recipe-grid" role="list" aria-label="Список рецептов"></div>
-      <div class="filter-info" id="recipeInfo" style="font-size:0.75rem; color:var(--text-muted); margin-top:8px;">Найди рецепты и добавь их в свой рацион.</div>
-    </div>
-  </section>
+    <!-- ============================================================
+    СТРАНИЦА 3: РЕЦЕПТЫ
+    ============================================================ -->
+    <section class="page" id="page-recipes">
+      <div class="card">
+        <h2>🔍 Поиск рецептов</h2>
+        <p class="text-muted">100+ реальных блюд на русском языке.</p>
 
-  <!-- ======== PAGE 4: MEAL PLAN ======== -->
-  <section class="page" id="page-mealplan" role="tabpanel" aria-label="Мой рацион">
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <h2 style="margin:0;">📅 Мой рацион</h2>
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <button class="btn btn-sm" id="autoPlanBtn" aria-label="Автоматически собрать рацион">🧠 Собрать</button>
-          <button class="btn btn-outline btn-sm" id="exportShopListBtn" aria-label="Экспортировать список покупок">📋 Список</button>
-          <button class="btn btn-outline btn-sm" id="clearPlanBtn" aria-label="Очистить рацион">🗑️ Очистить</button>
+        <div class="search-box">
+          <input type="text" id="recipeSearch" placeholder="Например: курица, паста, салат" autocomplete="off">
+          <button class="btn" id="searchBtn">🔍 Найти</button>
+          <button class="btn btn-outline" id="clearSearchBtn">✖</button>
+        </div>
+
+        <div class="search-history" id="searchHistory"></div>
+
+        <div class="filter-group" id="categoryFilterGroup">
+          <span class="filter-label">📂 Категория:</span>
+          <button class="filter-btn active" data-filter="all">Все</button>
+          <button class="filter-btn" data-filter="breakfast">🍳 Завтрак</button>
+          <button class="filter-btn" data-filter="lunch">🥗 Обед</button>
+          <button class="filter-btn" data-filter="dinner">🍲 Ужин</button>
+          <button class="filter-btn" data-filter="snack">🍏 Перекус</button>
+          <button class="filter-btn" data-filter="dessert">🍰 Десерт</button>
+        </div>
+
+        <div class="filter-group" id="dietFilterGroup">
+          <span class="filter-label">🍽️ Диета:</span>
+          <button class="filter-btn active" data-filter="all">Все</button>
+          <button class="filter-btn" data-filter="vegetarian">🌱 Вегетарианское</button>
+          <button class="filter-btn" data-filter="lowcarb">🥑 Низкоуглеводное</button>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">⏱️ Время:</span>
+          <button class="filter-btn active" data-filter="all">Все</button>
+          <button class="filter-btn" data-filter="fast">⚡ До 20 мин</button>
+          <button class="filter-btn" data-filter="medium">⏱️ До 40 мин</button>
+          <button class="filter-btn" data-filter="long">🐢 40+ мин</button>
+        </div>
+
+        <div id="recipeResults" class="recipe-grid"></div>
+        <div id="recipeInfo" style="font-size:0.75rem; color:var(--text-muted); margin-top:8px;">Введите запрос для поиска рецептов.</div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+    СТРАНИЦА 4: РАЦИОН
+    ============================================================ -->
+    <section class="page" id="page-mealplan">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+          <h2 style="margin:0;">📅 Мой рацион</h2>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-sm" id="autoPlanBtn">🧠 Собрать</button>
+            <button class="btn btn-outline btn-sm" id="exportShopListBtn">📋 Список</button>
+            <button class="btn btn-outline btn-sm btn-danger" id="clearPlanBtn">🗑️ Очистить</button>
+          </div>
+        </div>
+        <p class="text-muted" id="planDesc">Добавь блюда из раздела «Рецепты» или нажми «Собрать».</p>
+        <div id="mealPlanContainer">
+          <div class="empty-msg">
+            <span class="big-icon">🍽️</span>
+            <p>Рацион пуст. Начни с поиска рецептов!</p>
+            <button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:8px;">🍽️ Перейти к рецептам</button>
+          </div>
         </div>
       </div>
-      <p class="text-muted" id="planDesc">Добавь блюда из раздела «Рецепты» или нажми «Собрать».</p>
-      <div id="mealPlanContainer"><div class="empty-msg"><span class="big-icon">🍽️</span><p>Рацион пуст. Начни с поиска рецептов!</p><button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:10px;" aria-label="Перейти к поиску рецептов">🍽️ Найти рецепты</button></div></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ======== PAGE 5: PROGRESS ======== -->
-  <section class="page" id="page-progress" role="tabpanel" aria-label="Прогресс">
-    <div class="card">
-      <h2>📈 Прогресс к цели</h2>
-      <div class="progress-ring-wrap">
-        <div class="progress-ring" id="progressRing" role="img" aria-label="Прогресс к цели">
-          <span id="progressPercent">0%</span>
+    <!-- ============================================================
+    СТРАНИЦА 5: ПРОГРЕСС
+    ============================================================ -->
+    <section class="page" id="page-progress">
+      <div class="card">
+        <h2>📈 Прогресс к цели</h2>
+        <div class="progress-ring-wrap">
+          <div class="progress-ring" id="progressRing">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle class="bg-circle" cx="40" cy="40" r="34"/>
+              <circle class="progress-circle" id="progressCircle" cx="40" cy="40" r="34"
+              stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+            </svg>
+            <span class="center-text" id="progressPercent">0%</span>
+          </div>
+          <div>
+            <strong id="progressWeightDiff">0 кг</strong>
+            <span class="text-muted"> осталось до цели</span>
+            <div><span class="text-muted">ИМТ: </span><strong id="progressBMI">—</strong></div>
+          </div>
         </div>
-        <div class="progress-stats">
-          <strong id="progressWeightDiff">0 кг</strong>
-          <span class="text-muted">осталось до цели</span>
-          <div style="margin-top:4px;"><span class="text-muted">ИМТ: </span><strong id="progressBMI">—</strong></div>
+      </div>
+
+      <div class="card">
+        <h2>📅 Календарь веса</h2>
+        <div class="calendar-header">
+          <div class="month-nav">
+            <button class="btn btn-sm btn-outline" id="prevMonthBtn">◀</button>
+            <strong id="calendarMonthYear">Апрель 2025</strong>
+            <button class="btn btn-sm btn-outline" id="nextMonthBtn">▶</button>
+          </div>
+          <div class="month-change" id="monthChange">0 кг</div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid">
+          <div class="day-header">Пн</div>
+          <div class="day-header">Вт</div>
+          <div class="day-header">Ср</div>
+          <div class="day-header">Чт</div>
+          <div class="day-header">Пт</div>
+          <div class="day-header">Сб</div>
+          <div class="day-header">Вс</div>
+        </div>
+        <div class="calendar-legend">
+          <span><span class="dot dot-low"></span> Похудение</span>
+          <span><span class="dot dot-high"></span> Набор</span>
+          <span><span class="dot dot-empty"></span> Нет данных</span>
+        </div>
+        <p class="text-muted" style="margin-top:8px; font-size:0.75rem;">Нажми на день, чтобы добавить или изменить вес.</p>
+      </div>
+
+      <div class="card">
+        <h2>📋 Статистика</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(100px,1fr)); gap:12px;">
+          <div><span class="text-muted">Старт</span><br><strong id="statStart">—</strong> кг</div>
+          <div><span class="text-muted">Текущий</span><br><strong id="statCurrent">—</strong> кг</div>
+          <div><span class="text-muted">Потеряно</span><br><strong id="statLost">—</strong> кг</div>
+          <div><span class="text-muted">Скорость</span><br><strong id="statSpeed">—</strong> кг/нед</div>
+          <div><span class="text-muted">ИМТ</span><br><strong id="statBMI">—</strong></div>
+          <div><span class="text-muted">Цель</span><br><strong id="statGoal">—</strong> кг</div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="card">
-      <h2>📅 Календарь веса</h2>
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <button class="btn btn-sm btn-outline" id="prevMonthBtn" aria-label="Предыдущий месяц">◀</button>
-          <strong id="calendarMonthYear">Апрель 2025</strong>
-          <button class="btn btn-sm btn-outline" id="nextMonthBtn" aria-label="Следующий месяц">▶</button>
-        </div>
-        <div id="monthChange" style="font-size:0.85rem; font-weight:600; color:var(--primary);">0 кг</div>
+  </main>
+
+  <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+  <nav class="bottom-nav" role="navigation">
+    <button class="tab-btn active" data-tab="home"><span class="icon">🏠</span>Главная</button>
+    <button class="tab-btn" data-tab="calc"><span class="icon">🧮</span>Кальк</button>
+    <button class="tab-btn" data-tab="recipes"><span class="icon">🍽️</span>Рецепты</button>
+    <button class="tab-btn" data-tab="mealplan"><span class="icon">📅</span>Рацион</button>
+    <button class="tab-btn" data-tab="progress"><span class="icon">📊</span>Прогресс</button>
+  </nav>
+
+  <!-- МОДАЛЬНОЕ ОКНО: ДОБАВЛЕНИЕ РЕЦЕПТА -->
+  <div class="modal-overlay" id="addRecipeModal">
+    <div class="modal">
+      <h3>🍽️ Добавить в рацион</h3>
+      <p id="modalRecipeName" style="font-weight:500; font-size:0.9rem; margin-bottom:8px;"></p>
+      <label for="modalDay">День недели</label>
+      <select id="modalDay">
+        <option value="Понедельник">Понедельник</option>
+        <option value="Вторник">Вторник</option>
+        <option value="Среда">Среда</option>
+        <option value="Четверг">Четверг</option>
+        <option value="Пятница">Пятница</option>
+        <option value="Суббота">Суббота</option>
+        <option value="Воскресенье">Воскресенье</option>
+      </select>
+      <label for="modalMealType">Приём пищи</label>
+      <select id="modalMealType">
+        <option value="Завтрак">🍳 Завтрак</option>
+        <option value="Обед">🥗 Обед</option>
+        <option value="Ужин">🍲 Ужин</option>
+        <option value="Перекус">🍏 Перекус</option>
+      </select>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="modalCancel">Отмена</button>
+        <button class="btn" id="modalConfirm">✅ Добавить</button>
       </div>
-      <div id="calendarGrid" class="calendar-grid">
-        <div class="day-header">Пн</div>
-        <div class="day-header">Вт</div>
-        <div class="day-header">Ср</div>
-        <div class="day-header">Чт</div>
-        <div class="day-header">Пт</div>
-        <div class="day-header">Сб</div>
-        <div class="day-header">Вс</div>
-      </div>
-      <div style="margin-top:12px; display:flex; gap:12px; justify-content:center; font-size:0.7rem; color:var(--text-muted);">
-        <span>🟢 <span style="color:var(--primary);">Похудение</span></span>
-        <span>🔴 <span style="color:var(--danger);">Набор</span></span>
-        <span>⚪ <span style="color:var(--text-muted);">Нет данных</span></span>
-      </div>
-      <p class="text-muted" style="margin-top:12px;">Нажми на день, чтобы добавить или изменить вес.</p>
-    </div>
-
-    <div class="card">
-      <h2>📋 Статистика</h2>
-      <div style="display:flex; flex-wrap:wrap; gap:16px; font-size:0.85rem;">
-        <div><span class="text-muted">Стартовый вес</span><br><strong id="statStart">—</strong> кг</div>
-        <div><span class="text-muted">Текущий вес</span><br><strong id="statCurrent">—</strong> кг</div>
-        <div><span class="text-muted">Потеряно</span><br><strong id="statLost">—</strong> кг</div>
-        <div><span class="text-muted">Скорость</span><br><strong id="statSpeed">—</strong> кг/нед.</div>
-        <div><span class="text-muted">ИМТ</span><br><strong id="statBMI">—</strong></div>
-        <div><span class="text-muted">Цель</span><br><strong id="statGoal">—</strong></div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- ====== BOTTOM NAV ====== -->
-<nav class="bottom-nav" role="navigation" aria-label="Основная навигация">
-  <button class="tab-btn active" data-tab="home" aria-label="Главная"><span class="icon">🏠</span>Главная</button>
-  <button class="tab-btn" data-tab="calc" aria-label="Калькулятор"><span class="icon">🧮</span>Кальк</button>
-  <button class="tab-btn" data-tab="recipes" aria-label="Рецепты"><span class="icon">🍽️</span>Рецепты</button>
-  <button class="tab-btn" data-tab="mealplan" aria-label="Мой рацион"><span class="icon">📅</span>Рацион</button>
-  <button class="tab-btn" data-tab="progress" aria-label="Прогресс"><span class="icon">📊</span>Прогресс</button>
-</nav>
-
-<!-- ====== MODALS ====== -->
-<div class="modal-overlay" id="addRecipeModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <h3 id="modalTitle">🍽️ Добавить в рацион</h3>
-    <p id="modalRecipeName" style="font-weight:500; margin-bottom:8px; font-size:0.9rem;"></p>
-    <label for="modalDay">День недели</label>
-    <select id="modalDay" aria-label="Выберите день недели">
-      <option value="Понедельник">Понедельник</option>
-      <option value="Вторник">Вторник</option>
-      <option value="Среда">Среда</option>
-      <option value="Четверг">Четверг</option>
-      <option value="Пятница">Пятница</option>
-      <option value="Суббота">Суббота</option>
-      <option value="Воскресенье">Воскресенье</option>
-    </select>
-    <label for="modalMealType">Приём пищи</label>
-    <select id="modalMealType" aria-label="Выберите приём пищи">
-      <option value="Завтрак">🍳 Завтрак</option>
-      <option value="Обед">🥗 Обед</option>
-      <option value="Ужин">🍲 Ужин</option>
-      <option value="Перекус">🍏 Перекус</option>
-    </select>
-    <div class="btn-row" style="display:flex; gap:8px; margin-top:16px; justify-content:flex-end;">
-      <button class="btn btn-outline" id="modalCancel" aria-label="Отмена">Отмена</button>
-      <button class="btn" id="modalConfirm" aria-label="Подтвердить добавление">✅ Добавить</button>
     </div>
   </div>
-</div>
 
-<div class="modal-overlay" id="replaceModal" role="dialog" aria-modal="true" aria-labelledby="replaceTitle">
-  <div class="modal">
-    <h3 id="replaceTitle">🔄 Заменить блюдо</h3>
-    <p id="replaceInfo" style="font-size:0.9rem; margin-bottom:8px;">Выбери альтернативу:</p>
-    <div id="replaceOptions" class="replace-grid"></div>
-    <div class="btn-row" style="display:flex; gap:8px; margin-top:16px; justify-content:flex-end;">
-      <button class="btn btn-outline" id="replaceCancel" aria-label="Отмена">Отмена</button>
+  <!-- МОДАЛЬНОЕ ОКНО: ЗАМЕНА РЕЦЕПТА -->
+  <div class="modal-overlay" id="replaceModal">
+    <div class="modal">
+      <h3>🔄 Заменить блюдо</h3>
+      <p id="replaceInfo" style="font-size:0.9rem; margin-bottom:8px;">Выбери альтернативу:</p>
+      <div id="replaceOptions" class="replace-grid"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="replaceCancel">Отмена</button>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  // ============================================================
-  // 1. STORAGE.JS
-  // ============================================================
-  const Storage = {
-    save(key, value) {
-      try {
-        localStorage.setItem('fp_' + key, JSON.stringify(value));
-      } catch (e) { console.warn('Storage save error:', e); }
-    },
-    load(key, fallback) {
-      try {
-        const val = localStorage.getItem('fp_' + key);
-        return val ? JSON.parse(val) : fallback;
-      } catch (e) { return fallback; }
-    },
-    remove(key) {
-      localStorage.removeItem('fp_' + key);
+  <script>
+    // ============================================================
+    // 1. STORAGE
+    // ============================================================
+    const Storage = {
+      save(key, value) { try { localStorage.setItem('fp2_' + key, JSON.stringify(value)); } catch (e) {} },
+      load(key, fallback) { try { const v = localStorage.getItem('fp2_' + key); return v ? JSON.parse(v) : fallback; } catch (
+        e) { return fallback; } }
+    };
+
+    // ============================================================
+    // 2. TOAST
+    // ============================================================
+    let toastTimer;
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
     }
-  };
 
-  // ============================================================
-  // 2. THEME
-  // ============================================================
-  const themeToggle = document.getElementById('themeToggle');
-  const theme = Storage.load('theme', 'light');
-  document.documentElement.setAttribute('data-theme', theme);
-  themeToggle.textContent = theme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная';
-  themeToggle.addEventListener('click', () => {
-    const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    Storage.save('theme', newTheme);
-    themeToggle.textContent = newTheme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная';
-  });
+    // ============================================================
+    // 3. THEME
+    // ============================================================
+    const themeToggle = document.getElementById('themeToggle');
+    const theme = Storage.load('theme', 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+    themeToggle.textContent = theme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная';
+    themeToggle.addEventListener('click', () => {
+      const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      Storage.save('theme', newTheme);
+      themeToggle.textContent = newTheme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная';
+    });
 
-  // ============================================================
-  // 3. TOAST
-  // ============================================================
-  let toastTimer;
+    // ============================================================
+    // 4. NAVIGATION
+    // ============================================================
+    const tabMap = { home: 'page-home', calc: 'page-calc', recipes: 'page-recipes', mealplan: 'page-mealplan',
+      progress: 'page-progress' };
 
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
-  }
+    function switchTab(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(tabMap[id]).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+      Storage.save('tab', id);
+      if (id === 'mealplan') renderMeals();
+      if (id === 'progress') buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
+      if (id === 'home') updateHome();
+    }
 
-  // ============================================================
-  // 4. TABS
-  // ============================================================
-  const tabMap = { home: 'page-home', calc: 'page-calc', recipes: 'page-recipes', mealplan: 'page-mealplan', progress: 'page-progress' };
-  let currentTab = 'home';
+    document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+    const savedTab = Storage.load('tab', 'home');
+    switchTab(savedTab);
 
-  function switchTab(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const page = document.getElementById(tabMap[id]);
-    if (page) page.classList.add('active');
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
-    Storage.save('tab', id);
-    currentTab = id;
-    if (id === 'mealplan') renderMeals();
-    if (id === 'progress') updateProgress();
-    if (id === 'home') updateHome();
-  }
+    // ============================================================
+    // 5. CALCULATOR
+    // ============================================================
+    const goalBtns = document.querySelectorAll('.goal-btn');
+    let currentPlan = Storage.load('currentPlan', 'fatloss');
 
-  document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
-  const savedTab = Storage.load('tab', 'home');
-  switchTab(savedTab);
+    goalBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        goalBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentPlan = this.dataset.plan;
+        Storage.save('currentPlan', currentPlan);
+        const desc = parseFloat(this.dataset.factor) === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
+          parseFloat(this.dataset.factor) === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
+          parseFloat(this.dataset.factor) === 1.0 ? 'Баланс калорий — вес стабилен' :
+          'Профицит 15% — качественный рост мышц';
+        document.getElementById('goalDesc').textContent = desc;
+        calculate();
+      });
+    });
 
-  // ============================================================
-  // 5. CALCULATOR.JS
-  // ============================================================
-  const goalBtns = document.querySelectorAll('.goal-btn');
-  let currentPlan = Storage.load('currentPlan', 'fatloss');
+    function calculate() {
+      const gender = document.getElementById('gender').value;
+      const age = parseInt(document.getElementById('ageSlider').value);
+      const height = parseInt(document.getElementById('heightSlider').value);
+      const weight = parseInt(document.getElementById('weightSlider').value);
+      const goalWeight = parseInt(document.getElementById('goalWeightSlider').value);
+      const activity = parseFloat(document.getElementById('activity').value);
+      const activeGoal = document.querySelector('.goal-btn.active');
+      const factor = parseFloat(activeGoal.dataset.factor);
+      const plan = activeGoal.dataset.plan;
 
-  goalBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      goalBtns.forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      currentPlan = this.dataset.plan;
-      const factor = parseFloat(this.dataset.factor);
-      document.getElementById('goalDisplay').textContent = this.textContent.trim();
-      const desc = factor === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
-        factor === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
-        factor === 1.0 ? 'Баланс калорий — вес стабилен' :
-        'Профицит 15% — качественный рост мышц';
-      document.getElementById('goalDesc').textContent = desc;
+      const bmr = gender === 'female' ? 10 * weight + 6.25 * height - 5 * age - 161 : 10 * weight + 6.25 * height - 5 * age +
+      5;
+      const maintenance = Math.round(bmr * activity);
+      let finalCal = Math.round(maintenance * factor);
+      if (finalCal < 1200) finalCal = 1200;
+
+      let proteinFactor, fatFactor;
+      if (plan === 'fatloss') { proteinFactor = 2.2;
+        fatFactor = 0.8; } else if (plan === 'moderate') { proteinFactor = 2.0;
+        fatFactor = 0.9; } else if (plan === 'bulk') { proteinFactor = 1.8;
+        fatFactor = 1.0; } else { proteinFactor = 1.6;
+        fatFactor = 0.9; }
+
+      const protein = Math.round(weight * proteinFactor);
+      const fat = Math.round(weight * fatFactor);
+      const carbs = Math.round((finalCal - (protein * 4) - (fat * 9)) / 4);
+
+      document.getElementById('resKcal').textContent = finalCal;
+      document.getElementById('resProtein').textContent = protein;
+      document.getElementById('resFat').textContent = fat;
+      document.getElementById('resCarbs').textContent = carbs >= 0 ? carbs : 0;
+
+      const total = protein * 4 + fat * 9 + carbs * 4;
+      if (total > 0) {
+        document.getElementById('bjuProtein').style.width = ((protein * 4) / total * 100) + '%';
+        document.getElementById('bjuFat').style.width = ((fat * 9) / total * 100) + '%';
+        document.getElementById('bjuCarbs').style.width = ((carbs * 4) / total * 100) + '%';
+      }
+
+      const diff = weight - goalWeight;
+      const speed = factor === 0.75 ? 0.9 : factor === 0.85 ? 0.6 : factor === 1.0 ? 0.0 : 0.4;
+      const weeks = speed > 0 ? Math.round(Math.abs(diff) / speed) : 0;
+      document.getElementById('resDiff').textContent = (diff >= 0 ? '+' : '') + diff.toFixed(1) + ' кг';
+      document.getElementById('resSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
+      document.getElementById('resWeeks').textContent = weeks + ' нед.';
+
+      const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+      document.getElementById('homeBMI').textContent = bmi;
+
+      const startWeight = Storage.load('startWeight', weight);
+      const progress = diff > 0 ? Math.min(100, ((startWeight - weight) / (startWeight - goalWeight)) * 100) : 0;
+      const circumference = 213.6;
+      document.getElementById('homeProgressCircle').style.strokeDashoffset = circumference - (progress / 100) * circumference;
+      document.getElementById('homeProgressPercent').textContent = Math.round(progress) + '%';
+      document.getElementById('progressCircle').style.strokeDashoffset = circumference - (progress / 100) * circumference;
+      document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+      document.getElementById('homeProgressDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
+      document.getElementById('progressWeightDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
+      document.getElementById('progressBMI').textContent = bmi;
+
+      document.getElementById('homeKcal').textContent = finalCal;
+      document.getElementById('homeProtein').textContent = protein;
+      document.getElementById('homeFat').textContent = fat;
+      document.getElementById('homeCarbs').textContent = carbs >= 0 ? carbs : 0;
+
       Storage.save('currentPlan', currentPlan);
+
+      const history = Storage.load('weightHistory', []);
+      if (history.length === 0 || history[history.length - 1].weight !== weight) {
+        history.push({ date: new Date().toLocaleDateString(), weight: weight });
+        Storage.save('weightHistory', history);
+      }
+      updateStats();
+    }
+
+    // ============================================================
+    // 6. SLIDER EVENTS
+    // ============================================================
+    document.getElementById('ageSlider').addEventListener('input', function() {
+      document.getElementById('ageValue').textContent = this.value;
       calculate();
     });
-  });
+    document.getElementById('heightSlider').addEventListener('input', function() {
+      document.getElementById('heightValue').textContent = this.value;
+      calculate();
+    });
+    document.getElementById('weightSlider').addEventListener('input', function() {
+      document.getElementById('weightValue').textContent = this.value;
+      if (!Storage.load('startWeight', null)) Storage.save('startWeight', parseInt(this.value));
+      calculate();
+    });
+    document.getElementById('goalWeightSlider').addEventListener('input', function() {
+      document.getElementById('goalWeightValue').textContent = this.value;
+      calculate();
+    });
+    document.getElementById('gender').addEventListener('change', calculate);
+    document.getElementById('activity').addEventListener('change', calculate);
 
-  function calculate() {
-    const gender = document.getElementById('gender').value;
-    const age = parseInt(document.getElementById('ageSlider').value);
-    const height = parseInt(document.getElementById('heightSlider').value);
-    const weight = parseInt(document.getElementById('weightSlider').value);
-    const goalWeight = parseInt(document.getElementById('goalWeightSlider').value);
-    const activity = parseFloat(document.getElementById('activity').value);
-    const activeGoal = document.querySelector('.goal-btn.active');
-    const factor = parseFloat(activeGoal.dataset.factor);
-    const plan = activeGoal.dataset.plan;
+    const savedGoal = Storage.load('currentPlan', 'fatloss');
+    goalBtns.forEach(btn => {
+      if (btn.dataset.plan === savedGoal) {
+        btn.classList.add('active');
+        goalBtns.forEach(b => { if (b !== btn) b.classList.remove('active'); });
+        const factor = parseFloat(btn.dataset.factor);
+        document.getElementById('goalDesc').textContent = factor === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
+          factor === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
+          factor === 1.0 ? 'Баланс калорий — вес стабилен' :
+          'Профицит 15% — качественный рост мышц';
+      }
+    });
 
-    // Валидация возраста
-    const ageWarning = document.getElementById('ageWarning');
-    const ageWarningText = document.getElementById('ageWarningText');
-    if (age < 16 || age > 80) {
-      ageWarning.style.display = 'block';
-      ageWarningText.textContent = age;
-    } else {
-      ageWarning.style.display = 'none';
+    // ============================================================
+    // 7. STATS
+    // ============================================================
+    function updateStats() {
+      const history = Storage.load('weightHistory', []);
+      const current = parseInt(document.getElementById('weightSlider').value);
+      const start = history.length ? history[0].weight : current;
+      const goal = parseInt(document.getElementById('goalWeightSlider').value);
+      const height = parseInt(document.getElementById('heightSlider').value);
+      const bmi = (current / ((height / 100) ** 2)).toFixed(1);
+
+      document.getElementById('statStart').textContent = start.toFixed(1) + ' кг';
+      document.getElementById('statCurrent').textContent = current.toFixed(1) + ' кг';
+      document.getElementById('statLost').textContent = (start - current).toFixed(1) + ' кг';
+      document.getElementById('statBMI').textContent = bmi;
+      document.getElementById('statGoal').textContent = goal + ' кг';
+      const factor = parseFloat(document.querySelector('.goal-btn.active').dataset.factor);
+      document.getElementById('statSpeed').textContent = (factor === 0.75 ? 0.9 : factor === 0.85 ? 0.6 : factor === 1.0 ? 0.0 :
+        0.4).toFixed(1) + ' кг/нед';
     }
 
-    // Проверка цели
-    if (plan === 'fatloss' && goalWeight >= weight) {
-      showToast('⚠️ Для похудения цель должна быть меньше текущего веса');
-      return;
-    }
-    if (plan === 'bulk' && goalWeight <= weight) {
-      showToast('⚠️ Для набора массы цель должна быть больше текущего веса');
-      return;
-    }
+    // ============================================================
+    // 8. RECIPES
+    // ============================================================
+    const recipeDB = [
+      { name: 'Овсянка с бананом', category: 'breakfast', time: 10, kcal: 320, p: 12, f: 6, c: 48, diet: 'vegetarian',
+        ingredients: ['овсянка 40г', 'банан 1шт', 'молоко 150мл'] },
+      { name: 'Сырники со сметаной', category: 'breakfast', time: 25, kcal: 280, p: 18, f: 12, c: 25, diet: 'vegetarian',
+        ingredients: ['творог 200г', 'яйцо 1шт', 'мука 30г', 'сметана 20г'] },
+      { name: 'Яичница с помидорами', category: 'breakfast', time: 10, kcal: 220, p: 16, f: 14, c: 8, diet: 'vegetarian',
+        ingredients: ['яйца 2шт', 'помидоры 100г', 'масло 5г'] },
+      { name: 'Овсяноблин с творогом', category: 'breakfast', time: 15, kcal: 380, p: 20, f: 15, c: 35, diet: 'vegetarian',
+        ingredients: ['овсянка 40г', 'яйцо 2шт', 'творог 100г', 'ягоды 50г'] },
+      { name: 'Рисовая каша с яблоком', category: 'breakfast', time: 20, kcal: 340, p: 8, f: 4, c: 60, diet: 'vegetarian',
+        ingredients: ['рис 40г', 'яблоко 1шт', 'молоко 150мл'] },
+      { name: 'Пшённая каша с тыквой', category: 'breakfast', time: 25, kcal: 210, p: 6, f: 3, c: 36, diet: 'vegetarian',
+        ingredients: ['пшено 30г', 'тыква 150г', 'мёд 5г'] },
+      { name: 'Куриный суп с лапшой', category: 'lunch', time: 35, kcal: 350, p: 30, f: 10, c: 30, diet: 'all',
+        ingredients: ['курица 150г', 'лапша 50г', 'морковь 50г', 'лук 30г'] },
+      { name: 'Гречка с курицей', category: 'lunch', time: 35, kcal: 440, p: 35, f: 12, c: 40, diet: 'all',
+        ingredients: ['курица 150г', 'гречка 60г', 'лук 30г', 'морковь 30г', 'масло 5г'] },
+      { name: 'Рис с курицей и овощами', category: 'lunch', time: 30, kcal: 420, p: 30, f: 10, c: 50, diet: 'all',
+        ingredients: ['рис 60г', 'курица 150г', 'морковь 50г', 'лук 30г', 'перец 30г'] },
+      { name: 'Паста с тунцом', category: 'lunch', time: 20, kcal: 390, p: 28, f: 12, c: 45, diet: 'all',
+        ingredients: ['паста 50г', 'тунец 100г', 'томаты 100г', 'масло 5г'] },
+      { name: 'Гречка с печенью', category: 'lunch', time: 30, kcal: 350, p: 30, f: 14, c: 35, diet: 'all',
+        ingredients: ['гречка 50г', 'печень 150г', 'лук 30г', 'морковь 30г'] },
+      { name: 'Омлет с шампиньонами', category: 'dinner', time: 15, kcal: 240, p: 20, f: 16, c: 6, diet: 'vegetarian',
+        ingredients: ['яйца 3шт', 'шампиньоны 100г', 'лук 20г', 'масло 5г'] },
+      { name: 'Салат с тунцом и яйцом', category: 'dinner', time: 10, kcal: 210, p: 20, f: 12, c: 10, diet: 'all',
+        ingredients: ['тунец 100г', 'яйцо 2шт', 'огурцы 100г', 'салат 30г', 'масло 5г'] },
+      { name: 'Творог с зеленью', category: 'dinner', time: 5, kcal: 140, p: 16, f: 6, c: 6, diet: 'vegetarian',
+        ingredients: ['творог 120г', 'укроп', 'огурец 50г'] },
+      { name: 'Куриные сердечки с фасолью', category: 'dinner', time: 30, kcal: 310, p: 28, f: 14, c: 22, diet: 'all',
+        ingredients: ['сердечки 150г', 'фасоль 100г', 'лук 30г', 'морковь 30г'] },
+      { name: 'Греческий йогурт с ягодами', category: 'snack', time: 3, kcal: 120, p: 8, f: 4, c: 12, diet: 'vegetarian',
+        ingredients: ['йогурт 150г', 'ягоды 50г'] },
+      { name: 'Яблоко с орехами', category: 'snack', time: 2, kcal: 150, p: 3, f: 10, c: 15, diet: 'vegetarian',
+        ingredients: ['яблоко 1шт', 'грецкие орехи 15г', 'мёд 5г'] },
+      { name: 'Творожный мусс с ягодами', category: 'dessert', time: 10, kcal: 180, p: 14, f: 6, c: 18, diet: 'vegetarian',
+        ingredients: ['творог 150г', 'ягоды 50г', 'мёд 5г'] },
+      { name: 'Сырники с ягодами', category: 'dessert', time: 25, kcal: 250, p: 16, f: 10, c: 24, diet: 'vegetarian',
+        ingredients: ['творог 150г', 'яйцо 1шт', 'мука 20г', 'сметана 20г', 'ягоды 30г'] },
+    ];
 
-    const bmr = gender === 'female' ? 10 * weight + 6.25 * height - 5 * age - 161 : 10 * weight + 6.25 * height - 5 * age + 5;
-    const maintenance = Math.round(bmr * activity);
-    let finalCal = Math.round(maintenance * factor);
+    let currentCategory = 'all',
+      currentDiet = 'all',
+      currentTime = 'all';
+    let searchHistory = Storage.load('searchHistory', []);
+    let favorites = Storage.load('favorites', []);
 
-    const warning = document.getElementById('calorieWarning');
-    if (finalCal < 1200) {
-      warning.style.display = 'block';
-      finalCal = 1200;
-    } else {
-      warning.style.display = 'none';
-    }
-
-    let proteinFactor, fatFactor;
-    if (plan === 'fatloss') { proteinFactor = 2.2; fatFactor = 0.8; }
-    else if (plan === 'moderate') { proteinFactor = 2.0; fatFactor = 0.9; }
-    else if (plan === 'bulk') { proteinFactor = 1.8; fatFactor = 1.0; }
-    else { proteinFactor = 1.6; fatFactor = 0.9; }
-
-    const protein = Math.round(weight * proteinFactor);
-    const fat = Math.round(weight * fatFactor);
-    const carbs = Math.round((finalCal - (protein * 4) - (fat * 9)) / 4);
-
-    document.getElementById('resKcal').textContent = finalCal;
-    document.getElementById('resProtein').textContent = protein;
-    document.getElementById('resFat').textContent = fat;
-    document.getElementById('resCarbs').textContent = carbs >= 0 ? carbs : 0;
-
-    const total = protein * 4 + fat * 9 + carbs * 4;
-    if (total > 0) {
-      document.getElementById('proteinPercent').textContent = Math.round((protein * 4) / total * 100) + '%';
-      document.getElementById('fatPercent').textContent = Math.round((fat * 9) / total * 100) + '%';
-      document.getElementById('carbsPercent').textContent = Math.round((carbs * 4) / total * 100) + '%';
-    }
-
-    const diff = weight - goalWeight;
-    const speed = factor === 0.75 ? 0.9 : factor === 0.85 ? 0.6 : factor === 1.0 ? 0.0 : 0.4;
-    const weeks = speed > 0 ? Math.round(Math.abs(diff) / speed) : 0;
-    document.getElementById('resDiff').textContent = (diff >= 0 ? '+' : '') + diff.toFixed(1) + ' кг';
-    document.getElementById('resSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
-    document.getElementById('resWeeks').textContent = weeks + ' нед.';
-
-    const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
-    document.getElementById('homeBMI').textContent = bmi;
-
-    const startWeight = Storage.load('startWeight', weight);
-    const progressPercent = diff > 0 ? Math.min(100, ((startWeight - weight) / (startWeight - goalWeight)) * 100) : 0;
-    document.getElementById('progressPercent').textContent = Math.round(progressPercent) + '%';
-    document.getElementById('progressWeightDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
-    document.getElementById('progressBMI').textContent = bmi;
-    document.getElementById('homeProgressPercent').textContent = Math.round(progressPercent) + '%';
-    document.getElementById('homeProgressDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
-
-    document.getElementById('homeKcal').textContent = finalCal;
-    document.getElementById('homeProtein').textContent = protein;
-    document.getElementById('homeFat').textContent = fat;
-    document.getElementById('homeCarbs').textContent = carbs >= 0 ? carbs : 0;
-
-    Storage.save('currentPlan', currentPlan);
-
-    const history = Storage.load('weightHistory', []);
-    if (history.length === 0 || history[history.length - 1].weight !== weight) {
-      history.push({ date: new Date().toLocaleDateString(), weight: weight });
-      Storage.save('weightHistory', history);
-    }
-    updateProgress();
-  }
-
-  document.getElementById('ageSlider').addEventListener('input', function() {
-    document.getElementById('ageValue').textContent = this.value;
-    calculate();
-  });
-  document.getElementById('heightSlider').addEventListener('input', function() {
-    document.getElementById('heightValue').textContent = this.value;
-    calculate();
-  });
-  document.getElementById('weightSlider').addEventListener('input', function() {
-    document.getElementById('weightValue').textContent = this.value;
-    if (!Storage.load('startWeight', null)) {
-      Storage.save('startWeight', parseInt(this.value));
-    }
-    calculate();
-  });
-  document.getElementById('goalWeightSlider').addEventListener('input', function() {
-    document.getElementById('goalWeightValue').textContent = this.value;
-    calculate();
-  });
-  document.getElementById('gender').addEventListener('change', calculate);
-  document.getElementById('activity').addEventListener('change', calculate);
-
-  const savedGoal = Storage.load('currentPlan', 'fatloss');
-  goalBtns.forEach(btn => {
-    if (btn.dataset.plan === savedGoal) {
-      btn.classList.add('active');
-      goalBtns.forEach(b => { if (b !== btn) b.classList.remove('active'); });
-      document.getElementById('goalDisplay').textContent = btn.textContent.trim();
-      const factor = parseFloat(btn.dataset.factor);
-      document.getElementById('goalDesc').textContent = factor === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
-        factor === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
-        factor === 1.0 ? 'Баланс калорий — вес стабилен' :
-        'Профицит 15% — качественный рост мышц';
-    }
-  });
-
-  // ============================================================
-  // 6. RECIPES.JS
-  // ============================================================
-  const recipeDB = [
-    // ЗАВТРАКИ
-    { name: 'Овсянка с бананом', category: 'breakfast', time: 10, kcal: 320, p: 12, f: 6, c: 48, diet: 'vegetarian', ingredients: ['овсянка 40г', 'банан 1шт', 'молоко 150мл'] },
-    { name: 'Сырники со сметаной', category: 'breakfast', time: 25, kcal: 280, p: 18, f: 12, c: 25, diet: 'vegetarian', ingredients: ['творог 200г', 'яйцо 1шт', 'мука 30г', 'сметана 20г'] },
-    { name: 'Яичница с помидорами', category: 'breakfast', time: 10, kcal: 220, p: 16, f: 14, c: 8, diet: 'vegetarian', ingredients: ['яйца 2шт', 'помидоры 100г', 'масло 5г'] },
-    { name: 'Овсяноблин с творогом', category: 'breakfast', time: 15, kcal: 380, p: 20, f: 15, c: 35, diet: 'vegetarian', ingredients: ['овсянка 40г', 'яйцо 2шт', 'творог 100г', 'ягоды 50г'] },
-    { name: 'Рисовая каша с яблоком', category: 'breakfast', time: 20, kcal: 340, p: 8, f: 4, c: 60, diet: 'vegetarian', ingredients: ['рис 40г', 'яблоко 1шт', 'молоко 150мл'] },
-    { name: 'Пшённая каша с тыквой', category: 'breakfast', time: 25, kcal: 210, p: 6, f: 3, c: 36, diet: 'vegetarian', ingredients: ['пшено 30г', 'тыква 150г', 'мёд 5г'] },
-    { name: 'Гречка с молоком', category: 'breakfast', time: 20, kcal: 300, p: 12, f: 6, c: 48, diet: 'vegetarian', ingredients: ['гречка 50г', 'молоко 150мл', 'ягоды 30г'] },
-    { name: 'Творожная запеканка', category: 'breakfast', time: 35, kcal: 310, p: 25, f: 8, c: 30, diet: 'vegetarian', ingredients: ['творог 200г', 'яйцо 2шт', 'манка 20г', 'яблоко 1шт'] },
-    { name: 'Омлет с брокколи', category: 'breakfast', time: 15, kcal: 220, p: 18, f: 14, c: 8, diet: 'vegetarian', ingredients: ['яйца 3шт', 'брокколи 150г', 'сыр 20г', 'масло 5г'] },
-    { name: 'Гренки с яйцом', category: 'breakfast', time: 10, kcal: 250, p: 12, f: 14, c: 20, diet: 'vegetarian', ingredients: ['хлеб 2шт', 'яйцо 2шт', 'масло 5г'] },
-    // ОБЕДЫ
-    { name: 'Куриный суп с лапшой', category: 'lunch', time: 35, kcal: 350, p: 30, f: 10, c: 30, diet: 'all', ingredients: ['курица 150г', 'лапша 50г', 'морковь 50г', 'лук 30г'] },
-    { name: 'Гречка с курицей', category: 'lunch', time: 35, kcal: 440, p: 35, f: 12, c: 40, diet: 'all', ingredients: ['курица 150г', 'гречка 60г', 'лук 30г', 'морковь 30г', 'масло 5г'] },
-    { name: 'Рис с курицей и овощами', category: 'lunch', time: 30, kcal: 420, p: 30, f: 10, c: 50, diet: 'all', ingredients: ['рис 60г', 'курица 150г', 'морковь 50г', 'лук 30г', 'перец 30г'] },
-    { name: 'Паста с тунцом', category: 'lunch', time: 20, kcal: 390, p: 28, f: 12, c: 45, diet: 'all', ingredients: ['паста 50г', 'тунец 100г', 'томаты 100г', 'масло 5г'] },
-    { name: 'Гречка с печенью', category: 'lunch', time: 30, kcal: 350, p: 30, f: 14, c: 35, diet: 'all', ingredients: ['гречка 50г', 'печень 150г', 'лук 30г', 'морковь 30г'] },
-    { name: 'Чечевичный суп с курицей', category: 'lunch', time: 30, kcal: 250, p: 18, f: 4, c: 35, diet: 'all', ingredients: ['чечевица 100г', 'курица 130г', 'морковь 50г', 'лук 30г'] },
-    { name: 'Индейка с перловкой', category: 'lunch', time: 35, kcal: 390, p: 32, f: 8, c: 45, diet: 'all', ingredients: ['индейка 150г', 'перловка 50г', 'морковь 40г', 'лук 30г'] },
-    { name: 'Говядина с гречкой', category: 'lunch', time: 45, kcal: 420, p: 34, f: 16, c: 38, diet: 'all', ingredients: ['говядина 150г', 'гречка 50г', 'свёкла 100г', 'лук 30г'] },
-    { name: 'Картофель с рыбой', category: 'lunch', time: 40, kcal: 370, p: 28, f: 12, c: 42, diet: 'all', ingredients: ['рыба 150г', 'картофель 200г', 'лук 30г', 'масло 10г'] },
-    { name: 'Кабачок с курицей', category: 'lunch', time: 25, kcal: 290, p: 28, f: 10, c: 20, diet: 'all', ingredients: ['курица 150г', 'кабачок 200г', 'перец 30г', 'лук 20г'] },
-    // УЖИНЫ
-    { name: 'Омлет с шампиньонами', category: 'dinner', time: 15, kcal: 240, p: 20, f: 16, c: 6, diet: 'vegetarian', ingredients: ['яйца 3шт', 'шампиньоны 100г', 'лук 20г', 'масло 5г'] },
-    { name: 'Салат с тунцом и яйцом', category: 'dinner', time: 10, kcal: 210, p: 20, f: 12, c: 10, diet: 'all', ingredients: ['тунец 100г', 'яйцо 2шт', 'огурцы 100г', 'салат 30г', 'масло 5г'] },
-    { name: 'Творог с зеленью', category: 'dinner', time: 5, kcal: 140, p: 16, f: 6, c: 6, diet: 'vegetarian', ingredients: ['творог 120г', 'укроп', 'огурец 50г'] },
-    { name: 'Куриные сердечки с фасолью', category: 'dinner', time: 30, kcal: 310, p: 28, f: 14, c: 22, diet: 'all', ingredients: ['сердечки 150г', 'фасоль 100г', 'лук 30г', 'морковь 30г'] },
-    { name: 'Салат с курицей и авокадо', category: 'dinner', time: 15, kcal: 290, p: 22, f: 16, c: 14, diet: 'all', ingredients: ['курица 120г', 'авокадо 50г', 'салат 30г', 'огурец 80г', 'йогурт 30г'] },
-    { name: 'Брокколи с яйцом', category: 'dinner', time: 10, kcal: 160, p: 12, f: 10, c: 8, diet: 'vegetarian', ingredients: ['брокколи 150г', 'яйцо 2шт', 'сыр 20г', 'масло 5г'] },
-    { name: 'Цветная капуста с яйцом', category: 'dinner', time: 15, kcal: 180, p: 14, f: 10, c: 12, diet: 'vegetarian', ingredients: ['цветная капуста 150г', 'яйцо 2шт', 'зелень'] },
-    { name: 'Запечённая рыба с овощами', category: 'dinner', time: 35, kcal: 320, p: 26, f: 12, c: 28, diet: 'all', ingredients: ['рыба 150г', 'кабачок 100г', 'перец 50г', 'масло 10г'] },
-    // ПЕРЕКУСЫ
-    { name: 'Греческий йогурт с ягодами', category: 'snack', time: 3, kcal: 120, p: 8, f: 4, c: 12, diet: 'vegetarian', ingredients: ['йогурт 150г', 'ягоды 50г'] },
-    { name: 'Яблоко с орехами', category: 'snack', time: 2, kcal: 150, p: 3, f: 10, c: 15, diet: 'vegetarian', ingredients: ['яблоко 1шт', 'грецкие орехи 15г', 'мёд 5г'] },
-    { name: 'Кефир с отрубями', category: 'snack', time: 2, kcal: 100, p: 6, f: 2, c: 12, diet: 'vegetarian', ingredients: ['кефир 200мл', 'отруби 10г', 'ягоды 30г'] },
-    { name: 'Творожная паста с зеленью', category: 'snack', time: 5, kcal: 130, p: 14, f: 6, c: 4, diet: 'vegetarian', ingredients: ['творог 100г', 'укроп', 'хлеб 1шт'] },
-    { name: 'Смузи с бананом', category: 'snack', time: 5, kcal: 160, p: 6, f: 3, c: 30, diet: 'vegetarian', ingredients: ['банан 1шт', 'молоко 150мл', 'мёд 5г'] },
-    // ДЕСЕРТЫ
-    { name: 'Творожный мусс с ягодами', category: 'dessert', time: 10, kcal: 180, p: 14, f: 6, c: 18, diet: 'vegetarian', ingredients: ['творог 150г', 'ягоды 50г', 'мёд 5г'] },
-    { name: 'Яблочный пирог', category: 'dessert', time: 45, kcal: 350, p: 6, f: 15, c: 45, diet: 'vegetarian', ingredients: ['яблоки 200г', 'мука 100г', 'яйцо 2шт', 'масло 50г'] },
-    { name: 'Сырники с ягодами', category: 'dessert', time: 25, kcal: 250, p: 16, f: 10, c: 24, diet: 'vegetarian', ingredients: ['творог 150г', 'яйцо 1шт', 'мука 20г', 'сметана 20г', 'ягоды 30г'] },
-    { name: 'Фруктовый салат', category: 'dessert', time: 5, kcal: 140, p: 4, f: 3, c: 25, diet: 'vegetarian', ingredients: ['яблоко 1шт', 'банан 1шт', 'йогурт 50г'] }
-  ];
-
-  let currentCategory = 'all';
-  let currentDiet = 'all';
-  let currentTime = 'all';
-  let currentSort = 'name';
-  let searchHistory = Storage.load('searchHistory', []);
-  let favorites = Storage.load('favorites', []);
-
-  function addToHistory(query) {
-    if (!query || query.trim().length < 2) return;
-    const q = query.trim();
-    searchHistory = searchHistory.filter(item => item !== q);
-    searchHistory.unshift(q);
-    if (searchHistory.length > 5) searchHistory.pop();
-    Storage.save('searchHistory', searchHistory);
-    renderSearchHistory();
-  }
-
-  function renderSearchHistory() {
-    const container = document.getElementById('searchHistory');
-    if (!searchHistory.length) { container.innerHTML = ''; return; }
-    container.innerHTML = searchHistory.map(q =>
-      `<span class="history-item" role="listitem" data-query="${q}">${q}</span>`
-    ).join('');
-    container.querySelectorAll('.history-item').forEach(el => {
-      el.addEventListener('click', function() {
-        document.getElementById('recipeSearch').value = this.dataset.query;
-        document.getElementById('searchBtn').click();
+    function renderSearchHistory() {
+      const container = document.getElementById('searchHistory');
+      if (!searchHistory.length) { container.innerHTML = ''; return; }
+      container.innerHTML = searchHistory.map(q =>
+        `<span class="history-item" data-query="${q}">${q}</span>`
+      ).join('');
+      container.querySelectorAll('.history-item').forEach(el => {
+        el.addEventListener('click', function() {
+          document.getElementById('recipeSearch').value = this.dataset.query;
+          document.getElementById('searchBtn').click();
+        });
       });
-    });
-  }
-
-  function toggleFavorite(name) {
-    const index = favorites.indexOf(name);
-    if (index > -1) favorites.splice(index, 1);
-    else favorites.push(name);
-    Storage.save('favorites', favorites);
-    renderRecipes(applyFilters());
-  }
-
-  function applyFilters(query) {
-    let res = recipeDB;
-    if (query && query.trim()) {
-      const q = query.trim().toLowerCase();
-      res = res.filter(r =>
-        r.name.toLowerCase().includes(q) ||
-        r.ingredients.some(i => i.toLowerCase().includes(q))
-      );
     }
-    if (currentCategory !== 'all') res = res.filter(r => r.category === currentCategory);
-    if (currentDiet !== 'all') res = res.filter(r => r.diet === currentDiet || r.diet === 'all');
-    if (currentTime === 'fast') res = res.filter(r => r.time <= 20);
-    else if (currentTime === 'medium') res = res.filter(r => r.time > 20 && r.time <= 40);
-    else if (currentTime === 'long') res = res.filter(r => r.time > 40);
-    if (currentSort === 'kcal') res.sort((a, b) => a.kcal - b.kcal);
-    else if (currentSort === 'protein') res.sort((a, b) => b.p - a.p);
-    else res.sort((a, b) => a.name.localeCompare(b.name));
-    return res;
-  }
 
-  function renderRecipes(results) {
-    const container = document.getElementById('recipeResults');
-    if (!results || results.length === 0) {
-      container.innerHTML = `<div class="empty-msg"><span class="big-icon">🍽️</span><p>Рецептов не найдено. Попробуй другой запрос или фильтры.</p></div>`;
-      document.getElementById('recipeInfo').textContent = 'Рецептов не найдено.';
-      return;
+    function toggleFavorite(name) {
+      const idx = favorites.indexOf(name);
+      idx > -1 ? favorites.splice(idx, 1) : favorites.push(name);
+      Storage.save('favorites', favorites);
+      renderRecipes(applyFilters());
     }
-    const fragment = document.createDocumentFragment();
-    results.forEach(r => {
-      const card = document.createElement('div');
-      card.className = 'recipe-card';
-      card.setAttribute('role', 'listitem');
-      const isFavorite = favorites.includes(r.name);
-      card.innerHTML = `
-        <button class="favorite-btn" aria-label="${isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}">${isFavorite ? '❤️' : '🤍'}</button>
-        <div class="title">${r.name} <span class="badge-time">${r.time}мин</span></div>
-        <div class="info">
-          <span>${r.category === 'breakfast' ? '🍳' : r.category === 'lunch' ? '🥗' : r.category === 'dinner' ? '🍲' : r.category === 'snack' ? '🍏' : '🍰'} ${r.category}</span>
-          <span>${r.kcal} ккал</span>
-          <span>${r.p}г бел</span>
-          <span>${r.f}г жир</span>
-          <span>${r.c}г угл</span>
-        </div>
-        <div style="font-size:0.7rem;color:var(--text-muted);">${r.ingredients.slice(0, 3).join(', ')}${r.ingredients.length > 3 ? '...' : ''}</div>
-        <button class="add-btn" data-name="${r.name}" data-kcal="${r.kcal}" data-p="${r.p}" data-f="${r.f}" data-c="${r.c}">➕ Добавить в рацион</button>
-      `;
-      card.querySelector('.favorite-btn').addEventListener('click', function(e) {
-        e.stopPropagation();
-        toggleFavorite(r.name);
+
+    function applyFilters(query) {
+      let res = recipeDB;
+      if (query && query.trim()) {
+        const q = query.trim().toLowerCase();
+        res = res.filter(r => r.name.toLowerCase().includes(q) || r.ingredients.some(i => i.toLowerCase().includes(q)));
+      }
+      if (currentCategory !== 'all') res = res.filter(r => r.category === currentCategory);
+      if (currentDiet !== 'all') res = res.filter(r => r.diet === currentDiet || r.diet === 'all');
+      if (currentTime === 'fast') res = res.filter(r => r.time <= 20);
+      else if (currentTime === 'medium') res = res.filter(r => r.time > 20 && r.time <= 40);
+      else if (currentTime === 'long') res = res.filter(r => r.time > 40);
+      return res;
+    }
+
+    function renderRecipes(results) {
+      const container = document.getElementById('recipeResults');
+      if (!results || !results.length) {
+        container.innerHTML =
+          `<div class="empty-msg"><span class="big-icon">🍽️</span><p>Рецептов не найдено. Попробуй другой запрос.</p></div>`;
+        document.getElementById('recipeInfo').textContent = 'Рецептов не найдено.';
+        return;
+      }
+      const fragment = document.createDocumentFragment();
+      results.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'recipe-card';
+        const isFav = favorites.includes(r.name);
+        const catEmoji = { breakfast: '🍳', lunch: '🥗', dinner: '🍲', snack: '🍏', dessert: '🍰' } [r.category] || '🍽️';
+        card.innerHTML = `
+          <button class="favorite-btn">${isFav ? '❤️' : '🤍'}</button>
+          <div class="title">${r.name}</div>
+          <div class="meta">
+            <span>${catEmoji} ${r.category}</span>
+            <span>${r.kcal} ккал</span>
+            <span>${r.p}г бел</span>
+            <span>${r.f}г жир</span>
+            <span>${r.c}г угл</span>
+          </div>
+          <div style="font-size:0.65rem;color:var(--text-muted);">${r.ingredients.slice(0,3).join(', ')}${r.ingredients.length > 3 ? '...' : ''}</div>
+          <button class="add-btn" data-name="${r.name}" data-kcal="${r.kcal}" data-p="${r.p}" data-f="${r.f}" data-c="${r.c}">➕ Добавить</button>
+        `;
+        card.querySelector('.favorite-btn').addEventListener('click', e => {
+          e.stopPropagation();
+          toggleFavorite(r.name);
+        });
+        card.querySelector('.add-btn').addEventListener('click', e => {
+          e.stopPropagation();
+          openAddModal(this.dataset.name, parseInt(this.dataset.kcal), parseFloat(this.dataset.p), parseFloat(this
+            .dataset.f), parseFloat(this.dataset.c));
+        });
+        fragment.appendChild(card);
       });
-      card.querySelector('.add-btn').addEventListener('click', function(e) {
-        e.stopPropagation();
-        openAddModal(this.dataset.name, parseInt(this.dataset.kcal), parseFloat(this.dataset.p), parseFloat(this.dataset.f), parseFloat(this.dataset.c));
-      });
-      fragment.appendChild(card);
+      container.innerHTML = '';
+      container.appendChild(fragment);
+      document.getElementById('recipeInfo').textContent = `Найдено ${results.length} рецептов.`;
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', function() {
+      const q = document.getElementById('recipeSearch').value;
+      if (!q || q.trim().length < 1) { showToast('⚠️ Введите запрос'); return; }
+      searchHistory = searchHistory.filter(item => item !== q);
+      searchHistory.unshift(q);
+      if (searchHistory.length > 5) searchHistory.pop();
+      Storage.save('searchHistory', searchHistory);
+      renderSearchHistory();
+      renderRecipes(applyFilters(q));
     });
-    container.innerHTML = '';
-    container.appendChild(fragment);
-    document.getElementById('recipeInfo').textContent = `Найдено ${results.length} рецептов. Нажми «Добавить» — и блюдо появится в твоём рационе.`;
-  }
 
-  document.getElementById('searchBtn').addEventListener('click', function() {
-    const query = document.getElementById('recipeSearch').value;
-    if (!query || query.trim().length < 1) { showToast('⚠️ Введите запрос для поиска'); return; }
-    addToHistory(query);
-    renderRecipes(applyFilters(query));
-  });
-
-  document.getElementById('recipeSearch').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') document.getElementById('searchBtn').click();
-  });
-
-  document.getElementById('clearSearchBtn').addEventListener('click', function() {
-    document.getElementById('recipeSearch').value = '';
-    renderRecipes(applyFilters(''));
-    document.getElementById('recipeInfo').textContent = 'Введите запрос для поиска рецептов.';
-  });
-
-  document.querySelectorAll('#categoryFilterGroup .filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('#categoryFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      currentCategory = this.dataset.filter;
-      renderRecipes(applyFilters(document.getElementById('recipeSearch').value));
+    document.getElementById('recipeSearch').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById(
+        'searchBtn').click(); });
+    document.getElementById('clearSearchBtn').addEventListener('click', function() {
+      document.getElementById('recipeSearch').value = '';
+      renderRecipes(applyFilters(''));
     });
-  });
 
-  document.querySelectorAll('#dietFilterGroup .filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('#dietFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      currentDiet = this.dataset.filter;
-      renderRecipes(applyFilters(document.getElementById('recipeSearch').value));
-    });
-  });
-
-  document.querySelectorAll('.filter-group:not(#categoryFilterGroup):not(#dietFilterGroup) .filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const parent = this.closest('.filter-group');
-      if (parent) {
-        parent.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#categoryFilterGroup .filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#categoryFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-        const filterType = parent.querySelector('.filter-label')?.textContent || '';
-        if (filterType.includes('Время')) currentTime = this.dataset.filter;
-        else if (filterType.includes('Сортировка')) currentSort = this.dataset.filter;
+        currentCategory = this.dataset.filter;
         renderRecipes(applyFilters(document.getElementById('recipeSearch').value));
-      }
-    });
-  });
-
-  renderSearchHistory();
-  renderRecipes(applyFilters(''));
-
-  // ============================================================
-  // 7. MEALPLAN.JS
-  // ============================================================
-  function openAddModal(name, kcal, p, f, c) {
-    pendingRecipe = { name, kcal, p, f, c };
-    document.getElementById('modalRecipeName').textContent = `${name} (${kcal} ккал)`;
-    document.getElementById('addRecipeModal').classList.add('active');
-  }
-
-  let pendingRecipe = null;
-
-  document.getElementById('modalCancel').addEventListener('click', () => {
-    document.getElementById('addRecipeModal').classList.remove('active');
-    pendingRecipe = null;
-  });
-
-  document.getElementById('modalConfirm').addEventListener('click', () => {
-    if (!pendingRecipe) return;
-    const day = document.getElementById('modalDay').value;
-    const mealType = document.getElementById('modalMealType').value;
-    const meals = Storage.load('customMeals', {});
-    if (!meals[day]) meals[day] = [];
-    meals[day].push({
-      name: `${mealType}: ${pendingRecipe.name}`,
-      kcal: pendingRecipe.kcal,
-      p: pendingRecipe.p,
-      f: pendingRecipe.f,
-      c: pendingRecipe.c,
-      recipe: pendingRecipe.name
-    });
-    Storage.save('customMeals', meals);
-    document.getElementById('addRecipeModal').classList.remove('active');
-    pendingRecipe = null;
-    renderMeals();
-    showToast('✅ Блюдо добавлено в рацион!');
-  });
-
-  function renderMeals() {
-    const meals = Storage.load('customMeals', {});
-    const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
-    let has = false;
-    const container = document.getElementById('mealPlanContainer');
-    let html = '';
-    days.forEach(d => {
-      const list = meals[d] || [];
-      if (list.length) has = true;
-      const total = list.reduce((s, m) => s + (m.kcal || 0), 0);
-      const totalP = list.reduce((s, m) => s + (m.p || 0), 0);
-      const totalF = list.reduce((s, m) => s + (m.f || 0), 0);
-      const totalC = list.reduce((s, m) => s + (m.c || 0), 0);
-      html += `<div class="day-block"><div class="day-title">${d} <span class="badge">${Math.round(total)} ккал</span></div>`;
-      if (list.length) {
-        html += `<div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px;">Б:${Math.round(totalP)}г Ж:${Math.round(totalF)}г У:${Math.round(totalC)}г</div>`;
-      }
-      list.forEach((m, i) => {
-        html += `<div class="meal"><span class="meal-name">${m.name}</span><span class="meal-kcal">${m.kcal || 0} ккал</span><div class="meal-actions"><button class="replace-btn" onclick="openReplace('${d}', ${i})" aria-label="Заменить блюдо">🔄</button><button class="remove-btn" onclick="removeMeal('${d}', ${i})" aria-label="Удалить блюдо">✖</button></div></div>`;
       });
-      html += `<div class="total-day">⭐ Итого: ${Math.round(total)} ккал</div></div>`;
     });
-    if (!has) {
-      container.innerHTML = `<div class="empty-msg"><span class="big-icon">🍽️</span><p>Рацион пуст. Начни с поиска рецептов!</p><button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:10px;" aria-label="Перейти к поиску рецептов">🍽️ Найти рецепты</button></div>`;
-      document.getElementById('planDesc').textContent = 'Добавь блюда из раздела «Рецепты» или нажми «Собрать».';
-      return;
-    }
-    container.innerHTML = html;
-    document.getElementById('planDesc').textContent = 'Твой собранный рацион на неделю. Нажми 🔄 чтобы заменить блюдо.';
-  }
+    document.querySelectorAll('#dietFilterGroup .filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#dietFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentDiet = this.dataset.filter;
+        renderRecipes(applyFilters(document.getElementById('recipeSearch').value));
+      });
+    });
+    document.querySelectorAll('.filter-group:not(#categoryFilterGroup):not(#dietFilterGroup) .filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const parent = this.closest('.filter-group');
+        if (parent) {
+          parent.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentTime = this.dataset.filter;
+          renderRecipes(applyFilters(document.getElementById('recipeSearch').value));
+        }
+      });
+    });
 
-  function removeMeal(day, index) {
-    const meals = Storage.load('customMeals', {});
-    if (meals[day]) {
-      meals[day].splice(index, 1);
-      if (!meals[day].length) delete meals[day];
+    renderSearchHistory();
+    renderRecipes(applyFilters(''));
+
+    // ============================================================
+    // 9. MEAL PLAN
+    // ============================================================
+    let pendingRecipe = null;
+
+    function openAddModal(name, kcal, p, f, c) {
+      pendingRecipe = { name, kcal, p, f, c };
+      document.getElementById('modalRecipeName').textContent = `${name} (${kcal} ккал)`;
+      document.getElementById('addRecipeModal').classList.add('active');
+    }
+
+    document.getElementById('modalCancel').addEventListener('click', () => {
+      document.getElementById('addRecipeModal').classList.remove('active');
+      pendingRecipe = null;
+    });
+
+    document.getElementById('modalConfirm').addEventListener('click', () => {
+      if (!pendingRecipe) return;
+      const day = document.getElementById('modalDay').value;
+      const mealType = document.getElementById('modalMealType').value;
+      const meals = Storage.load('customMeals', {});
+      if (!meals[day]) meals[day] = [];
+      meals[day].push({
+        name: `${mealType}: ${pendingRecipe.name}`,
+        kcal: pendingRecipe.kcal,
+        p: pendingRecipe.p,
+        f: pendingRecipe.f,
+        c: pendingRecipe.c,
+        recipe: pendingRecipe.name
+      });
+      Storage.save('customMeals', meals);
+      document.getElementById('addRecipeModal').classList.remove('active');
+      pendingRecipe = null;
+      renderMeals();
+      showToast('✅ Блюдо добавлено!');
+    });
+
+    function renderMeals() {
+      const meals = Storage.load('customMeals', {});
+      const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+      let has = false;
+      let html = '';
+      days.forEach(d => {
+        const list = meals[d] || [];
+        if (list.length) has = true;
+        const total = list.reduce((s, m) => s + (m.kcal || 0), 0);
+        const totalP = list.reduce((s, m) => s + (m.p || 0), 0);
+        const totalF = list.reduce((s, m) => s + (m.f || 0), 0);
+        const totalC = list.reduce((s, m) => s + (m.c || 0), 0);
+        html += `<div class="day-block">
+          <div class="day-title">${d} <span class="badge">${Math.round(total)} ккал</span></div>`;
+        if (list.length) {
+          html +=
+            `<div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px;">Б:${Math.round(totalP)}г Ж:${Math.round(totalF)}г У:${Math.round(totalC)}г</div>`;
+        }
+        list.forEach((m, i) => {
+          html += `<div class="meal">
+            <span class="meal-name">${m.name}</span>
+            <span class="meal-kcal">${m.kcal || 0} ккал</span>
+            <div class="meal-actions">
+              <button class="replace-btn" onclick="openReplace('${d}', ${i})">🔄</button>
+              <button class="remove-btn" onclick="removeMeal('${d}', ${i})">✖</button>
+            </div>
+          </div>`;
+        });
+        html += `<div class="total-day">⭐ Итого: ${Math.round(total)} ккал</div></div>`;
+      });
+      const container = document.getElementById('mealPlanContainer');
+      if (!has) {
+        container.innerHTML =
+          `<div class="empty-msg"><span class="big-icon">🍽️</span><p>Рацион пуст.</p><button class="btn btn-sm" onclick="switchTab('recipes')" style="margin-top:8px;">🍽️ Перейти к рецептам</button></div>`;
+        document.getElementById('planDesc').textContent = 'Добавь блюда из раздела «Рецепты» или нажми «Собрать».';
+        return;
+      }
+      container.innerHTML = html;
+      document.getElementById('planDesc').textContent = 'Твой рацион на неделю. Нажми 🔄 чтобы заменить.';
+    }
+
+    function removeMeal(day, index) {
+      const meals = Storage.load('customMeals', {});
+      if (meals[day]) {
+        meals[day].splice(index, 1);
+        if (!meals[day].length) delete meals[day];
+        Storage.save('customMeals', meals);
+        renderMeals();
+        showToast('🗑️ Блюдо удалено');
+      }
+    }
+
+    document.getElementById('autoPlanBtn').addEventListener('click', function() {
+      const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+      const types = [
+        { name: 'Завтрак', cat: 'breakfast' },
+        { name: 'Обед', cat: 'lunch' },
+        { name: 'Ужин', cat: 'dinner' },
+        { name: 'Перекус', cat: 'snack' }
+      ];
+      const meals = {};
+      const used = new Set();
+      days.forEach(d => {
+        meals[d] = [];
+        types.forEach(t => {
+          let avail = recipeDB.filter(r => r.category === t.cat && !used.has(r.name));
+          if (!avail.length) avail = recipeDB.filter(r => r.category === t.cat);
+          if (avail.length) {
+            const pick = avail[Math.floor(Math.random() * avail.length)];
+            used.add(pick.name);
+            meals[d].push({
+              name: `${t.name}: ${pick.name}`,
+              kcal: pick.kcal,
+              p: pick.p,
+              f: pick.f,
+              c: pick.c,
+              recipe: pick.name
+            });
+          }
+        });
+      });
       Storage.save('customMeals', meals);
       renderMeals();
-      showToast('🗑️ Блюдо удалено');
-    }
-  }
-
-  document.getElementById('autoPlanBtn').addEventListener('click', function() {
-    const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
-    const mealTypes = [
-      { name: 'Завтрак', category: 'breakfast' },
-      { name: 'Обед', category: 'lunch' },
-      { name: 'Ужин', category: 'dinner' },
-      { name: 'Перекус', category: 'snack' }
-    ];
-    const meals = {};
-    const usedRecipes = new Set();
-    days.forEach(d => {
-      meals[d] = [];
-      mealTypes.forEach(mt => {
-        let available = recipeDB.filter(r => r.category === mt.category && !usedRecipes.has(r.name));
-        if (!available.length) available = recipeDB.filter(r => r.category === mt.category);
-        if (available.length) {
-          const pick = available[Math.floor(Math.random() * available.length)];
-          usedRecipes.add(pick.name);
-          meals[d].push({
-            name: `${mt.name}: ${pick.name}`,
-            kcal: pick.kcal,
-            p: pick.p,
-            f: pick.f,
-            c: pick.c,
-            recipe: pick.name
-          });
-        }
-      });
+      showToast('🧠 Рацион собран!');
     });
-    Storage.save('customMeals', meals);
-    renderMeals();
-    showToast('🧠 Рацион собран умно! Завтрак, обед, ужин, перекус — без повторов.');
-  });
 
-  document.getElementById('clearPlanBtn').addEventListener('click', function() {
-    if (confirm('Очистить весь рацион?')) {
-      Storage.save('customMeals', {});
-      renderMeals();
-      showToast('🗑️ Рацион очищен');
+    document.getElementById('clearPlanBtn').addEventListener('click', function() {
+      if (confirm('Очистить весь рацион?')) {
+        Storage.save('customMeals', {});
+        renderMeals();
+        showToast('🗑️ Рацион очищен');
+      }
+    });
+
+    // ============================================================
+    // 10. REPLACE
+    // ============================================================
+    function openReplace(day, index) {
+      const meals = Storage.load('customMeals', {});
+      const list = meals[day] || [];
+      const meal = list[index];
+      if (!meal) return;
+      let cat = 'lunch';
+      if (meal.name.includes('Завтрак')) cat = 'breakfast';
+      else if (meal.name.includes('Обед')) cat = 'lunch';
+      else if (meal.name.includes('Ужин')) cat = 'dinner';
+      else if (meal.name.includes('Перекус')) cat = 'snack';
+      let alts = recipeDB.filter(r => r.category === cat && r.name !== meal.recipe);
+      if (alts.length > 8) alts = alts.slice(0, 8);
+      const container = document.getElementById('replaceOptions');
+      container.innerHTML = '';
+      if (!alts.length) { container.innerHTML = '<p class="text-muted">Нет альтернатив</p>'; return; }
+      alts.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'replace-item';
+        div.innerHTML = `<div>${r.name}</div><div class="kcal">${r.kcal} ккал</div>`;
+        div.addEventListener('click', function() {
+          const meals2 = Storage.load('customMeals', {});
+          if (meals2[day] && meals2[day][index]) {
+            const old = meals2[day][index].name;
+            const prefix = old.split(':')[0] + ':';
+            meals2[day][index] = {
+              name: prefix + ' ' + r.name,
+              kcal: r.kcal,
+              p: r.p,
+              f: r.f,
+              c: r.c,
+              recipe: r.name
+            };
+            Storage.save('customMeals', meals2);
+            renderMeals();
+            document.getElementById('replaceModal').classList.remove('active');
+            showToast('🔄 Заменено на «' + r.name + '»');
+          }
+        });
+        container.appendChild(div);
+      });
+      document.getElementById('replaceInfo').textContent = 'Замена для «' + meal.name + '»';
+      document.getElementById('replaceModal').classList.add('active');
     }
-  });
 
-  // ============================================================
-  // 8. REPLACE.JS
-  // ============================================================
-  function openReplace(day, index) {
-    const meals = Storage.load('customMeals', {});
-    const list = meals[day] || [];
-    const meal = list[index];
-    if (!meal) return;
-    let category = 'lunch';
-    if (meal.name.includes('Завтрак')) category = 'breakfast';
-    else if (meal.name.includes('Обед')) category = 'lunch';
-    else if (meal.name.includes('Ужин')) category = 'dinner';
-    else if (meal.name.includes('Перекус')) category = 'snack';
-    let alts = recipeDB.filter(r => r.category === category && r.name !== meal.recipe);
-    if (alts.length > 8) alts = alts.slice(0, 8);
-    const container = document.getElementById('replaceOptions');
-    container.innerHTML = '';
-    if (!alts.length) { container.innerHTML = '<p class="text-muted">Нет альтернатив</p>'; return; }
-    alts.forEach(r => {
+    document.getElementById('replaceCancel').addEventListener('click', () => {
+      document.getElementById('replaceModal').classList.remove('active');
+    });
+
+    // ============================================================
+    // 11. SHOP LIST
+    // ============================================================
+    document.getElementById('exportShopListBtn').addEventListener('click', () => {
+      const meals = Storage.load('customMeals', {});
+      const map = {};
+      for (const day in meals) {
+        meals[day].forEach(m => {
+          const key = m.recipe || m.name;
+          if (!map[key]) map[key] = 0;
+          map[key]++;
+        });
+      }
+      if (!Object.keys(map).length) { showToast('📭 Рацион пуст'); return; }
+      let list = '<div class="card"><h2>🛍️ Список покупок</h2><ul class="shop-list" style="list-style:none;padding:0;columns:2 160px;column-gap:16px;">';
+      for (const [name, count] of Object.entries(map)) {
+        list += `<li style="padding:4px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;break-inside:avoid;font-size:0.85rem;"><span>${name}</span> <span style="font-weight:500;color:var(--primary);">×${count}</span></li>`;
+      }
+      list += '</ul><button class="btn btn-sm" onclick="this.closest(\'.card\').style.display=\'none\'">✖ Закрыть</button></div>';
       const div = document.createElement('div');
-      div.className = 'replace-item';
-      div.innerHTML = `<div>${r.name}</div><div class="kcal">${r.kcal} ккал</div>`;
-      div.addEventListener('click', function() {
-        const meals2 = Storage.load('customMeals', {});
-        if (meals2[day] && meals2[day][index]) {
-          const old = meals2[day][index].name;
-          const prefix = old.split(':')[0] + ':';
-          meals2[day][index] = {
-            name: prefix + ' ' + r.name,
-            kcal: r.kcal,
-            p: r.p,
-            f: r.f,
-            c: r.c,
-            recipe: r.name
-          };
-          Storage.save('customMeals', meals2);
-          renderMeals();
-          document.getElementById('replaceModal').classList.remove('active');
-          showToast('🔄 Заменено на «' + r.name + '»');
-        }
-      });
-      container.appendChild(div);
+      div.innerHTML = list;
+      document.querySelector('.container').appendChild(div.firstElementChild);
+      div.firstElementChild.scrollIntoView({ behavior: 'smooth' });
     });
-    document.getElementById('replaceInfo').textContent = 'Замена для «' + meal.name + '»';
-    document.getElementById('replaceModal').classList.add('active');
-  }
 
-  document.getElementById('replaceCancel').addEventListener('click', () => {
-    document.getElementById('replaceModal').classList.remove('active');
-  });
+    // ============================================================
+    // 12. CALENDAR
+    // ============================================================
+    let calendarDate = new Date();
 
-  // ============================================================
-  // 9. PROGRESS.JS (С КАЛЕНДАРЁМ)
-  // ============================================================
-  let calendarDate = new Date();
+    function buildCalendar(year, month) {
+      const container = document.getElementById('calendarGrid');
+      const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь',
+        'Ноябрь', 'Декабрь'
+      ];
+      document.getElementById('calendarMonthYear').textContent = `${monthNames[month]} ${year}`;
 
-  function buildCalendar(year, month) {
-    const container = document.getElementById('calendarGrid');
-    const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-    document.getElementById('calendarMonthYear').textContent = `${monthNames[month]} ${year}`;
+      const headers = container.querySelectorAll('.day-header');
+      container.innerHTML = '';
+      headers.forEach(h => container.appendChild(h));
 
-    // Очищаем контейнер, оставляя только заголовки дней недели
-    const headers = container.querySelectorAll('.day-header');
-    container.innerHTML = '';
-    headers.forEach(h => container.appendChild(h));
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const daysInMonth = lastDay.getDate();
+      const startOffset = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
 
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startOffset = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
-
-    // Получаем веса за месяц
-    const history = Storage.load('weightHistory', []);
-    const weights = {};
-    const dates = [];
-    history.forEach(item => {
-      const parts = item.date.split('.');
-      if (parts.length === 3) {
-        const d = parseInt(parts[0]);
-        const m = parseInt(parts[1]) - 1;
-        const y = parseInt(parts[2]);
-        if (y === year && m === month) {
-          weights[d] = item.weight;
-          dates.push(d);
+      const history = Storage.load('weightHistory', []);
+      const weights = {};
+      const dates = [];
+      history.forEach(item => {
+        const parts = item.date.split('.');
+        if (parts.length === 3) {
+          const d = parseInt(parts[0]);
+          const m = parseInt(parts[1]) - 1;
+          const y = parseInt(parts[2]);
+          if (y === year && m === month) {
+            weights[d] = item.weight;
+            dates.push(d);
+          }
         }
+      });
+      dates.sort((a, b) => a - b);
+
+      let change = 0;
+      if (dates.length >= 2) {
+        change = weights[dates[dates.length - 1]] - weights[dates[0]];
       }
+      const changeText = change > 0 ? `+${change.toFixed(1)} кг ↑` :
+        change < 0 ? `${change.toFixed(1)} кг ↓` :
+        '0 кг —';
+      document.getElementById('monthChange').textContent = changeText;
+      document.getElementById('monthChange').style.color = change > 0 ? 'var(--danger)' :
+        change < 0 ? 'var(--primary)' :
+        'var(--text-muted)';
+
+      for (let i = 0; i < startOffset; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'calendar-day empty';
+        empty.textContent = '—';
+        container.appendChild(empty);
+      }
+
+      const today = new Date();
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'calendar-day';
+        dayDiv.dataset.day = d;
+        dayDiv.dataset.month = month;
+        dayDiv.dataset.year = year;
+
+        const hasWeight = weights[d] !== undefined;
+        const weight = weights[d] || null;
+
+        if (d === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+          dayDiv.classList.add('today');
+        }
+
+        if (hasWeight && dates.length >= 2) {
+          if (weight < weights[dates[0]]) dayDiv.classList.add('low');
+          else if (weight > weights[dates[0]]) dayDiv.classList.add('high');
+        }
+
+        const numSpan = document.createElement('div');
+        numSpan.className = 'day-number';
+        numSpan.textContent = d;
+        dayDiv.appendChild(numSpan);
+
+        if (hasWeight) {
+          const wSpan = document.createElement('div');
+          wSpan.className = 'day-weight';
+          wSpan.textContent = weight.toFixed(1);
+          dayDiv.appendChild(wSpan);
+        }
+
+        dayDiv.addEventListener('click', function() {
+          const dNum = parseInt(this.dataset.day);
+          const mNum = parseInt(this.dataset.month);
+          const yNum = parseInt(this.dataset.year);
+          const hasW = weights[dNum] !== undefined;
+          const curW = weights[dNum] || null;
+          const msg = hasW ?
+            `Изменить вес на ${dNum}.${mNum+1}.${yNum} (текущий: ${curW.toFixed(1)} кг):` :
+            `Введите вес на ${dNum}.${mNum+1}.${yNum}:`;
+          const input = prompt(msg);
+          if (input === null) return;
+          const newW = parseFloat(input.trim());
+          if (isNaN(newW) || newW < 20 || newW > 300) {
+            showToast('⚠️ Введите корректный вес (20–300 кг)');
+            return;
+          }
+          const h2 = Storage.load('weightHistory', []);
+          const dateStr = `${String(dNum).padStart(2, '0')}.${String(mNum+1).padStart(2, '0')}.${yNum}`;
+          const idx = h2.findIndex(item => item.date === dateStr);
+          if (idx > -1) h2[idx].weight = newW;
+          else h2.push({ date: dateStr, weight: newW });
+          Storage.save('weightHistory', h2);
+          document.getElementById('weightSlider').value = newW;
+          document.getElementById('weightValue').textContent = newW;
+          if (!Storage.load('startWeight', null)) Storage.save('startWeight', newW);
+          buildCalendar(yNum, mNum);
+          calculate();
+          showToast('✅ Вес сохранён!');
+        });
+
+        container.appendChild(dayDiv);
+      }
+    }
+
+    document.getElementById('prevMonthBtn').addEventListener('click', function() {
+      calendarDate.setMonth(calendarDate.getMonth() - 1);
+      buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
     });
-    dates.sort((a, b) => a - b);
+    document.getElementById('nextMonthBtn').addEventListener('click', function() {
+      calendarDate.setMonth(calendarDate.getMonth() + 1);
+      buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
+    });
 
-    // Изменение за месяц
-    let monthChange = 0;
-    if (dates.length >= 2) {
-      const firstWeight = weights[dates[0]];
-      const lastWeight = weights[dates[dates.length - 1]];
-      monthChange = lastWeight - firstWeight;
-    }
-    const changeText = monthChange > 0 ? `+${monthChange.toFixed(1)} кг ↑` :
-                       monthChange < 0 ? `${monthChange.toFixed(1)} кг ↓` :
-                       '0 кг —';
-    document.getElementById('monthChange').textContent = changeText;
-    document.getElementById('monthChange').style.color = monthChange > 0 ? 'var(--danger)' :
-                                                        monthChange < 0 ? 'var(--primary)' :
-                                                        'var(--text-muted)';
-
-    // Пустые ячейки
-    for (let i = 0; i < startOffset; i++) {
-      const empty = document.createElement('div');
-      empty.className = 'calendar-day empty';
-      empty.textContent = '—';
-      container.appendChild(empty);
-    }
-
-    // Дни месяца
-    const today = new Date();
-    for (let d = 1; d <= daysInMonth; d++) {
-      const dayDiv = document.createElement('div');
-      dayDiv.className = 'calendar-day';
-      dayDiv.dataset.day = d;
-      dayDiv.dataset.month = month;
-      dayDiv.dataset.year = year;
-
-      const hasWeight = weights[d] !== undefined;
-      const weight = weights[d] || null;
-
-      if (d === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-        dayDiv.classList.add('today');
-      }
-
-      if (hasWeight) {
-        // Определяем цвет
-        if (dates.length >= 2 && weight < weights[dates[0]]) {
-          dayDiv.classList.add('has-weight-low');
-        } else if (dates.length >= 2 && weight > weights[dates[0]]) {
-          dayDiv.classList.add('has-weight-high');
-        } else {
-          dayDiv.style.background = 'var(--bg)';
-        }
-      }
-
-      const numberSpan = document.createElement('div');
-      numberSpan.className = 'day-number';
-      numberSpan.textContent = d;
-      dayDiv.appendChild(numberSpan);
-
-      if (hasWeight) {
-        const weightSpan = document.createElement('div');
-        weightSpan.className = 'day-weight';
-        weightSpan.textContent = weight.toFixed(1);
-        dayDiv.appendChild(weightSpan);
-      }
-
-      // Клик для добавления/изменения веса
-      dayDiv.addEventListener('click', function() {
-        const dayNum = parseInt(this.dataset.day);
-        const monthNum = parseInt(this.dataset.month);
-        const yearNum = parseInt(this.dataset.year);
-        const hasWeightNow = weights[dayNum] !== undefined;
-        const currentWeightNow = weights[dayNum] || null;
-
-        const promptMsg = hasWeightNow ?
-          `Изменить вес на ${dayNum}.${monthNum + 1}.${yearNum} (текущий: ${currentWeightNow.toFixed(1)} кг):` :
-          `Введите вес на ${dayNum}.${monthNum + 1}.${yearNum}:`;
-        const input = prompt(promptMsg);
-        if (input === null) return;
-        const newWeight = parseFloat(input.trim());
-        if (isNaN(newWeight) || newWeight < 20 || newWeight > 300) {
-          showToast('⚠️ Введите корректный вес (20–300 кг)');
-          return;
-        }
-
-        const history2 = Storage.load('weightHistory', []);
-        const dateStr = `${String(dayNum).padStart(2, '0')}.${String(monthNum + 1).padStart(2, '0')}.${yearNum}`;
-        const existingIndex = history2.findIndex(item => item.date === dateStr);
-        if (existingIndex > -1) {
-          history2[existingIndex].weight = newWeight;
-        } else {
-          history2.push({ date: dateStr, weight: newWeight });
-        }
-        Storage.save('weightHistory', history2);
-
-        // Обновляем текущий вес в калькуляторе
-        document.getElementById('weightSlider').value = newWeight;
-        document.getElementById('weightValue').textContent = newWeight;
-        Storage.save('startWeight', newWeight);
-
-        buildCalendar(yearNum, monthNum);
-        calculate();
-        showToast('✅ Вес сохранён!');
-      });
-
-      container.appendChild(dayDiv);
-    }
-  }
-
-  function updateProgress() {
-    const history = Storage.load('weightHistory', []);
-    const current = parseInt(document.getElementById('weightSlider').value);
-    const start = history.length ? history[0].weight : current;
-    const goal = parseInt(document.getElementById('goalWeightSlider').value);
-    const height = parseInt(document.getElementById('heightSlider').value);
-
-    const bmi = (current / ((height / 100) ** 2)).toFixed(1);
-
-    document.getElementById('statStart').textContent = start.toFixed(1) + ' кг';
-    document.getElementById('statCurrent').textContent = current.toFixed(1) + ' кг';
-    document.getElementById('statLost').textContent = (start - current).toFixed(1) + ' кг';
-    document.getElementById('statBMI').textContent = bmi;
-    document.getElementById('statGoal').textContent = goal + ' кг';
-
-    const factor = parseFloat(document.querySelector('.goal-btn.active').dataset.factor);
-    const speed = factor === 0.75 ? 0.9 : factor === 0.85 ? 0.6 : factor === 1.0 ? 0.0 : 0.4;
-    document.getElementById('statSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
-
-    // Перестраиваем календарь
-    const now = new Date();
-    if (calendarDate.getFullYear() !== now.getFullYear() || calendarDate.getMonth() !== now.getMonth()) {
-      calendarDate = new Date(now.getFullYear(), now.getMonth(), 1);
-    }
-    buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
-  }
-
-  // Навигация по месяцам
-  document.getElementById('prevMonthBtn').addEventListener('click', function() {
-    calendarDate.setMonth(calendarDate.getMonth() - 1);
-    buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
-  });
-
-  document.getElementById('nextMonthBtn').addEventListener('click', function() {
-    calendarDate.setMonth(calendarDate.getMonth() + 1);
-    buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
-  });
-
-  // ============================================================
-  // 10. SHOP LIST
-  // ============================================================
-  document.getElementById('exportShopListBtn').addEventListener('click', () => {
-    const meals = Storage.load('customMeals', {});
-    const map = {};
-    for (const day in meals) {
-      meals[day].forEach(m => {
-        const key = m.recipe || m.name;
-        if (!map[key]) map[key] = { count: 0, kcal: m.kcal || 0 };
-        map[key].count += 1;
-      });
-    }
-    if (!Object.keys(map).length) { showToast('📭 Рацион пуст'); return; }
-    let list = '<div class="card"><h2>🛍️ Список покупок</h2><ul class="shop-list">';
-    for (const [name, data] of Object.entries(map)) {
-      list += `<li>${name} <span>×${data.count}</span></li>`;
-    }
-    list += '</ul><button class="btn btn-sm" onclick="this.closest(\'.card\').style.display=\'none\'" aria-label="Закрыть список">✖ Закрыть</button></div>';
-    const div = document.createElement('div');
-    div.innerHTML = list;
-    document.querySelector('.container').appendChild(div.firstElementChild);
-    div.firstElementChild.scrollIntoView({ behavior: 'smooth' });
-  });
-
-  // ============================================================
-  // 11. HOME PAGE
-  // ============================================================
-  function updateHome() {
-    const w = parseInt(document.getElementById('weightSlider').value);
-    const g = parseInt(document.getElementById('goalWeightSlider').value);
-    const d = w - g;
-    const start = Storage.load('startWeight', w);
-    const progress = d > 0 ? Math.min(100, ((start - w) / (start - g)) * 100) : 0;
-    document.getElementById('homeProgressPercent').textContent = Math.round(progress) + '%';
-    document.getElementById('homeProgressDiff').textContent = (d > 0 ? '−' : '+') + Math.abs(d).toFixed(1) + ' кг';
-  }
-
-  // ============================================================
-  // 12. SAVING SLIDERS STATE
-  // ============================================================
-  ['gender', 'ageSlider', 'heightSlider', 'weightSlider', 'goalWeightSlider', 'activity'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      const saved = Storage.load(id, null);
-      if (saved !== null) {
-        if (el.type === 'range' || el.type === 'number') el.value = saved;
-        else if (el.tagName === 'SELECT') el.value = saved;
-      }
-      el.addEventListener('change', () => Storage.save(id, el.value));
-      el.addEventListener('input', () => { if (el.type === 'range') Storage.save(id, el.value); });
-    }
-  });
-
-  // ============================================================
-  // 13. START
-  // ============================================================
-  window.onload = function() {
-    calculate();
-    renderMeals();
-    updateProgress();
-    updateHome();
-
-    // Инициализация календаря
-    const now = new Date();
-    calendarDate = new Date(now.getFullYear(), now.getMonth(), 1);
-    buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
-
-    if (!Storage.load('startWeight', null)) {
+    // ============================================================
+    // 13. HOME
+    // ============================================================
+    function updateHome() {
       const w = parseInt(document.getElementById('weightSlider').value);
-      Storage.save('startWeight', w);
+      const g = parseInt(document.getElementById('goalWeightSlider').value);
+      const d = w - g;
+      const start = Storage.load('startWeight', w);
+      const progress = d > 0 ? Math.min(100, ((start - w) / (start - g)) * 100) : 0;
+      const circ = 213.6;
+      document.getElementById('homeProgressCircle').style.strokeDashoffset = circ - (progress / 100) * circ;
+      document.getElementById('homeProgressPercent').textContent = Math.round(progress) + '%';
+      document.getElementById('homeProgressDiff').textContent = (d > 0 ? '−' : '+') + Math.abs(d).toFixed(1) + ' кг';
     }
 
-    setTimeout(() => {
-      if (document.getElementById('recipeResults').children.length === 0) {
-        document.getElementById('recipeInfo').textContent = 'Введите запрос для поиска рецептов.';
+    // ============================================================
+    // 14. SAVE STATE
+    // ============================================================
+    ['gender', 'ageSlider', 'heightSlider', 'weightSlider', 'goalWeightSlider', 'activity'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        const saved = Storage.load(id, null);
+        if (saved !== null) {
+          if (el.type === 'range' || el.type === 'number') el.value = saved;
+          else if (el.tagName === 'SELECT') el.value = saved;
+        }
+        el.addEventListener('change', () => Storage.save(id, el.value));
+        el.addEventListener('input', () => { if (el.type === 'range') Storage.save(id, el.value); });
       }
-    }, 500);
-  };
+    });
 
-  // ============================================================
-  // 14. KEYBOARD ACCESSIBILITY
-  // ============================================================
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.modal-overlay.active').forEach(modal => {
-        modal.classList.remove('active');
+    // ============================================================
+    // 15. INIT
+    // ============================================================
+    window.onload = function() {
+      const now = new Date();
+      calendarDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      calculate();
+      renderMeals();
+      buildCalendar(calendarDate.getFullYear(), calendarDate.getMonth());
+      updateStats();
+      updateHome();
+      if (!Storage.load('startWeight', null)) {
+        const w = parseInt(document.getElementById('weightSlider').value);
+        Storage.save('startWeight', w);
+      }
+      document.querySelectorAll('.modal-overlay').forEach(m => {
+        m.addEventListener('click', function(e) {
+          if (e.target === this) this.classList.remove('active');
+        });
       });
-    }
-  });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove(
+          'active'));
+      });
+    };
 
-  console.log('✅ FitPlan загружен! Версия 3.0 (с календарём)');
-</script>
+    console.log('🚀 FitPlan 2.0 загружен!');
+  </script>
 </body>
 </html>
