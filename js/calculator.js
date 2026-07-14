@@ -77,4 +77,78 @@ export function calculate() {
 
   const diff = weight - goalWeight;
   const speed = factor === 0.75 ? 0.9 : factor === 0.85 ? 0.6 : factor === 1.0 ? 0.0 : 0.4;
-  const weeks = speed > 0 ? Math.round(Math.abs(diff) / speed) :
+  const weeks = speed > 0 ? Math.round(Math.abs(diff) / speed) : 0;
+  
+  document.getElementById('resDiff').textContent = (diff >= 0 ? '+' : '') + diff.toFixed(1) + ' кг';
+  document.getElementById('resSpeed').textContent = speed.toFixed(1) + ' кг/нед.';
+  document.getElementById('resWeeks').textContent = weeks + ' нед.';
+
+  const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+  document.getElementById('homeBMI').textContent = bmi;
+
+  const startWeight = Storage.load('startWeight', weight);
+  const progress = diff > 0 ? Math.min(100, ((startWeight - weight) / (startWeight - goalWeight)) * 100) : 0;
+  const circumference = 226.2;
+  const offset = circumference - (progress / 100) * circumference;
+
+  document.getElementById('homeProgressCircle').style.strokeDashoffset = offset;
+  document.getElementById('homeProgressPercent').textContent = Math.round(progress) + '%';
+  document.getElementById('progressCircle').style.strokeDashoffset = offset;
+  document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+  document.getElementById('homeProgressDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
+  document.getElementById('progressWeightDiff').textContent = (diff > 0 ? '−' : '+') + Math.abs(diff).toFixed(1) + ' кг';
+  document.getElementById('progressBMI').textContent = bmi;
+
+  document.getElementById('homeKcal').textContent = finalCal;
+  document.getElementById('homeProtein').textContent = protein;
+  document.getElementById('homeFat').textContent = fat;
+  document.getElementById('homeCarbs').textContent = carbs >= 0 ? carbs : 0;
+
+  Storage.save('currentPlan', currentPlan);
+
+  const history = Storage.load('weightHistory', []);
+  if (history.length === 0 || history[history.length - 1].weight !== weight) {
+    history.push({ date: new Date().toLocaleDateString(), weight: weight });
+    Storage.save('weightHistory', history);
+  }
+  updateProgress();
+}
+
+// ============================================================
+// EVENTS
+// ============================================================
+document.querySelectorAll('.goal-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentPlan = this.dataset.plan;
+    Storage.save('currentPlan', currentPlan);
+    const factor = parseFloat(this.dataset.factor);
+    const desc = factor === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
+      factor === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
+      factor === 1.0 ? 'Баланс калорий — вес стабилен' :
+      'Профицит 15% — качественный рост мышц';
+    document.getElementById('goalDesc').textContent = desc;
+    calculate();
+  });
+});
+
+document.getElementById('ageSlider').addEventListener('input', function() {
+  document.getElementById('ageValue').textContent = this.value;
+  calculate();
+});
+document.getElementById('heightSlider').addEventListener('input', function() {
+  document.getElementById('heightValue').textContent = this.value;
+  calculate();
+});
+document.getElementById('weightSlider').addEventListener('input', function() {
+  document.getElementById('weightValue').textContent = this.value;
+  if (!Storage.load('startWeight', null)) Storage.save('startWeight', parseInt(this.value));
+  calculate();
+});
+document.getElementById('goalWeightSlider').addEventListener('input', function() {
+  document.getElementById('goalWeightValue').textContent = this.value;
+  calculate();
+});
+document.getElementById('gender').addEventListener('change', calculate);
+document.getElementById('activity').addEventListener('change', calculate);
