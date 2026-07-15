@@ -2,14 +2,19 @@
 // RECIPES.JS
 // ============================================================
 import { Storage } from './storage.js';
-import { openSheet } from './app.js';
+import { openSheet, showToast } from './app.js';
 
 let recipeDB = [];
 let currentCategory = 'all';
 let currentDiet = 'all';
 let currentTime = 'all';
+let currentFilter = 'all';
 let searchHistory = Storage.load('searchHistory', []);
 let favorites = Storage.load('favorites', []);
+
+export function getRecipeDB() {
+  return recipeDB;
+}
 
 // ============================================================
 // ЗАГРУЗКА РЕЦЕПТОВ ИЗ JSON
@@ -17,26 +22,18 @@ let favorites = Storage.load('favorites', []);
 export async function loadRecipes() {
   try {
     const response = await fetch('data/recipes.json');
+    if (!response.ok) throw new Error('HTTP ' + response.status);
     const data = await response.json();
     recipeDB = data.recipes || [];
     return recipeDB;
   } catch (error) {
     console.warn('Ошибка загрузки рецептов:', error);
-    // Запасные рецепты, если JSON не загрузился
+    showToast('⚠️ Не удалось загрузить рецепты. Использую базовые.');
+    
+    // Fallback-рецепты
     recipeDB = [
-      {
-        id: 1,
-        name: 'Овсянка с бананом',
-        category: 'breakfast',
-        time: 10,
-        weight: 360,
-        kcal: 430,
-        protein: 17,
-        fat: 10,
-        carbs: 68,
-        ingredients: ['Овсяные хлопья 60г', 'Молоко 1,5% 200мл', 'Банан 100г', 'Мёд 5г'],
-        instructions: '1. Варить овсянку на молоке 5 минут.\n2. Добавить банан.\n3. Полить мёдом.'
-      }
+      { id: 1, name: 'Овсянка с бананом', category: 'breakfast', time: 10, kcal: 430, protein: 17, fat: 10, carbs: 68, ingredients: ['овсянка 60г', 'банан 1шт'], instructions: 'Сварить овсянку, добавить банан.' },
+      { id: 2, name: 'Яичница с помидорами', category: 'breakfast', time: 10, kcal: 220, protein: 16, fat: 14, carbs: 8, ingredients: ['яйца 2шт', 'помидоры 100г'], instructions: 'Обжарить помидоры, залить яйцами.' }
     ];
     return recipeDB;
   }
@@ -47,18 +44,32 @@ export async function loadRecipes() {
 // ============================================================
 export function applyFilters(query) {
   let res = recipeDB;
+  
   if (query && query.trim()) {
     const q = query.trim().toLowerCase();
     res = res.filter(r => 
       r.name.toLowerCase().includes(q) || 
-      r.ingredients.some(i => i.toLowerCase().includes(q))
+      r.ingredients.some(i => i.toLowerCase().includes(q)) ||
+      (r.category && r.category.toLowerCase().includes(q))
     );
   }
-  if (currentCategory !== 'all') res = res.filter(r => r.category === currentCategory);
-  if (currentDiet !== 'all') res = res.filter(r => r.diet === currentDiet || r.diet === 'all');
+  
+  if (currentCategory !== 'all') {
+    res = res.filter(r => r.category === currentCategory);
+  }
+  
+  if (currentDiet !== 'all') {
+    res = res.filter(r => r.diet === currentDiet || r.diet === 'all' || !r.diet);
+  }
+  
   if (currentTime === 'fast') res = res.filter(r => r.time <= 20);
   else if (currentTime === 'medium') res = res.filter(r => r.time > 20 && r.time <= 40);
   else if (currentTime === 'long') res = res.filter(r => r.time > 40);
+  
+  if (currentFilter === 'favorites') {
+    res = res.filter(r => favorites.includes(r.name));
+  }
+  
   return res;
 }
 
@@ -83,14 +94,14 @@ export function renderRecipes(query) {
       <button class="favorite-btn">${isFav ? '❤️' : '🤍'}</button>
       <div class="title">${r.name}</div>
       <div class="meta">
-        <span>${catEmoji} ${r.category}</span>
+        <span>${catEmoji} ${r.category || 'Блюдо'}</span>
         <span>${r.kcal} ккал</span>
-        <span>${r.protein}г бел</span>
-        <span>${r.fat}г жир</span>
-        <span>${r.carbs}г угл</span>
+        <span>${r.protein || 0}г бел</span>
+        <span>${r.fat || 0}г жир</span>
+        <span>${r.carbs || 0}г угл</span>
       </div>
       <div style="font-size:0.6rem;color:var(--text-muted);">${r.ingredients.slice(0, 3).join(', ')}${r.ingredients.length > 3 ? '...' : ''}</div>
-      <button class="add-btn" data-name="${r.name}" data-kcal="${r.kcal}" data-protein="${r.protein}" data-fat="${r.fat}" data-carbs="${r.carbs}">➕ Добавить</button>
+      <button class="add-btn" data-name="${r.name}" data-kcal="${r.kcal}" data-protein="${r.protein || 0}" data-fat="${r.fat || 0}" data-carbs="${r.carbs || 0}">➕ Добавить</button>
     `;
     
     card.querySelector('.favorite-btn').addEventListener('click', e => {
@@ -121,7 +132,7 @@ function toggleFavorite(name) {
   const idx = favorites.indexOf(name);
   idx > -1 ? favorites.splice(idx, 1) : favorites.push(name);
   Storage.save('favorites', favorites);
-  renderRecipes();
+  renderRecipes(document.getElementById('recipeSearch').value);
 }
 
 function renderSearchHistory() {
@@ -183,6 +194,11 @@ export async function initRecipes() {
       document.querySelectorAll('#categoryFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       currentCategory = this.dataset.filter;
+      if (currentCategory === 'favorites') {
+        currentFilter = 'favorites';
+      } else {
+        currentFilter = 'all';
+      }
       renderRecipes(document.getElementById('recipeSearch').value);
     });
   });
