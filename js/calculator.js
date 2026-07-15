@@ -85,8 +85,8 @@ export function calculate() {
     return;
   }
 
-  if (age < 10 || age > 80) {
-    showToast('⚠️ Введите корректный возраст (10–80 лет)');
+  if (age < 10 || age > 120) {
+    showToast('⚠️ Введите корректный возраст (10–120 лет)');
     return;
   }
 
