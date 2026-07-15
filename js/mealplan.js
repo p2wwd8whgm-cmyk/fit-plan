@@ -128,9 +128,9 @@ window.openReplace = function(day, index) {
         meals2[day][index] = {
           name: prefix + ' ' + r.name,
           kcal: r.kcal,
-          protein: r.protein,
-          fat: r.fat,
-          carbs: r.carbs,
+          protein: r.protein || 0,
+          fat: r.fat || 0,
+          carbs: r.carbs || 0,
           recipe: r.name
         };
         Storage.save('customMeals', meals2);
@@ -171,9 +171,9 @@ export function autoPlan() {
         meals[d].push({
           name: `${t.name}: ${pick.name}`,
           kcal: pick.kcal,
-          protein: pick.protein,
-          fat: pick.fat,
-          carbs: pick.carbs,
+          protein: pick.protein || 0,
+          fat: pick.fat || 0,
+          carbs: pick.carbs || 0,
           recipe: pick.name
         });
       }
