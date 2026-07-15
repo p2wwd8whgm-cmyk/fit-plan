@@ -7,6 +7,62 @@ import { updateProgress } from './calendar.js';
 
 let currentPlan = Storage.load('currentPlan', 'fatloss');
 
+export function initCalculator() {
+  // Восстановление сохранённой цели
+  const savedGoal = Storage.load('currentPlan', 'fatloss');
+  document.querySelectorAll('.goal-btn').forEach(btn => {
+    if (btn.dataset.plan === savedGoal) {
+      btn.classList.add('active');
+      document.querySelectorAll('.goal-btn').forEach(b => { if (b !== btn) b.classList.remove('active'); });
+      const factor = parseFloat(btn.dataset.factor);
+      document.getElementById('goalDesc').textContent = factor === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
+        factor === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
+        factor === 1.0 ? 'Баланс калорий — вес стабилен' :
+        'Профицит 15% — качественный рост мышц';
+    }
+  });
+  
+  // Привязываем события
+  document.querySelectorAll('.goal-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentPlan = this.dataset.plan;
+      Storage.save('currentPlan', currentPlan);
+      const factor = parseFloat(this.dataset.factor);
+      const desc = factor === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
+        factor === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
+        factor === 1.0 ? 'Баланс калорий — вес стабилен' :
+        'Профицит 15% — качественный рост мышц';
+      document.getElementById('goalDesc').textContent = desc;
+      calculate();
+    });
+  });
+
+  document.getElementById('ageSlider').addEventListener('input', function() {
+    document.getElementById('ageValue').textContent = this.value;
+    calculate();
+  });
+  document.getElementById('heightSlider').addEventListener('input', function() {
+    document.getElementById('heightValue').textContent = this.value;
+    calculate();
+  });
+  document.getElementById('weightSlider').addEventListener('input', function() {
+    document.getElementById('weightValue').textContent = this.value;
+    if (!Storage.load('startWeight', null)) Storage.save('startWeight', parseInt(this.value));
+    calculate();
+  });
+  document.getElementById('goalWeightSlider').addEventListener('input', function() {
+    document.getElementById('goalWeightValue').textContent = this.value;
+    calculate();
+  });
+  document.getElementById('gender').addEventListener('change', calculate);
+  document.getElementById('activity').addEventListener('change', calculate);
+  
+  // Первый расчёт
+  calculate();
+}
+
 export function calculate() {
   const gender = document.getElementById('gender').value;
   const age = parseInt(document.getElementById('ageSlider').value) || 30;
@@ -113,42 +169,3 @@ export function calculate() {
   }
   updateProgress();
 }
-
-// ============================================================
-// EVENTS
-// ============================================================
-document.querySelectorAll('.goal-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    currentPlan = this.dataset.plan;
-    Storage.save('currentPlan', currentPlan);
-    const factor = parseFloat(this.dataset.factor);
-    const desc = factor === 0.75 ? 'Интенсивный дефицит 25% — до 1 кг в неделю' :
-      factor === 0.85 ? 'Комфортный дефицит 15% — ~0,5–0,7 кг в неделю' :
-      factor === 1.0 ? 'Баланс калорий — вес стабилен' :
-      'Профицит 15% — качественный рост мышц';
-    document.getElementById('goalDesc').textContent = desc;
-    calculate();
-  });
-});
-
-document.getElementById('ageSlider').addEventListener('input', function() {
-  document.getElementById('ageValue').textContent = this.value;
-  calculate();
-});
-document.getElementById('heightSlider').addEventListener('input', function() {
-  document.getElementById('heightValue').textContent = this.value;
-  calculate();
-});
-document.getElementById('weightSlider').addEventListener('input', function() {
-  document.getElementById('weightValue').textContent = this.value;
-  if (!Storage.load('startWeight', null)) Storage.save('startWeight', parseInt(this.value));
-  calculate();
-});
-document.getElementById('goalWeightSlider').addEventListener('input', function() {
-  document.getElementById('goalWeightValue').textContent = this.value;
-  calculate();
-});
-document.getElementById('gender').addEventListener('change', calculate);
-document.getElementById('activity').addEventListener('change', calculate);
