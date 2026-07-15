@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Нет интернета</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f2f6fa;
+      color: #1a2a3a;
+      text-align: center;
+    }
+    .container {
+      max-width: 400px;
+      padding: 20px;
+    }
+    .icon { font-size: 4rem; }
+    h1 { font-size: 1.5rem; margin: 10px 0; }
+    p { color: #6c8a9a; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+    <h1>Нет подключения к интернету</h1>
+    <p>Пожалуйста, проверьте соединение и попробуйте снова.</p>
+    <button onclick="location.reload()" style="margin-top:16px; padding:12px 24px; border:none; border-radius:60px; background:#1a7a64; color:white; font-weight:600; cursor:pointer;">Обновить</button>
+  </div>
+</body>
+</html>
