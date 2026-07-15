@@ -1,8 +1,8 @@
 // ============================================================
-// APP.JS
+// APP.JS — главный контроллер
 // ============================================================
 import { Storage } from './storage.js';
-import { calculate } from './calculator.js';
+import { calculate, initCalculator } from './calculator.js';
 import { renderRecipes, applyFilters, searchRecipes } from './recipes.js';
 import { renderMeals, autoPlan, clearPlan, removeMeal, openReplace } from './mealplan.js';
 import { buildCalendar, updateProgress } from './calendar.js';
@@ -144,7 +144,7 @@ document.getElementById('fabBtn').addEventListener('click', () => {
 // ============================================================
 window.onload = function() {
   const now = new Date();
-  calculate();
+  initCalculator();
   renderMeals();
   buildCalendar(now.getFullYear(), now.getMonth());
   updateProgress();
