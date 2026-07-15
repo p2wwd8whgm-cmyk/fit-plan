@@ -3,8 +3,8 @@
 // ============================================================
 import { Storage } from './storage.js';
 import { calculate, initCalculator } from './calculator.js';
-import { renderRecipes, applyFilters, searchRecipes } from './recipes.js';
-import { renderMeals, autoPlan, clearPlan, removeMeal, openReplace } from './mealplan.js';
+import { renderRecipes, initRecipes } from './recipes.js';
+import { renderMeals, initMealPlan } from './mealplan.js';
 import { buildCalendar, updateProgress } from './calendar.js';
 
 // ============================================================
@@ -117,9 +117,9 @@ document.getElementById('sheetConfirm').addEventListener('click', () => {
   meals[day].push({
     name: `${mealType}: ${pendingRecipe.name}`,
     kcal: pendingRecipe.kcal,
-    p: pendingRecipe.p,
-    f: pendingRecipe.f,
-    c: pendingRecipe.c,
+    protein: pendingRecipe.p,
+    fat: pendingRecipe.f,
+    carbs: pendingRecipe.c,
     recipe: pendingRecipe.name
   });
   Storage.save('customMeals', meals);
@@ -142,14 +142,23 @@ document.getElementById('fabBtn').addEventListener('click', () => {
 // ============================================================
 // 7. INIT
 // ============================================================
-window.onload = function() {
+window.onload = async function() {
   const now = new Date();
+  
+  // Инициализация калькулятора
   initCalculator();
-  renderMeals();
+  
+  // Инициализация рецептов (загрузка JSON)
+  await initRecipes();
+  
+  // Инициализация рациона
+  const db = await import('./recipes.js').then(m => m.getRecipeDB());
+  initMealPlan(db);
+  
+  // Календарь и прогресс
   buildCalendar(now.getFullYear(), now.getMonth());
   updateProgress();
   updateHome();
-  renderRecipes();
   
   if (!Storage.load('startWeight', null)) {
     const w = parseInt(document.getElementById('weightSlider').value) || 70;
