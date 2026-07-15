@@ -22,8 +22,6 @@
   <meta name="theme-color" content="#1a7a64">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="images/icons/favicon.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -141,22 +139,22 @@
 
         <div class="slider-group">
           <label><span>Возраст</span><span class="value" id="ageValue">30</span></label>
-          <input type="range" id="ageSlider" min="10" max="80" value="30">
+          <input type="range" id="ageSlider" min="10" max="120" value="30">
         </div>
 
         <div class="slider-group">
           <label><span>Рост (см)</span><span class="value" id="heightValue">170</span></label>
-          <input type="range" id="heightSlider" min="120" max="220" value="170">
+          <input type="range" id="heightSlider" min="100" max="250" value="170">
         </div>
 
         <div class="slider-group">
           <label><span>Вес (кг)</span><span class="value" id="weightValue">70</span></label>
-          <input type="range" id="weightSlider" min="30" max="200" value="70">
+          <input type="range" id="weightSlider" min="30" max="300" value="70">
         </div>
 
         <div class="slider-group">
           <label><span>🎯 Желаемый вес</span><span class="value" id="goalWeightValue">65</span></label>
-          <input type="range" id="goalWeightSlider" min="30" max="200" value="65">
+          <input type="range" id="goalWeightSlider" min="30" max="300" value="65">
         </div>
 
         <div style="margin-bottom:12px;">
@@ -228,6 +226,7 @@
           <button class="filter-btn" data-filter="dinner">🍲 Ужин</button>
           <button class="filter-btn" data-filter="snack">🍏 Перекус</button>
           <button class="filter-btn" data-filter="dessert">🍰 Десерт</button>
+          <button class="filter-btn" data-filter="favorites">❤️ Избранное</button>
         </div>
 
         <div class="filter-group" id="dietFilterGroup">
