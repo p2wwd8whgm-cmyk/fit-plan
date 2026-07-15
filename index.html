@@ -3,25 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>FitPlan — конструктор питания</title>
   
+  <!-- SEO -->
+  <title>FitPlan — конструктор питания</title>
+  <meta name="description" content="Персональный конструктор питания с реальными рецептами, калькулятором калорий и планом на неделю.">
+  <meta name="keywords" content="fitplan, питание, рецепты, кбжу, калории, похудение, рацион">
+  <link rel="canonical" href="https://p2wwd8whgm-cmyk.github.io/fit-plan/">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="FitPlan — конструктор питания">
+  <meta property="og:description" content="Персональный конструктор питания с реальными рецептами, калькулятором калорий и планом на неделю.">
+  <meta property="og:url" content="https://p2wwd8whgm-cmyk.github.io/fit-plan/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://p2wwd8whgm-cmyk.github.io/fit-plan/images/og-image.png">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1a7a64">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="images/icons/favicon.png">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1a7a64">
 </head>
 <body>
 
   <header class="header">
     <h1>🥗 FitPlan <span>PRO</span></h1>
-    <button class="theme-toggle" id="themeToggle">🌙 Тёмная</button>
+    <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙 Тёмная</button>
   </header>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="overlay" id="sheetOverlay"></div>
 
+  <!-- BOTTOM SHEET -->
   <div class="bottom-sheet" id="bottomSheet">
     <div class="sheet-handle" id="sheetHandle"></div>
     <h3 id="sheetTitle">🍽️ Добавить в рацион</h3>
@@ -49,9 +71,11 @@
     </div>
   </div>
 
-  <button class="fab" id="fabBtn">➕</button>
+  <!-- FAB -->
+  <button class="fab" id="fabBtn" aria-label="Добавить рецепт">➕</button>
 
-  <div class="modal-overlay" id="replaceModal">
+  <!-- REPLACE MODAL -->
+  <div class="modal-overlay" id="replaceModal" role="dialog" aria-modal="true">
     <div class="modal">
       <h3>🔄 Заменить блюдо</h3>
       <p id="replaceInfo" style="font-size:0.9rem; margin-bottom:8px;">Выбери альтернативу:</p>
@@ -64,7 +88,8 @@
 
   <main class="container">
 
-    <section class="page active" id="page-home">
+    <!-- PAGE 1: HOME -->
+    <section class="page active" id="page-home" role="tabpanel" aria-label="Главная">
       <div class="hero">
         <h2>🏆 Твой идеальный рацион</h2>
         <p>За 60 секунд получи персональный план питания с реальными рецептами и точным КБЖУ.</p>
@@ -74,7 +99,7 @@
       <div class="card">
         <h2>🎯 Прогресс к цели</h2>
         <div class="progress-ring-wrap">
-          <div class="progress-ring" id="homeProgressRing">
+          <div class="progress-ring" id="homeProgressRing" role="img" aria-label="Прогресс к цели">
             <svg width="80" height="80" viewBox="0 0 80 80">
               <circle class="bg-circle" cx="40" cy="40" r="36"/>
               <circle class="progress-circle" id="homeProgressCircle" cx="40" cy="40" r="36" stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
@@ -100,7 +125,8 @@
       </div>
     </section>
 
-    <section class="page" id="page-calc">
+    <!-- PAGE 2: CALCULATOR -->
+    <section class="page" id="page-calc" role="tabpanel" aria-label="Калькулятор">
       <div class="card">
         <h2>🧮 Калькулятор нормы</h2>
         <p class="text-muted" style="margin-bottom:12px;">Введи свои параметры и получи точную дневную норму.</p>
@@ -180,7 +206,8 @@
       </div>
     </section>
 
-    <section class="page" id="page-recipes">
+    <!-- PAGE 3: RECIPES -->
+    <section class="page" id="page-recipes" role="tabpanel" aria-label="Рецепты">
       <div class="card">
         <h2>🔍 Поиск рецептов</h2>
         <p class="text-muted">Реальные блюда с точным КБЖУ.</p>
@@ -223,7 +250,8 @@
       </div>
     </section>
 
-    <section class="page" id="page-mealplan">
+    <!-- PAGE 4: MEAL PLAN -->
+    <section class="page" id="page-mealplan" role="tabpanel" aria-label="Мой рацион">
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
           <h2 style="margin:0;">📅 Мой рацион</h2>
@@ -244,11 +272,12 @@
       </div>
     </section>
 
-    <section class="page" id="page-progress">
+    <!-- PAGE 5: PROGRESS -->
+    <section class="page" id="page-progress" role="tabpanel" aria-label="Прогресс">
       <div class="card">
         <h2>📈 Прогресс к цели</h2>
         <div class="progress-ring-wrap">
-          <div class="progress-ring" id="progressRing">
+          <div class="progress-ring" id="progressRing" role="img" aria-label="Прогресс к цели">
             <svg width="80" height="80" viewBox="0 0 80 80">
               <circle class="bg-circle" cx="40" cy="40" r="36"/>
               <circle class="progress-circle" id="progressCircle" cx="40" cy="40" r="36" stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
@@ -305,7 +334,8 @@
 
   </main>
 
-  <nav class="bottom-nav" role="navigation">
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav" role="navigation" aria-label="Основная навигация">
     <button class="tab-btn active" data-tab="home"><span class="icon">🏠</span>Главная</button>
     <button class="tab-btn" data-tab="calc"><span class="icon">🧮</span>Кальк</button>
     <button class="tab-btn" data-tab="recipes"><span class="icon">🍽️</span>Рецепты</button>
@@ -313,6 +343,7 @@
     <button class="tab-btn" data-tab="progress"><span class="icon">📊</span>Прогресс</button>
   </nav>
 
+  <!-- JavaScript -->
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
